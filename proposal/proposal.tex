@@ -3,33 +3,33 @@
 
 \title{The title of your project proposal}
 \author{
-  LastName1, FirstName1\\
+  Li, Jie\\
   \texttt{github1}
   \and
-  LastName2, FirstName2\\
+  Li, Zeyu\\
   \texttt{github2}
   \and
-  LastName3, FirstName3\\
+  Yun, Chuan\\
   \texttt{github3}
   \and
-  LastName4, FirstName4\\
+  Zhang, Qingyuan\\
   \texttt{github4}
 }
 
 \begin{document}
 \maketitle
 
-Identify a published fMRI paper and the accompanying data
-\cite{lindquist2008statistical}.  You should explain the basic idea of the
-paper in a paragraph.  You should also perform basic sanity check on the data
-(e.g., can you downloaded, can you load the files, confirm that you have the
-correct number of subjects).
+We choose ``Working Memory Related Brain Network Connectivity in Individuals with Schizophrenia and Their Siblings,'' by Grega Repovs and Deanna M.Barch, as the main reference paper for our project. \cite{lindquist2008statistical}. We would be using relevant OpenfMRI dataset on working memory in healthy and schizophrenic individuals. Our reference paper is
+published and the dataset is curated.
 
-Briefly explain what approach you intend to take for exploring
-the data and paper.  If you intend to ``reproduce'' some aspect of the paper,
-explain in exactly what sense you mean to do this.  If you are thinking about
-validating the data describe the assumpution used in the analysis and indicate
-how you might check them.
+The paper is based on the hypothesis that schizophrenia is resulted from disruption in the coordination of activity across brain networks. The goal of this paper is verify this hypothesis by measuring brain functional connectivity within and between four brain networks during rest and during N-back tasks among individuals with schizophrenia, siblings of individuals with schizophrenia, and their healthy controls. We examined our dataset, which is relatively large with a sample size of 102. We would like to proceed by processing data on only a few subjects first, and after we are confident about our first few subjects, we would proceed to more subjects. We are able to download data on subject 1-5, and we examined the data structure within. We are able to load the files such as the BOLD images. 
+	
+First of all, we would like to figure out what is functional brain connectivity presenting in our dataset. To understanding brain function, we can basically re-produce the BOLD time series and identifying groups of brain regions, which will give us a general sense of the brain. Then, we definitely need to work on fcMRI data preprocessing because it is always the first step to understand and transform our raw dataset such as slicing dependent time shifts, eliminating of odd / even slice due to interpolated acquisition. In addition, it is also important for us to improve signal-to-noise because of time series dataset. Furthermore, we are planning to re-implement to extract the time series for each ROI and compute ROI-ROI correlation matrix. Also comparing the groups and assess the effect of task on connectivity within and between networks we analyzed the results in two phases.
+
+
+In addition we would like to validate the data because the paper used ANOVA as well Fisher Z-transformation on correlation matrix, which used normality assumptions. For using ANOVA F-test, we can check homoskedasticity by computing variance. For Fisher r-to-z transformation, we would need to check the distribution of the BOLD signals and see if they are normal. We would also like to look into BOLD signals and see if it can be properly modeled as the convolution of the stimulus function with the HRF.
+
+The paper found that connectivity within the DMN and FP increased between resting state and 0-back, while connectivity within the CO and CER decreased between resting state and 0-back. Further, the DMN became more “anti-correlated” with the FP, CO, and CER networks during 0-back as compared to rest. Additionally, they found that connectivity within both the DMN and FP was further modulated by memory load, and that connectivity between the FP and both CO and CER networks increased with memory load. By reproducing their data analysis, we expect to get the same result.
 
 \bibliography{proposal}
 
