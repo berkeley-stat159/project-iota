@@ -1,4 +1,5 @@
-import numpy as np
+i
+port numpy as np
 import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import nibabel as nib
@@ -10,8 +11,8 @@ def load_data(fname, tr):
 	# Drop the first 4 3D volumes from the array
 	data = img.get_data()[..., 4:]
 	# Load the pre-written convolved time course
-	convolved = np.loadtxt(fname + '_cond.txt')[4:]
-	print(data.shape, convolved.shape)
+	convolved = np.loadtxt(fname + '_conv.txt')[4:]
+
 	return(data, convolved)
 
 def reg_voxels_4d(data, convolved):
@@ -27,6 +28,6 @@ if __name__ == '__main__':
 
 	fname = argv[1]
 	data, convolved = load_data(fname, 2.5)
-	#beta_hat = reg_voxels_4d(data, convolved)
-	#plt.imshow(beta_hat[:, :, 14, 0], interpolation = 'nearest', cmap = 'gray')
-	#plt.show()
+	beta_hat = reg_voxels_4d(data, convolved)
+	plt.imshow(beta_hat[:, :, 14, 0], interpolation = 'nearest', cmap = 'gray')
+	plt.show()
