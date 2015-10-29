@@ -1,13 +1,12 @@
 % Project Aleph Progress Report
-% Ross Barnowski, Matthew Brett, Jarrod Millman
+% Zeyu Li, Jie Li, Qingyuan Zhang, Chuan Yun 
 % November 12, 2015
 
 # Background
 
 ## The Paper
-
-- from OpenFMRI.org
-- ds001
+- "Working memory in healthy and schizophrenic individuals" from OpenFMRI.org
+- Raw data for Subjects "ds115_sub001-005.tgz"
 
 ## The Data
 
@@ -24,6 +23,7 @@
 
 - downloaded data
 - simple plots, summary statistics
+- covariance of each voxl on time series
 
 # Next steps
 
