@@ -4,11 +4,17 @@
 import nibabel as nib
 import numpy as num
 import matplotlib.pyplot as plt
-#%matplotlib
 
-img = nib.load("bold.nii.gz")
-data = img.get_data()
+def read_image(fname):
+	img = nib.load("bold.nii.gz")
+	data = img.get_data()
 
-vol0 = data[...,0]
+	vol0 = data[...,0]
+	plt.imshow(vol0[...,0], interpolation="nearest")
+	plt.show()
 
-plt.imshow(vol0[...,0], interpolation="nearest")
+if __name__ == '__main__':
+	from sys import argv
+
+	filename = argv[1]
+	read_image(filename)
