@@ -6,7 +6,6 @@ import os
 
 d = {'ds107_sub001_highres.nii': "fd733636ae8abe8f0ffbfadedd23896c"}
 
-
 def generate_file_md5(filename, blocksize=2**20):
     m = hashlib.md5()
     with open(filename, "rb") as f:
@@ -16,7 +15,6 @@ def generate_file_md5(filename, blocksize=2**20):
                 break
             m.update(buf)
     return m.hexdigest()
-
 
 def check_hashes(d):
     all_good = True
