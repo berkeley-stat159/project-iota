@@ -56,12 +56,9 @@ def save_data(data, output_filename):
     """
     if os.path.isfile(output_filename):
         return 1
-    else:    
-        f = open(output_filename, 'w')
-	for i in data:
-	    f.write(i)
-        f.close()        
-     return 0 
+    else:
+        np.savetxt(output_filename + "txt", data, newline='\r\n')
+        return 0 
 
 def verify_data(data, known_checksum):
     """
@@ -138,7 +135,7 @@ def main(data.json):
     """
     with open('example_data.json') as data_file:
         data = json.load(data_file)
-    pprint(data)
+    print(data)
         
     url = str(data['url'])
     name = str(data['name'])
