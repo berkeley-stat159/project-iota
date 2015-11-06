@@ -16,9 +16,11 @@ def hrf(times):
     return values / np.max(values) * 0.6
 
 def constructing_convo(fname, n_volx):
+	get_name = fname.replace('/', '_').replace('d', 'v')
+
 	tr_times = np.arange(0, 30, 2.5)
 	hrf_at_trs = hrf(tr_times)
-	neural_prediction = events2neural(fname + '_cond.txt', 2.5, n_volx)
+	neural_prediction = events2neural('.data/sub001/model/model001/onsets/' + fname + '.txt', 2.5, n_volx)
 	all_tr_times = np.arange(n_volx) * 2.5
 	convolved = np.convolve(neural_prediction, hrf_at_trs)
 	convolved = convolved[:(len(convolved) - len(hrf_at_trs) + 1)]
@@ -27,13 +29,11 @@ def constructing_convo(fname, n_volx):
 	plt.plot(all_tr_times, neural_prediction)
 	plt.plot(all_tr_times, convolved)
 	plt.show()
-
-	np.savetxt(fname + '_conv.txt', convolved)
+	plt.savefig(get_name + '.png')
+	np.savetxt(get_name + '.txt', convolved)
 
 if __name__ == '__main__':
 	from sys import argv
 
 	filename = argv[1]
-	if not filename:
-		filename = 'ds114_sub009_t2r1'
 	constructing_convo(filename, 173)
