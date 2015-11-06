@@ -21,10 +21,11 @@ def constructing_convo(fname, n_volx):
 	neural_prediction = events2neural(fname + '_cond.txt', 2.5, n_volx)
 	all_tr_times = np.arange(n_volx) * 2.5
 	convolved = np.convolve(neural_prediction, hrf_at_trs)
-	convolved = convolved[:-len(hrf_at_trs)-1]
+	convolved = convolved[:(len(convolved) - len(hrf_at_trs) + 1)]
+	convolved = np.append(convolved, np.zeros(len(all_tr_times)-len(convolved)))
 
 	plt.plot(all_tr_times, neural_prediction)
-	plt.plot(all_tr_times[0:len(convolved)], convolved)
+	plt.plot(all_tr_times, convolved)
 	plt.show()
 
 	np.savetxt(fname + '_conv.txt', convolved)
