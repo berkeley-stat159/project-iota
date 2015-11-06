@@ -20,7 +20,7 @@ def constructing_convo(fname, n_volx):
 
 	tr_times = np.arange(0, 30, 2.5)
 	hrf_at_trs = hrf(tr_times)
-	neural_prediction = events2neural('.data/sub001/model/model001/onsets/' + fname + '.txt', 2.5, n_volx)
+	neural_prediction = events2neural('./data/sub001/model/model001/onsets/' + fname + '.txt', 2.5, n_volx)
 	all_tr_times = np.arange(n_volx) * 2.5
 	convolved = np.convolve(neural_prediction, hrf_at_trs)
 	convolved = convolved[:(len(convolved) - len(hrf_at_trs) + 1)]
