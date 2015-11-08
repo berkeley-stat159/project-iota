@@ -3,30 +3,26 @@ import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import nibabel as nib
 
-def load_data(fname):
+def load_data(f1, f2):
     """
     Return the image data as an array and the convolved time course
 
     Parameters
     ----------
-    fname : string
+    f1,f2 : string
         The name of data to process
-
     Returns
     -------
-    tuple:
+    tuple:  
         Contains the image data as an array and the convolved time course
-
-
     """
     # Load the image as an image object
-    img = nib.load(fname + '.nii')
+    img = nib.load('../../data/sub001/BOLD/' + f1 + '.nii.gz')
     # Load the image data as an array
     # Drop the first 4 3D volumes from the array
     data = img.get_data()[..., 4:]
     # Load the pre-written convolved time course
-    convolved = np.loadtxt(fname + '_conv.txt')[4:]
-
+    convolved = np.loadtxt('../../data/conv/' + f2 + '.txt')[4:]
     return(data, convolved)
 
 def reg_voxels_4d(data, convolved):
@@ -40,8 +36,9 @@ def reg_voxels_4d(data, convolved):
 
 if __name__ == '__main__':
     from sys import argv
-    fname = argv[1]
-    data, convolved = load_data(fname)
+    f1 = argv[1]
+    f2 = argv[2]
+    data, convolved = load_data(f1, f2)
     beta_hat = reg_voxels_4d(data, convolved)
     plt.imshow(beta_hat[:, :, 14, 0], interpolation = 'nearest', cmap = 'gray')
     plt.show()
