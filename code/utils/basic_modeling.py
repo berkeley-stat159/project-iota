@@ -38,7 +38,9 @@ if __name__ == '__main__':
     from sys import argv
     f1 = argv[1]
     f2 = argv[2]
+    get_name = f2.replace('/', '_')
     data, convolved = load_data(f1, f2)
     beta_hat = reg_voxels_4d(data, convolved)
+    np.savetxt('../../data/beta/' + get_name + '.txt', beta_hat)
     plt.imshow(beta_hat[:, :, 14, 0], interpolation = 'nearest', cmap = 'gray')
     plt.show()
