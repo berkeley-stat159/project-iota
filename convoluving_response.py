@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.stats
 from scipy.stats import gamma
 from stimuli import events2neural
+import nibabel as nib
 
 def hrf(times):
     """ Return values for HRF at given times """
@@ -15,12 +16,17 @@ def hrf(times):
     # Scale max to 0.6
     return values / np.max(values) * 0.6
 
-def constructing_convo(fname, n_volx):
+def get_n_volx(f1):
+	img = nib.loadd(f1)
+	data = img.get_data()
+	return data.shape()
+
+def constructing_convo(f2, n_volx):
 	get_name = fname.replace('/', '_').replace('d', 'v')
 
 	tr_times = np.arange(0, 30, 2.5)
 	hrf_at_trs = hrf(tr_times)
-	neural_prediction = events2neural('./data/sub001/model/model001/onsets/' + fname + '.txt', 2.5, n_volx)
+	neural_prediction = events2neural('./data/sub001/model/model001/onsets/' + f2 + '.txt', 2.5, n_volx)
 	all_tr_times = np.arange(n_volx) * 2.5
 	convolved = np.convolve(neural_prediction, hrf_at_trs)
 	convolved = convolved[:(len(convolved) - len(hrf_at_trs) + 1)]
@@ -35,5 +41,7 @@ def constructing_convo(fname, n_volx):
 if __name__ == '__main__':
 	from sys import argv
 
-	filename = argv[1]
-	constructing_convo(filename, 173)
+	f1 = argv[1]
+	f2 = argv[2]
+	n_volx = get_n_volx(f1)
+	constructing_convo(f2, n_volx)
