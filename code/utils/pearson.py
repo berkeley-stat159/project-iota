@@ -17,7 +17,6 @@ from __future__ import print_function, division
 
 import numpy as np
 
-
 def pearson_1d(x, y):
     """ Pearson product-moment correlation of vectors `x` and `y`
 
@@ -34,16 +33,16 @@ def pearson_1d(x, y):
         Pearson product-moment correlation of vectors `x` and `y`.
     """
     # Mean-center x -> mc_x
-    mc_x = x - np.mean(x)
     # Mean-center y -> mc_y
-    mc_y = y - np.mean(y)
     # a : Get sum of products of mc_x, mc_y
-    a = mc_x.dot(mc_y)
     # b : Get sum of products of mc_x on mc_x
-    b = mc_x.dot(mc_x)
     # c : Get sum of products of mc_y on mc_y
-    c = mc_y.dot(mc_y)
     # return a / (sqrt(b) * sqrt(c))
+    mc_x = x - np.mean(x)
+    mc_y = y - np.mean(y)
+    a = mc_x.dot(mc_y)
+    b = mc_x.dot(mc_x)
+    c = mc_y.dot(mc_y)
     return a / (np.sqrt(b) * np.sqrt(c))
 
 
@@ -64,18 +63,16 @@ def pearson_2d(x, Y):
         `Y`, with one correlation value for every column of `Y`.
     """
     # Mean-center x -> mc_x
-    mc_x = x - np.mean(x)
     # Mean-center every column of Y -> mc_Y
-    mean_Y = np.mean(Y, axis=0)
-    mean_Y_expanded = np.tile(mean_Y, (len(x), 1))
-    mc_Y = Y - mean_Y_expanded
-    # (Hint: np.tile, or (advanced, not yet covered) numpy broadcasting)
     # a : Get sum of products of mc_x and every column of mc_Y
-    a = mc_x.dot(mc_Y)
     # b : Get sum of products of mc_x on mc_x
-    b = mc_x.dot(mc_x)
     # c : Get sum of products of every column of mc_Y[:, i] on itself
-    c = np.sum(mc_Y ** 2, axis=0)
     # return a / (sqrt(b) * sqrt(c))
+    mc_x = x - np.mean(x)
+    mc_Y = Y - np.mean(Y, axis=0)  # This is numpy broadcasting
+    # You could also do the step above with:
+    # mc_Y = Y - np.tile(np.mean(Y, axis=0), (len(x), 1))
+    a = mc_x.dot(mc_Y)
+    b = mc_x.dot(mc_x)
+    c = np.sum(mc_Y ** 2, axis=0)
     return a / (np.sqrt(b) * np.sqrt(c))
-
