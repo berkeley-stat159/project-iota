@@ -17,12 +17,12 @@ def hrf(times):
     return values / np.max(values) * 0.6
 
 def get_n_volx(f1):
-	img = nib.loadd(f1)
+	img = nib.load('../../data/sub001/BOLD/' + f1 + '.nii.gz')
 	data = img.get_data()
-	return data.shape()
+	return data.shape[-1]
 
 def constructing_convo(f2, n_volx):
-	get_name = fname.replace('/', '_').replace('d', 'v')
+	get_name = f2.replace('/', '_').replace('d', 'v')
 
 	tr_times = np.arange(0, 30, 2.5)
 	hrf_at_trs = hrf(tr_times)
