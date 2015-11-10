@@ -22,17 +22,17 @@ def load_data(f1, f2):
     # Drop the first 4 3D volumes from the array
     data = img.get_data()[..., 4:]
     # Load the pre-written convolved time course
-    convolved = np.loadtxt('../../data/conv/' + f2 + '.txt')[4:]
+    convolved = np.loadtxt('../../data/convo/' + f2 + '.txt')[4:]
     return(data, convolved)
 
 def reg_voxels_4d(data, convolved):
     design = np.ones((len(convolved), 2))
     design[:, 1] = convolved
     data_2d = np.reshape(data, (-1, data.shape[-1]))
-    betas = npl.pinv(design).dot(data_2d.T)
-    betas_4d = np.reshape(betas.T, img.shape[:-1] + (-1,))
+    betas = npl.pinv(design).dot(data_2d.T) #(2, 147456)
+    betas_4d = np.reshape(betas.T, data.shape[:-1] + (-1,)) #(64, 64, 36, 2)
 
-    return betas_4d
+    return (betas, betas_4d)
 
 if __name__ == '__main__':
     from sys import argv
@@ -40,8 +40,9 @@ if __name__ == '__main__':
     f2 = argv[2]
     get_name = f2.replace('/', '_')
     data, convolved = load_data(f1, f2)
-    beta_hat = reg_voxels_4d(data, convolved)
-    np.savetxt('../../data/beta/' + get_name + '.txt', beta_hat)
-    plt.imshow(beta_hat[:, :, 14, 0], interpolation = 'nearest', cmap = 'gray')
+    betas_hat, betas_hat_4d = reg_voxels_4d(data, convolved)
+    np.savetxt('../../data/beta/' + get_name + '.txt', betas_hat, newline='\r\n')
+    plt.imshow(betas_hat_4d[:, :, 14, 0])
+    plt.savefig('../../data/beta/task001_run001_conv005.png')
     plt.show()
 
