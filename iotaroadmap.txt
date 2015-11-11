@@ -1,0 +1,93 @@
+Project Group Iota
+
+##### Project General Information
+
+Data:
+
+(1) We have 4 groups of participants: schizophrenia patients, patients'
+siblings, normal people, and normal people's siblings.  
+
+(2) We have 4 tasks: R, 1B, 2B, 3B.  
+
+(3) We have 4 ROIs: FP, CO, CER, DMN.
+
+
+
+Original Paper Objectives: 
+
+1. Within-network connectivity: 
+
+(a) For each participant, find connectivity within each ROI on different tasks.
+
+2.Between-network connectivity:connectivity: 
+
+(a) For each participant, find connectivity between each ROI on different tasks.
+
+
+Our Project Objectives: 1.Simplified assumptions: 
+
+(a) Since we do not have the knowledge about partition the brain into ROIs, we
+will simply focus on the entire brain (We can ask Matthew for help for this
+part).  
+
+(b) Since we do not have the knowledge of comparing different subjects who have
+different brain shapes, we will simply visually compare brain images and
+approximate.  
+
+2. We will examine two subjects, one subject with schizophrenia and one healthy
+subject.
+
+
+
+##### Tentative Roadmap
+
+General to do list: 
+
+- Get convolved time course and save as convolved.txt.  
+
+- Pick one subjects and go full length analysis. Or pick one Schizophrenic
+participant and one healthy participant. 
+
+- Make design matrix using convolved.txt and run regression on BOLD signals to
+get the estimated betas.  (Note: the betas are the scaling of the BOLD signals
+in response to the stimulus.) We can do t-tests on the betas (However, keep in
+mind the assumptions we use.) and see which of the betas are significant. 
+
+- Find correlations between average voxels in each ROI (Before we figure out
+  ROIs, we can try to find correlation between each voxels as from lecture 12,
+Correlation per voxel, in 2D). Measure mean signal. Make a histogram of the values of correlations (values from 0 to 1), and then
+determine a cutoff threshold to determine which of the correlations are
+significant.
+
+- Use Graphical Lasso to visualize covariance and precision of data. 
+
+
+
+##### To_Do_chunk_1 (Weeks 11/2 - 11/13): 
+
+1. Make convolved.txt using notes from lecture Day 13 (reference:
+http://www.jarrodmillman.com/rcsds/lectures/convolution_background.html). 
+
+2. Make design matrix using convolved.txt and run regression on 2D BOLD signals.
+Question: what are we regressing on?  -- We are regressing the BOLD signals with
+the convolved time course. If the betas are large, then the BOLD signal is
+strong in response to the stimulus.  (reference: see introduction of this about
+convolution: http://practical-neuroimaging.github.io/on_convolution.html)
+
+3. Make progress slides for 11/12 progress presentation. 
+
+4. Go to office hours on Friday morning 11/6 for project questions. 
+
+5. Project-related questions will be asked on Gitter. 
+
+
+Task Assignment: 
+
+-Zeyu is responsible for making weekly plans, and assign tasks. Will be helping
+with other teammates with code writing or reviewing as well as slides making.  
+
+-Jie and Qingyuan are responsible for writing code for convolved time course. If
+there are questions, ask Zeyu or Yunchuan.  -Yunchuan is responsible for making
+the progress presentation report. 
+
+ 
