@@ -42,27 +42,24 @@ def RSE(X,Y, betas_hat): #input 2D of X, Y and betas_hat
     RSS = np.sum(res ** 2, 0)
     df = X.shape[0] - npl.matrix_rank(X)
     MRSS = RSS / df
-
+    
     return (MRSS, df) 
 
-def hypothesis(betas_hat, beta_cov, df):
+def hypothesis(betas_hat, v_cov, df):
     sd_beta = np.array([])
     t_stat = np.array([])
     
-    for i in beta_cov:
-        sd_beta = np.append(sd_beta, np.sqrt(i[1,1]))
-
-    print(sd_beta.shape, beta_cov[1,:].shape)
-
+    for i in v_cov:
+        sd_beta = np.append(sd_beta, np.sqrt(i[1,1])) 
+   
+    t_stat = betas_hat[1, :] / sd_beta
     # Get p value for t value suing cumulative density dunction
-    t_stat = beta_cov[1,:] / sd_beta
-    print(t_stat.shape)
+    ltp = []
+    for i in t_stat:
+        ltp.append(t_dist.cdf(i, df)) #lower tail p
+    p = np.ones((betas_hat.shape[1],)) - np.asarray(ltp)
     
-    ltp = t_dist.cdf(t_stat, df) # lower tail p
-    p = 1 - ltp # upper tail p
-    
-    print(p.shape)
-    return p
+    return p, t_stat
 
 if __name__ == '__main__':
     from sys import argv
@@ -71,13 +68,13 @@ if __name__ == '__main__':
     get_name = f2.replace('/', '_')
     data, convolved = load_data(f1, f2)
     design_mat, data_2d, betas_hat, betas_hat_4d = reg_voxels_4d(data, convolved)
-    np.savetxt('../../data/beta/' + get_name + '.txt', betas_hat, newline='\r\n')
+    np.savetxt('../../data/beta/' + get_name + '.txt', betas_hat)
     plt.imshow(betas_hat_4d[:, :, 15, 1])
     plt.savefig('../../data/beta/task001_run001_conv005.png')
     
     #get residual standard error
     s2, df = RSE(design_mat, data_2d, betas_hat)
-   
+    print(s2.shape)
     #get estimator of variance of betas_hat   
     beta_cov = np.array([])
     for i in s2:
@@ -85,6 +82,6 @@ if __name__ == '__main__':
     beta_cov = beta_cov.reshape(-1,2,2)
    
     #T-test on null hypothesis
-    p_value = hypothesis(betas_hat, beta_cov, df)
+    p_value, t_stat = hypothesis(betas_hat, beta_cov, df)
     print(p_value)
     np.savetxt(get_name + '_p-value.txt', p_value, newline='\r\n')
