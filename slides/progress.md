@@ -26,19 +26,22 @@ The data we use for this paper is "ds115_sub001-005.tgz", which has 12 subjects.
 - Siblings of controls (CON-SIB).
 
 
-## The Method
-
-- linear regression
+# Initial Work
 
 
-# Initial work
+## Data Processing
 
+We downloaded data from OpenFMRI.org and looked through all the files it has. We want to make sure that the data we downloaded matches the description in the paper. 
 
-## EDA
+First, we found that there are four datasets. We thought one of them should be the raw data and the others were some-how processed by the authors . 
 
-- downloaded data
-- simple plots, summary statistics
-- covariance of each voxl on time series
+Then, we did some sample plots for each dataset to see the differences between their brain images.
+
+Finally, we knew which on is the raw data set and we will use it in our analysis. 
+
+## Sample Plots
+
+![Bike](../proposal/image1.png)
 
 
 # Next steps
