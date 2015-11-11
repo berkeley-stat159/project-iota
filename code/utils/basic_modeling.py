@@ -28,15 +28,20 @@ def load_data(f1, f2):
     return(data, convolved)
 
 def reg_voxels_4d(data, convolved):
+    #Create design X matrix with dim (133, 147456)
     design = np.ones((len(convolved), 2))
     design[:, 1] = convolved
+    #Reshape data to dim (133, 147456)
     data_2d = np.reshape(data, (data.shape[-1], -1))
-    betas = npl.pinv(design).dot(data_2d) #(2, 147456)
+    #Computing betas based on linear modeling with dim (2, 147456)
+    betas = npl.pinv(design).dot(data_2d)
+    #Reshape betas to betas_4d
     betas_4d = np.reshape(betas.T, data.shape[:-1] + (-1,)) #(64, 64, 36, 2)
     
     return (design, data_2d, betas, betas_4d)   
 
 def RSE(X,Y, betas_hat): #input 2D of X, Y and betas_hat
+    #Computing fitted value, residual, RSS, and return RSE
     Y_hat = X.dot(betas_hat)
     res = Y - Y_hat
     RSS = np.sum(res ** 2, 0)
@@ -45,7 +50,7 @@ def RSE(X,Y, betas_hat): #input 2D of X, Y and betas_hat
     
     return (MRSS, df) 
 
-def hypothesis(betas_hat, v_cov, df):
+def hypothesis(betas_hat, v_cov, df): #assume only input variance of beta1
     # Get std of beta1_hat
     sd_beta = np.sqrt(v_cov)
     # Get T-value
@@ -55,7 +60,7 @@ def hypothesis(betas_hat, v_cov, df):
     for i in t_stat:
         ltp = np.append(ltp, t_dist.cdf(i, df)) #lower tail p
     p = 1 - ltp
-    
+
     return p, t_stat
 
 if __name__ == '__main__':
@@ -79,10 +84,19 @@ if __name__ == '__main__':
    
     #T-test on null hypothesis
     p_value, t_value = hypothesis(betas_hat, beta_cov, df)
-   
+    plt.figure(0)
     plt.plot(range(data_2d.shape[1]), p_value)
     plt.xlabel('volx')
     plt.ylabel('P-value')
-    plt.show()
+    line = plt.axhline(0.2, ls='--', color = 'red')
+    plt.savefig('p_value.png')
     np.savetxt(get_name + '_p-value.txt', p_value, newline='\r\n')
+
+    plt.figure(1)
+    plt.plot(range(data_2d.shape[1]), t_value)
+    plt.xlabel('volx')
+    plt.ylabel('T-value')
+    plt.savefig('T_value.png')
+    np.savetxt(get_name + '_T-value.txt', t_value, newline='\r\n')
+
 
