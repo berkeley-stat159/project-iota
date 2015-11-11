@@ -46,42 +46,43 @@ def RSE(X,Y, betas_hat): #input 2D of X, Y and betas_hat
     return (MRSS, df) 
 
 def hypothesis(betas_hat, v_cov, df):
-    sd_beta = np.array([])
-    t_stat = np.array([])
-    
-    for i in v_cov:
-        sd_beta = np.append(sd_beta, np.sqrt(i[1,1])) 
-   
+    # Get std of beta1_hat
+    sd_beta = np.sqrt(v_cov)
+    # Get T-value
     t_stat = betas_hat[1, :] / sd_beta
-    # Get p value for t value suing cumulative density dunction
-    ltp = []
+    # Get p value for t value using cumulative density dunction
+    ltp = np.array([])
     for i in t_stat:
-        ltp.append(t_dist.cdf(i, df)) #lower tail p
-    p = np.ones((betas_hat.shape[1],)) - np.asarray(ltp)
+        ltp = np.append(ltp, t_dist.cdf(i, df)) #lower tail p
+    p = 1 - ltp
     
     return p, t_stat
 
 if __name__ == '__main__':
     from sys import argv
-    f1 = argv[1] #task001_run001/bold
+    f1 = argv[1] #task001_run001/bold_mcf_brain
     f2 = argv[2] #task001_run001_conv005
     get_name = f2.replace('/', '_')
     data, convolved = load_data(f1, f2)
     design_mat, data_2d, betas_hat, betas_hat_4d = reg_voxels_4d(data, convolved)
-    np.savetxt('../../data/beta/' + get_name + '.txt', betas_hat)
-    plt.imshow(betas_hat_4d[:, :, 15, 1])
-    plt.savefig('../../data/beta/task001_run001_conv005.png')
+    np.savetxt('../../data/beta/' + get_name + '.txt', betas_hat.T, newline='\r\n')
+    #plt.imshow(betas_hat_4d[:, :, 15, 1])
+    #plt.savefig('../../data/beta/task001_run001_conv005.png')
     
     #get residual standard error
     s2, df = RSE(design_mat, data_2d, betas_hat)
-    print(s2.shape)
+   
     #get estimator of variance of betas_hat   
     beta_cov = np.array([])
     for i in s2:
-        beta_cov = np.append(beta_cov, npl.inv(design_mat.T.dot(design_mat)))
-    beta_cov = beta_cov.reshape(-1,2,2)
+        beta_cov = np.append(beta_cov, i*npl.inv(design_mat.T.dot(design_mat))[1,1])
    
     #T-test on null hypothesis
-    p_value, t_stat = hypothesis(betas_hat, beta_cov, df)
-    print(p_value)
+    p_value, t_value = hypothesis(betas_hat, beta_cov, df)
+   
+    plt.plot(range(data_2d.shape[1]), p_value)
+    plt.xlabel('volx')
+    plt.ylabel('P-value')
+    plt.show()
     np.savetxt(get_name + '_p-value.txt', p_value, newline='\r\n')
+
