@@ -3,9 +3,6 @@
 % November 12, 2015
 
 
-# Background
-
-
 ## The Paper
 
 We choose "Working memory in healthy and schizophrenic individuals" from OpenFMRI.org, and we are interested in functional brain connectivity, which is known as neural networks. Here are the 4 particular regions of interest (ROIs) in the paper:
@@ -15,27 +12,28 @@ We choose "Working memory in healthy and schizophrenic individuals" from OpenFMR
 - Cerebellar network (CER).
 - "Default mode" network (DMN).
 
+They showed that individuals with schizophrenia have reduced connectivity between neural networks.
+
 
 ## The Data
 
-The data we use for this paper is "ds115_sub001-005.tgz", which has 12 subjects. For each subject, fMRI scanning during resting state (R), and after 0-back (0B), 1-back (1B) and 2-back (2B) working memory task. Subjects are in four groups: 
+The data for this paper has 102 subjects. For each subject, they used fMRI scanning to find blood oxygen level dependent (BOLD) during resting state (R), and after 0-back (0B), 1-back (1B) and 2-back (2B) working memory task. Subjects are in four groups: 
 
 - Individuals with schizophrenia (SCZ).
 - Siblings of schizophrenia (SCZ-SIB).
 - Healthy controls (CON).
 - Siblings of controls (CON-SIB).
 
-
-# Initial Work
+Since we don't have time to go through all of the subjects, we choose the first subject from SCZ group. If we have time, we will work on another subject from CON group and do a comparison between these two.
 
 
 ## Data Processing
 
-We downloaded data from OpenFMRI.org and looked through all the files it has. We want to make sure that the data we downloaded matches the description in the paper. 
+We downloaded data from OpenFMRI.org and looked through all the files it has. We found that "ds115_sub001-005.tgz" contains the brain image of the subject we chose. 
 
-- First, we found that there are four datasets. We thought one of them should be the raw data and the others were some-how processed by the authors . 
-- Then, we did some sample plots for each dataset to see the differences between their brain images.
-- Finally, we knew which on is the raw data set and we will use it in our analysis. 
+- First, we checked all the files in it and found there are three tasks for our subject. 
+- Second, we found that under each task there are four brain images. We thought one of them should be the raw image and the others were some-how processed by the authors. 
+- Then, we plotted these four brain images and chose the most blurred one (This is probably because it is after smoothing), which is ``BOLD_mcf_brain.nii''. 
 
 
 ## Data Processing
@@ -45,7 +43,7 @@ We downloaded data from OpenFMRI.org and looked through all the files it has. We
 
 ## Data Processing
 
-edit:   \![Single Voxel Behavior](../data/..........)
+![Single Voxel Behavior](../code/utils/single_voxel_behavior.png)
 
 
 ## Convolving with the Hemodynamic Response
@@ -58,31 +56,52 @@ Similar to what we did in class, we used HRF function to convolve our neural pre
 ![Neural Prediction vs Convolved](../data/convo/task001_run001_conv005.png)
 
 
-# Our Plan
-
 ## Simplified Objectives
 
-The paper's objective is finding connectivity within and between each ROI on different tasks. Since we do not have the knowledge about partition the brain into ROIs, we will simply focus on the entire brain and find the region related to these tasks. Also, different subjects have different brain shapes, and the related regions might vary from participants to participants. To make it easier, we will just ignore their differences and simply visually compare brain images.
+The paper's objective is finding connectivity within and between each ROI on different tasks. They extracted these ROIs and worked directly on them. Since we do not have the knowledge about partition the brain into ROIs, we could not do the same analysis as them. Therefore, we will simply focus on the entire brain and find the region related to these tasks. 
+
 
 ## Statistical Analysis: Linear Modeling
 
+- Data cleaning: focusing on cleaning outliers in order to keep normality assumption
+
+- Perform a statistical test (p-value map) to determine whether a task related blood pressure in the each slice
+
+- Non-constant variance of error: construct a generalized linear regression (WLS) to weighted different variance for each voxel of the brain
+
+
+## Statistical Analysis: Linear Modeling
+
+![P-value Map](p_value_map.png)
 
 
 ## Statistical Analysis: Sparse Inverse Covariance
 
 The matrix inverse of the covariance matrix (the precision matrix) is proportional to the partial correlation matrix. It gives the partial independence relationship. In other words, if two features are independent conditionally on the others, the corresponding coefficient in the precision matrix will be zero. By learning independence relations from the data, the estimation of the covariance matrix is better conditioned. 
 
-We 
+Since the estimate of covariance matrix of beta_hat might not be precious, so we think sparse inverse covariance should be a good way to solve this issue.
+
 
 ## Statistical Analysis: Time Series
 
-## Potential Problems
+- Based on the beta_hat generated from linear regression, we are finding the sub-area has the significantly effect between blood pressure and nerual signal.
 
-- Problems
+- Using differecing method to remove the noise between each lag and plot the ACF and PACF to understand how the sub-area works when time is moving on.
 
-# Our Process
+- Using boostraping method to simulate our samples from the sub-area, and develop the time series model (ARMA, ARIMA) to predict future blood pressure.
 
-## Linear Modeling
+
+## Our Process
+
+Task assignment
+
+Git workflow, python
+
+Issues that we faced and how we addressed them 
+
+- Data organization
+- fMRI 
+- Coding multiple regression model and tests 
 
 
 
