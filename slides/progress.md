@@ -1,4 +1,4 @@
-% Project Aleph Progress Report
+% Project Iota Progress Report
 % Zeyu Li, Jie Li, Qingyuan Zhang, Chuan Yun 
 % November 12, 2015
 
@@ -33,40 +33,58 @@ The data we use for this paper is "ds115_sub001-005.tgz", which has 12 subjects.
 
 We downloaded data from OpenFMRI.org and looked through all the files it has. We want to make sure that the data we downloaded matches the description in the paper. 
 
-First, we found that there are four datasets. We thought one of them should be the raw data and the others were some-how processed by the authors . 
-
-Then, we did some sample plots for each dataset to see the differences between their brain images.
-
-Finally, we knew which on is the raw data set and we will use it in our analysis. 
-
-## Sample Plots
-
-![Bike](../proposal/image1.png)
+- First, we found that there are four datasets. We thought one of them should be the raw data and the others were some-how processed by the authors . 
+- Then, we did some sample plots for each dataset to see the differences between their brain images.
+- Finally, we knew which on is the raw data set and we will use it in our analysis. 
 
 
-# Next steps
+## Data Processing
+
+![Raw Data Brain Image](../code/utils/nearest.png)
 
 
-## Preprocessing / Validation
+## Data Processing
 
-- PCA
+edit:   \![Single Voxel Behavior](../data/..........)
 
 
-## Statistical Analysis
+## Convolving with the Hemodynamic Response
 
-- linear model
+Similar to what we did in class, we used HRF function to convolve our neural prediction, This will give us a hemodynamic prediction, under the linear-time-invariant assumptions of the convolution. This is a very important step because we will use convolution data in our linear modeling process in the future. Here is the comparison between the original neural prediction and convolved.
 
-## Objectives
 
-Original Paper Objectives:
-1. Within-network connectivity:
-(a) For each participant, find connectivity within each ROI on different tasks.
-2. Between-network connectivity:connectivity
-(a) For each participant, find connectivity between each ROI on different tasks.
+## Convolving with the Hemodynamic Response
 
-Our Project Objectives:
-1.Simplified assumptions:
-(a) Since we do not have the knowledge about partition the brain into ROIs, we will simply focus on the entire brain.
-(b) Since we do not have the knowledge of comparing different subjects who have different brain shapes, we will simply visually compare brain images and approximate.
-2. For each subject Identify signal strength in response to stimulus.  
+![Neural Prediction vs Convolved](../data/convo/task001_run001_conv005.png)
+
+
+# Our Plan
+
+## Simplified Objectives
+
+The paper's objective is finding connectivity within and between each ROI on different tasks. Since we do not have the knowledge about partition the brain into ROIs, we will simply focus on the entire brain and find the region related to these tasks. Also, different subjects have different brain shapes, and the related regions might vary from participants to participants. To make it easier, we will just ignore their differences and simply visually compare brain images.
+
+## Statistical Analysis: Linear Modeling
+
+
+
+## Statistical Analysis: Sparse Inverse Covariance
+
+The matrix inverse of the covariance matrix (the precision matrix) is proportional to the partial correlation matrix. It gives the partial independence relationship. In other words, if two features are independent conditionally on the others, the corresponding coefficient in the precision matrix will be zero. By learning independence relations from the data, the estimation of the covariance matrix is better conditioned. 
+
+We 
+
+## Statistical Analysis: Time Series
+
+## Potential Problems
+
+- Problems
+
+# Our Process
+
+## Linear Modeling
+
+
+
+
 
