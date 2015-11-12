@@ -38,7 +38,7 @@ We downloaded data from OpenFMRI.org and looked through all the files it has. We
 
 ## Data Processing
 
-![Raw Data Brain Image](../code/utils/nearest.png)
+![Raw Data Brain Image](../code/utils/sample_image.png)
 
 
 ## Data Processing
@@ -93,15 +93,12 @@ Since the estimate of covariance matrix of beta_hat might not be precious, so we
 
 ## Our Process
 
-Task assignment
-
-Git workflow, python
-
-Issues that we faced and how we addressed them 
-
-- Data organization
-- fMRI 
-- Coding multiple regression model and tests 
+1. Task assignment
+2. Git workflow, python
+3. Issues that we faced and how we addressed them 
+	- Data organization
+	- fMRI 
+	- Coding multiple regression model and tests 
 
 
 
