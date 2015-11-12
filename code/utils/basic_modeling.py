@@ -28,7 +28,7 @@ def load_data(f1, f2):
     return(data, convolved)
 
 def reg_voxels_4d(data, convolved):
-    #Create design X matrix with dim (133, 147456)
+    #Create design X matrix with dim (133, 2)
     design = np.ones((len(convolved), 2))
     design[:, 1] = convolved
     #Reshape data to dim (133, 147456)
