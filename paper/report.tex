@@ -54,6 +54,32 @@ Then, similar to what we did in class, we used HRF function to convolve our neur
 \includegraphics{task001_run001_conv005}
 
 \section{Methods}
+\subsection{Linear Modeling}
+First of all, we did a muti-variables linear regression on convolving response 
+(design matrix $X$) and blood pressure(response $Y$). We constructed the design 
+matrix $X$, which dimension is (133, 2) and reshaped our blood pressure data from 
+4 dimension to 2 dimension. Second, under the assumption of constant variance
+and normality of our data, we use OLS method to calculate $\hat{\beta}$, the 
+formula is $\hat{\beta_{ls}}=(X^{T}X)^{-1}X^{T}Y$. We plug in $X$ and $Y$ to get
+our $\hat{\beta_{ls}}$, which is a 2 by 147456 matrix. Then we reshaped it into 
+4 dimension. Based on the $\hat{\beta_{ls}}$ we got from muti-variables linear 
+regression, we compute the fitted value $\hat{Y}$, which equals 
+$X\hat{\beta_{ls}}$. The residual $\hat{e}$, which equals $Y-\hat{Y}$. The 
+residual sum of squares $RSS$, which is $\hat{e}^{T}\hat{e}$. The covariance
+matrix of $\hat{\beta_{ls}}$ is $cov(\beta_{ls}) = \sigma^2(X^{T}X)^{-1}$. Here $\sigma^2$
+is unknown, we use $\hat{\sigma}^2 = \frac{RSS}{n-r}$, which is an unbiased 
+estimate of $\sigma^2$. Thus the covariance matrix 
+$cov(\beta_{ls}) = \frac{RSS}{n-r}(X^{T}X)^{-1}$.
+
+Then, we generated our null hypothesis test:
+
+$\hat{\beta} = 0$.
+
+By using t-test and set our significance level as 10\%, we found there are 1507 
+out of 147456 voxels that have the significant effect between our task and 
+blood pressure, so we defined the sub-area of brain contains the most 
+significant voxels by plotting a p-value map.
+
 \section{Results}
 \section{Discussion}
 
