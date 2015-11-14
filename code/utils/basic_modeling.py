@@ -88,7 +88,7 @@ if __name__ == '__main__':
     plt.plot(range(data_2d.shape[1]), p_value)
     plt.xlabel('volx')
     plt.ylabel('P-value')
-    line = plt.axhline(0.2, ls='--', color = 'red')
+    line = plt.axhline(0.1, ls='--', color = 'red')
     plt.savefig('p_value.png')
     np.savetxt(get_name + '_p-value.txt', p_value, newline='\r\n')
 
