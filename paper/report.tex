@@ -3,8 +3,7 @@
 \graphicspath{ {images/} }
 \usepackage[margin=0.75in]{geometry}
 
-\title{Working Memory Related Brain Network Connectivity in Individuals with 
-Schizophrenia and Their Siblings}
+\title{Reproducing fMRI Data Analysis on Brain Connectivity}
 \author{
   Li, Jie\\
   \texttt{Jay4869}
@@ -24,62 +23,60 @@ Schizophrenia and Their Siblings}
 \begin{document}
 \maketitle
 
-\abstract{A recent study shows that schizophrenia reflects a ``dysconnection''
-syndrome, which means schizophrenia can result in damaging functional brain 
-connectivity in neural networks. We are interested in schizophrenia, so we 
-decide to look into their studies to see if their conclusion makes sense. 
-Therefore, we download the data they got during their tests and redo their 
-analysis by following their steps in the paper. Even though we aren't able to 
-go through all the analysis they did, we expect to get the same result for the 
-analysis we do.}
+\abstract{In this research paper, we attempt to reproduce fMRI data analysis
+done by Repov and Barch in their paper exploring the relationship between
+schizophrenia and brain connectivity \cite{repovs_barch1, repovs_barch2}. In
+addition to the reproducing the ANOVA analysis of within and between brain
+network connectivity, we analyze the given fMRI data using linear modeling,
+time series as well as machine learning to explore various characteristics of
+voxel behaviors in response to N-back tasks.}
 
 \section{Introduction}
-\paragraph{}
-Schizophrenia is a chronic, severe, and disabling brain disorder that has 
-affected people throughout history. Or you can just think it as an illness that
-causes abnormal social behavior and failure to recognize what is real. Previous 
-studies showed that changes in the function of a single brain region, or even a 
-brain system, cannot explain the functional impairments seen in this illness. 
-This means that the causes of schizophrenia is much more complicated than we 
-think. A recent study shows that individuals with schizophrenia have reduced 
-connectivity between neural networks, which could be a forward step to solve 
-the cause of this illness.\par
-The paper suggests this conclusion is ``Working memory related brain network 
-connectivity in individuals with schizophrenia and their siblings'' 
-\cite{schizophreniabrainconnectivity}, and the data they used is available on 
-OpenFMRI.org under ``Working memory in healthy and schizophrenic individuals''. 
-The paper thinks that neural networks which are critical for cognitive function
-might be affected by schizophrenia, because individuals with schizophrenia have 
-severe cognitive issues. In particular, these neural networks are (1) Dorsal 
-fronto-parietal network (FP), (2) Cingulo-opercular network (CO), (3) 
-Cerebellar network (CER) and (4) "Default mode" network (DMN).\par
-In total 102 participants in the paper's experiment and they were divided into 
-4 groups: (1) individuals with Schizophrenia (SCZ; N = 19); (2) the siblings of
-individuals with schizophrenia (SCZ-SIB; N = 28); (3) healthy controls (CON; N = 10); 
-and (4) the siblings of healthy controls (CON-SIB; N = 17). In order to assessing
-functional brain connectivity, they used blood oxygen level dependent (BOLD) 
-time series acquired using fMRI. \par
-The paper's objective is finding connectivity within and between each ROI on 
-different tasks. They extracted these ROIs and worked directly on them. Since
-we do not have the knowledge about partition the brain into ROIs, we could not 
-do the same analysis as them. Therefore, we will simply focus on the entire 
-brain and find the region related to these tasks. Also, they worked on all 
-subjects and did comparisons between different groups. Since we don't have time 
-to go through all of the subjects, we choose the first subject from SCZ group. 
-If we have time, we will work on another subject from CON group and do a 
-comparison between these two.\par
-Our goal is to use the paper's data to do some statistical analysis, and see if
-our analysis could come up with the same conclusion as the paper. We understand 
-the fact that we couldn't reproduce the whole analysis part of the paper due to
-the limitation of knowledge and time. However, with the analysis we designed 
-for this data, we will finally get a great result.\par
 
+The paper of which our research is based is titled ``Working memory related
+brain network connectivity in individuals with schizophrenia and their
+siblings'' \cite{repovs_barch1, repovs_barch2}. Schizophrenia is a chronic,
+severe, and disabling brain disorder. Previous studies have shown that changes
+in the function of a single brain region, or even a brain system, cannot
+explain the functional impairments seen in this illness \ \cite{repovs_barch1}.
+However, Repovs and Barch attempts to show that individuals with schizophrenia
+have reduced connectivity within and between neural networks, which could be a
+forward step to understanding schizophrenia. \par
+
+In their paper, the writers try to systematically examine changes in functional
+connectivity across rest and different task states in order to make an
+inference on characteristics of schizophrenia. The authors found four types of
+participates, individuals with schizophrenia, the siblings of individuals with
+schizophrenia, healthy controls and the siblings of healthy controls. They
+designed three working memory loads of an N-back task and designated four
+regions of interest (ROIs). The four brain networks are: (1) Dorsal
+fronto-parietal network (FP), (2) Cingulo-opercular network (CO), (3)
+Cerebellar network (CER) and (4) "Default mode" network (DMN). The objective of
+the study is to examine the altered functional connectivity within and between
+these four brain networks when the participant performing a designated N-back
+task. After analyzing the data using ANOVA, the authors found that that
+individuals with schizophrenia and their siblings showed consistent reductions
+in connectivity between both the FP and CO networks with the CER network. \par
+
+In our attempt to reproduce the analysis done by Repovs and Barch, we first
+examine the validity of their use of ANOVA methods to assess functional
+connectivity. On top of that, we will make necessary simplifications and model
+the data using various analysis methods such as linear modeling, time series,
+as well as machine learning. \par
 %You should explain the basic idea of the paper in a paragraph.  You should also perform basic sanity check on the data
 %(e.g., can you downloaded, can you load the files, confirm that you have the correct number of subjects).
 %Briefly explain what reproducibility means and in what sense you will try to reproduce this study.
 
 \section{Data}
 \paragraph{}
+The data used in their published paper is available on the website
+OpenFMRI.org. The are many data files grouped by subjects, but we will be
+focusing on only a few subjects due to time and resource constraints. We start
+off analyzing a single subject, subject 001, who is male, Caucasian and
+Schizophrenic. If we have time, we will extend our analysis on comparing two
+subjects, one with schizophrenia and one healthy control. Each subject contains
+four folders, and for our analysis, we focus on the folder containing blood
+oxygen level dependent (BOLD) time series. \par
 We went to OpenFMRI.org and looked through all the files it has for this paper. 
 The are many data files grouped by subjects and we only downloaded 
 ``ds115-sub001-005.tg'', which contains the brain image of the first five 
@@ -147,11 +144,35 @@ significant voxels by plotting a p-value map.
     \caption{Plot of P values.}
   \end{minipage}
 \end{figure}
+\subsection{Data Preprocessing}
+\paragraph{}
+First, we checked all the files for sub001 and found there are three tasks for
+our subject. We realized that these were ``N - back'' working memory task in
+the paper. This task was to respond for each letter shown whether it was the
+same as a pre-specified letter (0-back), the same as the immediately preceding
+letter (1-back), or the same as the letter shown two trials previously
+(2-back). For our subject, there were three BOLD runs, each consisting of two
+blocks of 0-back, 1-back, or 2-back working memory task. 
 
+Second, we found that under each task there are four brain images. We thought
+one of them should be the raw image and the others were some-how processed by
+the authors. Therefore, we plotted these four brain images and chose the most
+blurred one (This is probably because it is after smoothing), which is
+``BOLD-mcf-brain.nii''. 
+
+Then, similar to what we did in class, we used HRF function to convolve our
+neural prediction, This will give us a hemodynamic prediction, under the
+linear-time-invariant assumptions of the convolution. This is a very important
+step because we will use convolution data in our linear modeling process in the
+future. Here is the comparison between the original neural prediction and
+convolved.
 
 \section{Discussion}
+\subsection{Obstacles} 
 
+The hardest part of the project is understanding which direction we should go
+given the time constraint and limited knowledge on the subject. 
 
-\bibliography{project}
+\bibliography{report}
 
 \end{document}
