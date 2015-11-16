@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.4)  15 NOV 2015 15:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.11.4)  15 NOV 2015 18:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -227,7 +227,7 @@ Package pdftex.def Info: images/p_value.png used on input line 143.
 Here is how much of TeX's memory you used:
  1995 strings out of 493054
  28994 string characters out of 6134760
- 98301 words of memory out of 5000000
+ 98300 words of memory out of 5000000
  5508 multiletter control sequences out of 15000+600000
  9319 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -245,7 +245,7 @@ b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
 /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></
 usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (4 pages, 317303 bytes).
+Output written on report.pdf (4 pages, 317304 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  50 compressed objects within 1 object stream
