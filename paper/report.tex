@@ -77,30 +77,6 @@ Schizophrenic. If we have time, we will extend our analysis on comparing two
 subjects, one with schizophrenia and one healthy control. Each subject contains
 four folders, and for our analysis, we focus on the folder containing blood
 oxygen level dependent (BOLD) time series. \par
-We went to OpenFMRI.org and looked through all the files it has for this paper. 
-The are many data files grouped by subjects and we only downloaded 
-``ds115-sub001-005.tg'', which contains the brain image of the first five 
-subjects, and the ``ds115-metadata.tg'', which contains metadata for the paper.
-Since we only chose one subject, which is sub001, we only need his part in the
-data file.\par 
-First, we checked all the files for sub001 and found there are three tasks for 
-our subject. We realized that these were ``N - back'' working memory task in 
-the paper. This task was to respond for each letter shown whether it was the 
-same as a pre-specified letter (0-back), the same as the immediately preceding 
-letter (1-back), or the same as the letter shown two trials previously (2-back).
-For our subject, there were three BOLD runs, each consisting of two blocks of 
-0-back, 1-back, or 2-back working memory task. \par
-Second, we found that under each task there are four brain images. We thought 
-one of them should be the raw image and the others were some-how processed by 
-the authors. Therefore, we plotted these four brain images and chose the most 
-blurred one (This is probably because it is after smoothing), which is
-``BOLD-mcf-brain.nii''.\par
-Then, similar to what we did in class, we used HRF function to convolve our 
-neural prediction, This will give us a hemodynamic prediction, under the 
-linear-time-invariant assumptions of the convolution. This is a very important 
-step because we will use convolution data in our linear modeling process in the
-future. Here is the comparison between the original neural prediction and 
-convolved.
 
 \begin{figure}[!htb]
     \includegraphics[width=\linewidth]{task001_run001_conv005}
