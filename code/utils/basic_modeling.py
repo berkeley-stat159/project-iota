@@ -84,8 +84,63 @@ if __name__ == '__main__':
    
     #T-test on null hypothesis
     p_value, t_value = hypothesis(betas_hat, beta_cov, df)
+    # generate p-map
+    #p_value_3d = p_value.reshape(data.shape[:-1])
+    #p_log = p_value_3d[30,:,:] < 0.1
+    
+    data_2d = data.reshape(-1, 133)
+    data_2d[p_value < 0.1,:] = 1
+       
+    data_2d_log = data_2d.reshape(data.shape)    
+    plt.figure(2)
+    plt.subplot(1, 3, 1)
+    plt.imshow(data_2d_log[:,:,18,10], interpolation="nearest", cmap = "gray")
+    
+    plt.subplot(1, 3, 2)
+    plt.imshow(data_2d_log[:,32,:,10], interpolation="nearest", cmap = "gray")
+    
+    plt.subplot(1, 3, 3)
+    plt.imshow(data_2d_log[32,:,:,10], interpolation="nearest", cmap = "gray")
+    #plt.plot(p_log, interpolation="nearest", cmap = "Reds")    
+    plt.savefig('p-value-map.png')
+
+    plt.figure(3)
+    plt.subplot(4,4,1)
+    plt.imshow(data_2d_log[28,:,:,5], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,2)
+    plt.imshow(data_2d_log[28,:,:,10], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,3)
+    plt.imshow(data_2d_log[28,:,:,15], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,4)
+    plt.imshow(data_2d_log[28,:,:,20], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,5)
+    plt.imshow(data_2d_log[30,:,:,5], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,6)
+    plt.imshow(data_2d_log[30,:,:,10], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,7)
+    plt.imshow(data_2d_log[30,:,:,15], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,8)
+    plt.imshow(data_2d_log[30,:,:,20], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,9)
+    plt.imshow(data_2d_log[32,:,:,5], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,10)
+    plt.imshow(data_2d_log[32,:,:,10], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,11)
+    plt.imshow(data_2d_log[32,:,:,15], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,12)
+    plt.imshow(data_2d_log[32,:,:,20], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,13)
+    plt.imshow(data_2d_log[34,:,:,5], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,14)
+    plt.imshow(data_2d_log[34,:,:,10], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,15)
+    plt.imshow(data_2d_log[34,:,:,15], interpolation='nearest', cmap = 'gray')
+    plt.subplot(4,4,16)
+    plt.imshow(data_2d_log[34,:,:,20], interpolation='nearest', cmap = 'gray')
+    plt.savefig('p-value-matrix.png') 
+
     plt.figure(0)
-    plt.plot(range(data_2d.shape[1]), p_value)
+    plt.plot(range(data_2d.shape[0]), p_value)
     plt.xlabel('volx')
     plt.ylabel('P-value')
     line = plt.axhline(0.1, ls='--', color = 'red')
@@ -93,10 +148,9 @@ if __name__ == '__main__':
     np.savetxt(get_name + '_p-value.txt', p_value, newline='\r\n')
 
     plt.figure(1)
-    plt.plot(range(data_2d.shape[1]), t_value)
+    plt.plot(range(data_2d.shape[0]), t_value)
     plt.xlabel('volx')
     plt.ylabel('T-value')
     plt.savefig('T_value.png')
     np.savetxt(get_name + '_T-value.txt', t_value, newline='\r\n')
-
 
