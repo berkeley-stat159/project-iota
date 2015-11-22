@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats
@@ -21,6 +22,33 @@ def get_n_volx(f1):
 	data = img.get_data()
 	return data.shape[-1]
 
+def rescale_cond(f2, n_volx):
+	cond_data = np.loadtxt('../../data/sub001/model/model001/onsets/' + f2 + '.txt')
+	# read into three components
+	onsets = cond_data[:, 0]
+	duration = cond_data[:, 1]
+	ampl = cond_data[:, 2]
+	# finer resolution has 100 steps per TR
+	tr_divs = 100.0
+	high_res_times = np.arange(0, n_volx, 1/tr_divs) * TR
+	# create a new neural prediction time-course for 1/100 of TR
+	high_res_neural = np.zeros(high_res_times.shape)
+	high_res_onset_indices = onsets / TR * tr_divs
+	high_res_duration = duration / TR * tr_divs
+	# fill in the high_res_neural time course
+	for hr_onset, hr_duration, amplitude in zip(high_res_onset_indices, high_res_duration, ampl):
+		hr_onset = int(round(hr_onset))
+		hr_duration = int(round(hr_duration))
+		high_res_neural[hr_onset:hr_onset + hr_duration] = amplitude
+	
+	plt.plot(high_res_times, high_res_neural)
+	plt.xlabel('Time (Seconds)')
+	plt.ylabel('High resolution neural prediction')
+	plt.savefig('../../data/convo/High_resolution_neural.png')
+
+	return high_res_neural
+
+
 def constructing_convo(f2, n_volx):
 	get_name = f2.replace('/', '_').replace('d', 'v')
 
@@ -43,5 +71,6 @@ if __name__ == '__main__':
 
 	f1 = argv[1]
 	f2 = argv[2]
+	TR = 2.5
 	n_volx = get_n_volx(f1)
 	constructing_convo(f2, n_volx)
