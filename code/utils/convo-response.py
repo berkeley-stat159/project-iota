@@ -30,7 +30,7 @@ def rescale_cond(f2, n_volx):
 	duration = cond_data[:, 1]
 	ampl = cond_data[:, 2]
 	# finer resolution has 100 steps per TR
-	tr_divs = 100.0
+	tr_divs = 150.0
 	TR = 2.5
 	high_res_times = np.arange(0, n_volx, 1/tr_divs) * TR
 	# create a new neural prediction time-course for 1/100 of TR
@@ -53,10 +53,12 @@ def rescale_cond(f2, n_volx):
 
 def constructing_convo(high_res_neural, high_res_times, getname):
 	tr_divs = 100
-	hrf_times = np.arange(0, 24, 1/tr_divs)
+	hrf_times = np.arange(0, 30, 1/tr_divs)
 	hrf_at_trs = hrf(hrf_times)
 	
 	high_res_hemo = np.convolve(high_res_neural, hrf_at_trs)[:len(high_res_neural)]
+	np.savetxt('../../data/convo/' + getname + '.txt', high_res_hemo)	
+
 	plt.plot(high_res_times, high_res_hemo)
 	plt.xlabel('Time (Seconds)')
 	plt.ylabel('High resolution convolved values')
