@@ -18,18 +18,20 @@ def hrf(times):
     return values / np.max(values) * 0.6
 
 def get_n_volx(f1):
-	img = nib.load('../../data/sub001/BOLD/' + f1 + '.nii.gz')
+	img = nib.load('../../data/' + f1 + '.nii.gz')
 	data = img.get_data()
 	return data.shape[-1]
 
 def rescale_cond(f2, n_volx):
 	cond_data = np.loadtxt('../../data/sub001/model/model001/onsets/' + f2 + '.txt')
+	getname = f2.replace('/', '_')
 	# read into three components
 	onsets = cond_data[:, 0]
 	duration = cond_data[:, 1]
 	ampl = cond_data[:, 2]
 	# finer resolution has 100 steps per TR
 	tr_divs = 100.0
+	TR = 2.5
 	high_res_times = np.arange(0, n_volx, 1/tr_divs) * TR
 	# create a new neural prediction time-course for 1/100 of TR
 	high_res_neural = np.zeros(high_res_times.shape)
@@ -44,33 +46,40 @@ def rescale_cond(f2, n_volx):
 	plt.plot(high_res_times, high_res_neural)
 	plt.xlabel('Time (Seconds)')
 	plt.ylabel('High resolution neural prediction')
-	plt.savefig('../../data/convo/High_resolution_neural.png')
+	plt.savefig('../../data/convo/High_resolution_neural_' + getname + '.png')
 
-	return high_res_neural
+	return (high_res_neural, high_res_times, getname)
 
 
-def constructing_convo(f2, n_volx):
-	get_name = f2.replace('/', '_').replace('d', 'v')
+def constructing_convo(high_res_neural, high_res_times, getname):
+	tr_divs = 100
+	hrf_times = np.arange(0, 24, 1/tr_divs)
+	hrf_at_trs = hrf(hrf_times)
+	
+	high_res_hemo = np.convolve(high_res_neural, hrf_at_trs)[:len(high_res_neural)]
+	plt.plot(high_res_times, high_res_hemo)
+	plt.xlabel('Time (Seconds)')
+	plt.ylabel('High resolution convolved values')
+	plt.savefig('../../data/convo/High_resolution_convo_' + getname + '.png')
 
-	tr_times = np.arange(0, 30, 2.5)
-	hrf_at_trs = hrf(tr_times)
-	neural_prediction = events2neural('../../data/sub001/model/model001/onsets/' + f2 + '.txt', 2.5, n_volx)
-	all_tr_times = np.arange(n_volx) * 2.5
-	convolved = np.convolve(neural_prediction, hrf_at_trs)
-	convolved = convolved[:(len(convolved) - len(hrf_at_trs) + 1)]
-	convolved = np.append(convolved, np.zeros(len(all_tr_times)-len(convolved)))
+	# neural_prediction = events2neural('../../data/sub001/model/model001/onsets/' + f2 + '.txt', 2.5, n_volx)
+	# all_tr_times = np.arange(n_volx) * 2.5
+	# convolved = np.convolve(neural_prediction, hrf_at_trs)
+	# convolved = convolved[:(len(convolved) - len(hrf_at_trs) + 1)]
+	# convolved = np.append(convolved, np.zeros(len(all_tr_times)-len(convolved)))
 
-	plt.plot(all_tr_times, neural_prediction)
-	plt.plot(all_tr_times, convolved)
-	plt.show()
-	plt.savefig('../../data/convo/' + get_name + '.png')
-	np.savetxt('../../data/convo/' + get_name + '.txt', convolved)
+	# plt.plot(all_tr_times, neural_prediction)
+	# plt.plot(all_tr_times, convolved)
+	# plt.show()
+	# plt.savefig('../../data/convo/' + get_name + '.png')
+	# np.savetxt('../../data/convo/' + get_name + '.txt', convolved)
 
 if __name__ == '__main__':
 	from sys import argv
 
-	f1 = argv[1]
+	f1 = argv[1] #task
 	f2 = argv[2]
-	TR = 2.5
 	n_volx = get_n_volx(f1)
-	constructing_convo(f2, n_volx)
+	high_res_neural, high_res_times, getname = rescale_cond(f2, n_volx)
+	constructing_convo(high_res_neural, high_res_times, getname)
+
