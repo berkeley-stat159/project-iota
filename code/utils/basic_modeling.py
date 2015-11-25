@@ -31,11 +31,11 @@ def reg_voxels_4d(data, convo):
     #Create design X matrix with dim (133, 2)
     design = np.ones((len(convo), 2))
     design[:, 1] = convo
-    #Reshape data to dim (902629, 133)
-    data_2d = np.reshape(data, (-1, data.shape[-1]))
+    #Reshape data to dim (133, 902629)
+    data_2d = np.reshape(data, (data.shape[-1], -1))
     #Computing betas based on linear modeling with dim (2, 902629)
-    betas = npl.pinv(design).dot(data_2d.T)
-    #Reshape betas to betas_4d
+    betas = npl.pinv(design).dot(data_2d)
+    #Reshape betas to betas_4d 
     betas_4d = np.reshape(betas.T, data.shape[:-1] + (-1,)) # (91, 109, 91, 2)
     
     return (design, data_2d, betas, betas_4d)   
@@ -43,8 +43,8 @@ def reg_voxels_4d(data, convo):
 def RSE(X,Y, betas_hat): #input 2D of X, Y and betas_hat
     #Computing fitted value, residual, RSS, and return RSE
     Y_hat = X.dot(betas_hat)
-    res = Y - Y_hat.T
-    RSS = np.sum(res ** 2, 1)
+    res = Y - Y_hat
+    RSS = np.sum(res ** 2, 0)
     df = X.shape[0] - npl.matrix_rank(X)
     MRSS = RSS / df
     
@@ -139,11 +139,13 @@ if __name__ == '__main__':
     # plt.savefig('p-value-matrix.png') 
 
     plt.figure(0)
-    plt.plot(range(data_2d.shape[0]), p_value)
+    print(data_2d.shape[1], p_value.shape)
+
+    plt.plot(range(data_2d.shape[1]), p_value)
     plt.xlabel('volx')
     plt.ylabel('P-value')
     line = plt.axhline(0.1, ls='--', color = 'red')
-    plt.savefig('../../data/p_value.png')
+    plt.savefig('../../data/beta/p_value.png')
     # np.savetxt(get_name + '_p-value.txt', p_value, newline='\r\n')
 
     # plt.figure(1)
