@@ -7,16 +7,13 @@ import matplotlib.pyplot as plt
 
 def read_image(fname, i):
 	img = nib.load('../../data/sub001/BOLD/' + fname + '.nii.gz')
-	data = img.get_data()
+	data = img.get_data()[...,4:]
 
 	vol0 = data[...,10]
-	plt.figure(0)
-	plt.imshow(vol0[...,i], interpolation="nearest")
-	plt.savefig("nearest.png")
-	
-	plt.figure(1)
-	plt.imshow(vol0[...,i])
-	plt.savefig("non_nearest.png")
+	plt.imshow(vol0[...,i], interpolation="nearest", cmap = 'gray')
+	plt.colorbar()
+        plt.title('task001_bold_mcf_brain[:,:,15,10]')
+	plt.savefig("sample_image.png")
 
 if __name__ == '__main__':
 	from sys import argv
