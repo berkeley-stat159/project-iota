@@ -91,6 +91,9 @@ with other teammates with code writing or reviewing as well as slides making.
 there are questions, ask Zeyu or Yunchuan.  -Yunchuan is responsible for making
 the progress presentation report. 
 
+
+
+
 ##### To_Do_chunk_2 (Weeks 11/16 - 11/27): 
 
 1. Substitute raw data with filtered data newly uploaded.
@@ -114,11 +117,13 @@ condition files to be used for design matrix in linear modeling.
 issues and pull requests. 
 
 
+
+
 ##### To_Do_chunk_3 (Weeks 11/30 - 12/14): 
 
-1. Explore get_affine for ROIs for ANOVA and f-test.
+1. Explore get_affine for ROIs and ANOVA and f-test.
 
-2. Explore Lasso.
+2. Explore Lasso and PCA.
 
 3. Finish time series analysis.
 
