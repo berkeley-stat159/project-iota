@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import nibabel as nib
 from scipy.stats import t as t_dist
 
-def load_data(f1, f2):
+def load_data(f1, f2, f3, f4):
     """
     Return the image data as an array and the convolved time course
 
@@ -25,20 +25,24 @@ def load_data(f1, f2):
     data = img.get_data()[..., 4:]
     # Load the pre-written convolved time course
     convo = np.loadtxt('../../data/convo/' + f2 + '.txt')[4:]
-    return(data, convo)
+    start = np.loadtxt('../../data/convo/' + f3 + '.txt')[4:]
+    end = np.loadtxt('../../data/convo/' + f4 + '.txt')[4:]
+    return (data, convo, start, end)
 
-def reg_voxels_4d(data, convo):
+def reg_voxels_4d(data, convo, start, end):
     #Create design X matrix with dim (133, 2)
-    design = np.ones((len(convo), 2))
-    design[:, 1] = convo
+    design = np.ones((len(convo), 4))
+    design[:, 1] = start
+    design[:, 2] = end
+    design[:, 3] = convo
     #Reshape data to dim (133, 902629)
     data_2d = np.reshape(data, (data.shape[-1], -1))
-    #Computing betas based on linear modeling with dim (2, 902629)
+    #Computing betas based on linear modeling with dim (4, 902629)
     betas = npl.pinv(design).dot(data_2d)
     #Reshape betas to betas_4d 
-    betas_4d = np.reshape(betas.T, data.shape[:-1] + (-1,)) # (91, 109, 91, 2)
+    betas_4d = np.reshape(betas.T, data.shape[:-1] + (-1,)) # (91, 109, 91, 4)
     
-    return (design, data_2d, betas, betas_4d)   
+    return (design, data_2d, betas, betas_4d)
 
 def RSE(X,Y, betas_hat): #input 2D of X, Y and betas_hat
     #Computing fitted value, residual, RSS, and return RSE
