@@ -89,7 +89,7 @@ c_mat = np.diag(np.array(np.ones((9,))))
 # t statistics and p values
 # Length is the number of voxels after masking
 t_mat = np.ones((9, y.shape[1]))
-p_mat = np.ones((9, y.shape[1],))
+p_mat = np.zeros((9, y.shape[1],))
 for i in range(0,9,1):
     t, p = linear_modeling.t_stat(X, c_mat[:,i], beta, MRSS, df)
     t_mat[i,:] = t
@@ -106,18 +106,27 @@ p_val = linear_modeling.reshape(in_brain_mask, vol_shape, p_mat)
 # Visualizing t values for the middle slice
 fig, axes = plt.subplots(nrows=2, ncols=4)
 for i, ax in zip(range(0,8,1), axes.flat):
-    im = ax.imshow(t_val[:, :, 45, i], cmap = 'RdYlBu_r')
+    im = ax.imshow(t_val[:, :, 45, i], cmap = 'RdYlBu')
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
-#plt.show()
+plt.show()
 
-# Visualizing t values for the middle slice
+# Visualizing p values for the middle slice in color
 fig, axes = plt.subplots(nrows=2, ncols=4)
 for i, ax in zip(range(0,8,1), axes.flat):
     im = ax.imshow(p_val[:, :, 45, i], cmap = 'RdYlBu')
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
-#plt.show()
+plt.show()
+
+# Visualizing p values for the middle slice in gray
+fig, axes = plt.subplots(nrows=2, ncols=4)
+for i, ax in zip(range(0,8,1), axes.flat):
+    im = ax.imshow(p_val[:, :, 45, i], cmap = 'gray')
+fig.subplots_adjust(right=0.85)
+cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+fig.colorbar(im, cax=cax)
+plt.show()
 
