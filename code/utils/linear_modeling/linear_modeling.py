@@ -83,42 +83,10 @@ def t_stat(X, c, beta, MRSS, df):
     # calculate bottom half of t statistic
     SE = np.sqrt(MRSS * c.T.dot(npl.pinv(X.T.dot(X)).dot(c)))
     t = c.T.dot(beta) / SE
-    # Get p value for t value using cumulative density dunction
+    # Get p value for t value using cumulative density function
     # (CDF) of t distribution
-    ltp = t_dist.cdf(t, df) # lower tail p
+    ltp = t_dist.cdf(abs(t), df) # lower tail p
     p = 1 - ltp # upper tail p
 
     return t, p
-
-
-def reshape(mask, vol_shape, arr):
-    """
-    We can use 3D mask to index into 4D dataset.
-    This selects all the voxel time-courses for voxels within the brain
-    (as defined by the mask).
-
-    Parameters
-    ----------
-    mask: 3D array
-        The resulting mask of using mean volumes over time.
-    vol_shape: tuple
-        3D shape of voxels.
-    arr: 2D array (int x n_vols)
-        array to be reshaped.
-    Returns
-    -------
-    vol_reshape
-    masked voxel time-course
-
-    Intermediate step example for demonstrate:
-
-    To reshape beta:
-    b_vols = np.zeros(vol_shape + (beta.shape[0],))
-    b_vols[in_brain_mask, :] = beta.T
-    """
-    vols_reshape = np.zeros(vol_shape + (arr.shape[0],))
-    vols_reshape[mask, :] = arr.T
-
-    return vols_reshape
-
 
