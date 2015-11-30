@@ -34,7 +34,7 @@ def beta_est(y, X):
         n - rank of X.
     """
 
-    # Make sure y, X, c are all arrays
+    # Make sure y, X are all arrays
     y = np.asarray(y)
     X = np.asarray(X)
     # Calculate the parameters - b hat
