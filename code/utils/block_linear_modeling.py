@@ -99,7 +99,7 @@ if __name__ == '__main__':
     plt.ylabel('P-value')
     line = plt.axhline(0.02, ls='--', color = 'red')
     plt.savefig('../../data/beta/p_value_block.png')
-    np.savetxt(f2 + '_p-value_block.txt', p_value, newline='\r\n')
+    np.savetxt('../../data/beta/' + f2 + '_p-value_block.txt', p_value, newline='\r\n')
 
     # T value for single voxel
     plt.figure(1)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     plt.xlabel('volx')
     plt.ylabel('T-value')
     plt.savefig('../../data/beta/T_value_block.png')
-    np.savetxt(f2 + '_T-value_block.txt', t_value, newline='\r\n')
+    np.savetxt('../../data/beta/' + f2 + '_T-value_block.txt', t_value, newline='\r\n')
 
     # generate p-map
     # data_2d[p_value < 0.01,:] = 1
