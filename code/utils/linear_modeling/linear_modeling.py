@@ -64,6 +64,7 @@ def t_stat(X, c, beta, MRSS, df):
     ----------
     X: 2D array (n_trs * number of regressors)
         design matrix.
+    c: a contrast vector.
     betas: 2D array (number of regressors x n_vols)
         estimated betas for linear model.
     MRSS: 1D array of length n_volx
