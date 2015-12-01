@@ -6,7 +6,6 @@ from scipy.stats import gamma
 Given that our data condition files contains trials that are not evenly spaced,
 we created a collection of utility functions for high resolution convolution.
 
-See test_* functions in this directory for nose tests.
 """
 
 
