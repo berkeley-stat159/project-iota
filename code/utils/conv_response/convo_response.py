@@ -59,11 +59,10 @@ def rescale_cond(cond_data, n_trs, TR, tr_divs):
 
     """ fill in the high_res_neural time course"""
 
-    for hr_onset, hr_duration, amplitude in zip(high_res_onset_indices,
-                                                high_res_duration, ampl):
-		hr_onset = int(round(hr_onset))
-		hr_duration = int(round(hr_duration))
-		high_res_neural[hr_onset:hr_onset + hr_duration] = amplitude
+    for hr_onset, hr_duration, amplitude in zip(high_res_onset_indices, high_res_duration, ampl):
+        hr_onset = int(round(hr_onset))
+        hr_duration = int(round(hr_duration))
+        high_res_neural[hr_onset:hr_onset + hr_duration] = amplitude
 
     return (high_res_neural, high_res_times)
 
