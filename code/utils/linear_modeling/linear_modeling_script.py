@@ -43,9 +43,10 @@ quadratic_drift = linear_drift ** 2
 quadratic_drift -= np.mean(quadratic_drift)
 design_mat[:, 7] = quadratic_drift
 # show the design matrix graphically:
-plt.imshow(design_mat, aspect=0.1)
+plt.imshow(design_mat, aspect=0.1, cmap='gray')
 #plt.show()
 #plt.savefig('../../../data/design_matrix/design_mat.png')
+#np.savetxt('../../../data/maps/design_mat.txt', design_mat)
 
 
 ######### we take the mean volume (over time), and do a histogram of the values
@@ -54,7 +55,7 @@ plt.hist(np.ravel(mean_vol), bins=100)
 plt.xlabel('Voxels')
 plt.ylabel('Frequency')
 plt.title('Mean Volume Over Time')
-plt.show()
+#plt.show()
 #plt.savefig("../../../data/design_matrix/mean_vol.png")
 # mask out the outer-brain noise using mean volumes over time.
 in_brain_mask = mean_vol > 5000
