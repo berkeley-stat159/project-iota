@@ -70,6 +70,6 @@ log_p_values = -np.log10(p_val[..., 0])
 log_p_values[np.isnan(log_p_values)] = 0.
 log_p_values[log_p_values > 10.] = 10.
 log_p_values[log_p_values < -np.log10(0.05/137)] = 0
-plot_stat_map(nibabel.Nifti1Image(log_p_values, img.get_affine()),
+plot_stat_map(nib.Nifti1Image(log_p_values, img.get_affine()),
               mean_img, title='SW Test p-values', annotate=False,
               colorbar=True)
