@@ -113,7 +113,7 @@ def p_map(data, p_values_3d):
                   mean_img, title="p-values", annotate=False, colorbar=True)
     plt.show()
 
-def smoothing(data, smoothing_dim, mask):
+def smoothing(data, mask):
     """
     Smooth by number of voxel SD in all three spatial dimissions
     
@@ -126,7 +126,7 @@ def smoothing(data, smoothing_dim, mask):
     ----------
     Y: smoothing raw data
     """
-    smooth_data = gaussian_filter(data, smoothing_dim)
+    smooth_data = gaussian_filter(data, [2,2,2,0])
     Y = smooth_data[mask].T
 
     return Y
