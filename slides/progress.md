@@ -100,6 +100,79 @@ Since the estimate of covariance matrix of beta_hat might not be precious, so we
 	- fMRI 
 	- Coding multiple regression model and tests 
 
+# Current Analysis Progress
+
+## Linear Model
+
+1. Regression: relationship between a response/outcome (dependent) variable and one or more explanatory (independent) variables (regressors).
+2. Simple Regression (Linear Model) : fit data with a straight line.
+3. Mathematical Model:
+	- $\bold{y} = \bold{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}, \bold{X} = [1, x_1, x_2, ..., x_k]$ 
+	- Assumptions:
+		+ Linearity
+		+ The conditional variance of the error term given $\bold{X}$ is a known matrix $\boldsymbol{\Omega}$.
+		+ $E [ \boldsymbol{\epsilon} | \bold{X} ] = 0$, $Var [ \boldsymbol{\epsilon} | \bold{X} ] = \boldsymbol{\Omega}$
+
+4. Solution for linear regression $\bold{y} = \bold{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}$:
+	- Project data $\bold{y}$ onto the space of explanatory variables ($\bold{X}$)
+	- Generalized Least Square: $\hat{\boldsymbol{\beta}} = (\bold{X}^T \boldsymbol{\Omega}^{-1} \bold{X})^{-1} \bold{X}^T \boldsymbol{\Omega}^{-1} \bold{Y}$ 
+	- Student t-test for each $\beta_i   (H_0: \beta_i = 0, i = [1, 2, ..., k]$
+
+##FMRI Data
+
+1. Data partition: Data = Signal + Noise
+	- Data = acquisition from scanner (voxel-wise time series)
+	- Signal = BOLD response to stimulus; effects of interest + no interest
+		+ We don't really know the real signal 
+		+ Look for idealized components, or search for signal via repeated trials
+		+ Of interest: effect size (response amplitude) for each condition: beta
+		+ Of no interest: baseline, slow drift, head motion effects, ...
+	- Noise = components in data that interfere with signal
+		+ Practically the part we have don't know and/or we don't care about; that is, noise is the part we can't explain in the modelm
+		+ Will have to make some assumptions about its distribution
+2. Data = $baseline + slow drift + other$ $effects$ $of$ $no$ $interest + response_1 + ... + response_k + noise$
+
+## Hemodynamic Function (HDF)
+
+1. HDF for Block Design
+	1. Assuming a $h(t)$ for IRF to an instantaneous stimulus
+	2. For each block, $h(t)$ is convolved with stimulus timing and duration ($d$) to get idealized response (temporal pattern) as an explanatory variable (regressor): BLOCK($d$, $p$)
+		- Equivalent to convolving a series of consecutive events
+		- Linearity assumed within each block: plateau-like response
+		- $p$: scale HDF to 1 for easy interpretation of $\boldsymbol{\beta}$
+2. HDF for Event-Related Design
+	1. $h(t)$ for IRF to an instamntaneous stimulus
+	2. For multiple events of a condition/task, $h(t)$ is convolved with stimulus timing to get idealized response (temporal pattern) as an explanatory variable (regressor): GAM($p$, $q$)
+		- Linearity assumed when events are close with each other: overlapping impulse responses
+
+##Linear Model with IRF
+
+1. FMRI data = $baseline + slow drift + othmer$ $effects$ $of$ $no$ $interest + response_1 + ... + response_k + noise$
+2. 'baseline' = $baseline + drift + other$ $effects$ $of$ $no$ $interest$
+	- Drift: psychological/physiological effect, thermal fluctuation
+	- Data = 'baseline' + $effects$ $of$ $interest$ + $noise$
+	- $Baseline$ condition (and drift) is treated in AFNI as $baseline$, an additive effect, not an effect of interest
+3. $\bold{y} = \bold{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}, \bold{X} = [1, t, t^2, x_1, x_2, ..., x_k, ...]$ (There are two more terms with $t$ and $t^2$)
+4. In AFNI $baseline$ + slow drift is modeled with polynomials
+	- A longer run needs a higher order of polynomials
+	- With m runs, m separate sets of polynomials needed to account for temporal discontinuities across runs
+		+ $m(p+1)$ columns for $baseline$ + slow drift: with $p$-order polynomials
+5. Other typical effects of no interest: head motion effects
+
+##Design Matrix with IRF
+
+1. Voxel-wise (massively univariate) linear model: $\bold{y} = \bold{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}$
+	- $\bold{X}$: explanatory variables (regressors), same across voxels
+	- $\bold{y}$: data (time series) at a voxel, different across voxels
+	- $\boldsymbol{\beta}$: regression coefficients (effects), different across voxels
+	- $\boldsymbol{\epsilon}$: anything we can't account for, different across voxels
+2. Visualizing design matrix $\bold{X} = [1, t, t^2, x_1, x_2, ..., x_k, ...]$ in grayscale
+
+
+## Plots
+
+![P-value Map](p_value_map.png)
+
 
 
 
