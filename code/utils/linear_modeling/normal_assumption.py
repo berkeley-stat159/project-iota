@@ -21,7 +21,7 @@ def normplot(e):
     -------
     a Q-Q plot
     """
-    stats.ptobplot(e, dist = "norm", plot = plt)
+    stats.probplot(e, dist = "norm", plot = plt)
     plt.title("Normal Q-Q plot")
     plt.show()
     plt.savefig('../../../data/normal_assumption.png')
