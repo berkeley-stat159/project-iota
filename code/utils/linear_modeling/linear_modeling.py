@@ -4,6 +4,8 @@ import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import nibabel as nib
 from scipy.stats import t as t_dist
+import statsmodels.api as sm
+
 
 """ Linear_modeling.py
 
@@ -15,7 +17,7 @@ identical normal distributions around zero for each i in e_i (i.i.d).
 """
 
 
-def beta_est(y, X):
+def OLS_beta(y, X):
     """
     parameters
     ----------
@@ -56,6 +58,26 @@ def beta_est(y, X):
     MRSS = RSS / df
 
     return beta, MRSS, df
+
+def GLS_beta(y, x):
+    """
+    parameters
+    ----------
+    y: 2D array (n_vols x n_trs)
+        BOLD data.
+    X: 2D array (n_trs * number of regressors)
+        design matrix.
+
+    Returns
+    -------
+
+    """
+    beta = np.zeros((X.shape[1], y.shape[0]))
+    for i in range(y.shape[0])
+    mod = sm.GLM(np.vstack([y, 1-y]).T, sm.add_constant(X),
+                 family=sm.families.Binomial()).fit()
+
+    return mod.params
 
 
 def t_stat(X, c, beta, MRSS, df):

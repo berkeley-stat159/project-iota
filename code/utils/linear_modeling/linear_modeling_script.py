@@ -137,3 +137,7 @@ for x in range(0,9,1):
 plt.imshow(vols_reshape[:,:,45,4])
 plt.colorbar()
 plt.show()
+
+
+mod = sm.GLM(np.vstack([yy, 1-yy]).T, sm.add_constant(X), family=sm.families.Binomial()).fit()
+
