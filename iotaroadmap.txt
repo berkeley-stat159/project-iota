@@ -131,4 +131,14 @@ issues and pull requests.
 
 
 
- 
+##### To_Do_chunk_4 (After talking with Jarrod and JB)
+
+1. Block Design: 
+   a. Beta plot 
+   b. No significant p-value detected, try to choose top 50s or 100s p-value
+      and regenerate the plot.
+
+2. Time series:
+   a. DCF method. Gaussian design.
+   b. Ask Matthew for his notes on Time-series analysis.
+   c. Threshold p-value: look at residuals of edge points.
