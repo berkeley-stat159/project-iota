@@ -108,10 +108,9 @@ def p_map(data, p_values_3d):
     log_p_values = -np.log10(p_values_3d)
     log_p_values[np.isnan(log_p_values)] = 0.
     log_p_values[log_p_values > 10.] = 10.
-    log_p_values[log_p_values < -np.log10(0.01)] = 0
+    log_p_values[log_p_values < -np.log10(0.05/133)] = 0
     plot_stat_map(nib.Nifti1Image(log_p_values, fmri_img.get_affine()),
                   mean_img, title="p-values", annotate=False, colorbar=True)
-    plt.show()
 
 def smoothing(data, mask):
     """
