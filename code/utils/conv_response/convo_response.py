@@ -1,9 +1,14 @@
 from __future__ import division
 import numpy as np
 from scipy.stats import gamma
+import matplotlib.pyplot as plt
 """ conv-response.py
 
-Given that our data condition files contains trials that are not evenly spaced,
+Given that our data c
+
+
+LJ920221
+ondition files contains trials that are not evenly spaced,
 we created a collection of utility functions for high resolution convolution.
 
 """
