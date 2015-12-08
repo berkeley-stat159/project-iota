@@ -33,7 +33,6 @@ plt.xlabel('Time (seconds)')
 plt.ylabel('High resolution neural prediction')
 plt.savefig('../../../data/convo/High_resolution_neural_' + getname + '.png')
 
-
 # Use construction_conv function to get the convolved high resolution
 # hemodynamic response.
 high_res_hemo, high_res_times = convo_response.constructing_convo(high_res_neural,
