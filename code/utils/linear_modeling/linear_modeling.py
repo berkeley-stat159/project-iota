@@ -85,9 +85,9 @@ def t_stat(X, c, beta, MRSS, df):
     # calculate bottom half of t statistic
     SE = np.sqrt(MRSS * c.T.dot(npl.pinv(X.T.dot(X)).dot(c)))
     t = c.T.dot(beta) / SE
-    # Get p value for t value using cumulative density dunction
+    # Get p value for t value using cumulative density function
     # (CDF) of t distribution
-    ltp = t_dist.cdf(t, df) # lower tail p
+    ltp = t_dist.cdf(abs(t), df) # lower tail p
     p = 1 - ltp # upper tail p
 
     return t, p
@@ -115,12 +115,12 @@ def p_map(data, p_values_3d):
 def smoothing(data, mask):
     """
     Smooth by number of voxel SD in all three spatial dimissions
-    
+
     parameters
     ----------
     data: 4D array of raw data
     smoothing_dim: list of which veoxels are going to smooth
-    
+
     Returns
     ----------
     Y: smoothing raw data
@@ -129,5 +129,3 @@ def smoothing(data, mask):
     Y = smooth_data[mask].T
 
     return Y
-
-    
