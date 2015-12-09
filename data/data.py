@@ -46,20 +46,20 @@ def get_hash(directory):
     Return:
     a list of hashes for each path in directory.
     """
-    file_hashes = {}
-    for path, dirs, files in os.walk(directory):
-        for file_name in files:
-            file_path = os.path.join(path, file_name)
-            file_hashes[file_path] = generate_file_md5(file_path)
-    return file_hashes
-
+    file_paths = []
+    for path, subdirs, files in os.walk(directory):
+        for name in files:
+            file_paths.append(os.path.join(path, name))
+    dictionary = {path: generate_file_md5(path) for path in file_paths}
+    with open('sub001_hashes.json', 'w') as out:
+        json.dump(dictionary, out)
+    return dictionary
+    
 
 #get hashes for all files in all subdirectories of the decompressed 
 #ds115_sub001 directory.
 if __name__ == "__main__":
-    file_hashes = get_ash('sub001')
-    with open('sub001_hashes.json', 'w') as out:
-        json.dump(file_hashes,out)
+    file_hashes = get_hash('sub001')
     check_hashes(file_hashes)
 
 
