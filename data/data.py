@@ -5,9 +5,7 @@ import os
 import json
 
 
-d = {'./sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz': '8e47b6000460e3b266e34c871e6fc00e',
-     './sub001/BOLD/task003_run001/filtered_func_data_mni.nii.gz': '207fd1598d4785f7b217a3a3a4769430',
-     './sub001/BOLD/task002_run001/filtered_func_data_mni.nii.gz': '212c142147ea709289c2fee06a8bbe1b'}
+d = {'./sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz': '8e47b6000460e3b266e34c871e6fc00e','./sub001/BOLD/task003_run001/filtered_func_data_mni.nii.gz': '207fd1598d4785f7b217a3a3a4769430','./sub001/BOLD/task002_run001/filtered_func_data_mni.nii.gz': '212c142147ea709289c2fee06a8bbe1b'}
 
 def generate_file_md5(filename, blocksize=2**20):
     m = hashlib.md5()
