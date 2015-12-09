@@ -1,6 +1,8 @@
 from __future__ import print_function, division
 
 import json
+import sys
+from . import get_hashes
 from get_hashes import check_hashes
 
 
