@@ -30,10 +30,7 @@ from numpy.testing import assert_almost_equal
 
 import numpy as np
 
-import sys
-
-sys.path.append("code/utils")
-import pearson
+from .. import pearson
 
 
 
