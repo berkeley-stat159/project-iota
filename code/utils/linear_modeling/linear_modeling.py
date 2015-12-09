@@ -4,6 +4,9 @@ import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import nibabel as nib
 from scipy.stats import t as t_dist
+from nilearn import image
+from nilearn.plotting import plot_stat_map
+from scipy.ndimage import gaussian_filter
 
 """ Linear_modeling.py
 
@@ -13,7 +16,6 @@ with hrf, along with a few linear drift terms.
     This is OLS estimation; we assume the errors to have independent and
 identical normal distributions around zero for each i in e_i (i.i.d).
 """
-
 
 def beta_est(y, X):
     """
@@ -57,7 +59,6 @@ def beta_est(y, X):
 
     return beta, MRSS, df
 
-
 def t_stat(X, c, beta, MRSS, df):
     """
     parameters
@@ -91,3 +92,40 @@ def t_stat(X, c, beta, MRSS, df):
 
     return t, p
 
+def p_map(data, p_values_3d):
+    """
+    Generate three different views of p-map to show the voxels
+    where is significantly active
+
+    parameters
+    ----------
+    data: string contains task#_run#/filtered_func_data_mni
+    p_value_3d: 3D array of p_value
+    """
+    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + data + '.nii.gz', fwhm = 6)
+    mean_img = image.mean_img(fmri_img)
+
+    log_p_values = -np.log10(p_values_3d)
+    log_p_values[np.isnan(log_p_values)] = 0.
+    log_p_values[log_p_values > 10.] = 10.
+    log_p_values[log_p_values < -np.log10(0.05/133)] = 0
+    plot_stat_map(nib.Nifti1Image(log_p_values, fmri_img.get_affine()),
+                  mean_img, title="p-values", annotate=False, colorbar=True)
+
+def smoothing(data, mask):
+    """
+    Smooth by number of voxel SD in all three spatial dimissions
+
+    parameters
+    ----------
+    data: 4D array of raw data
+    smoothing_dim: list of which veoxels are going to smooth
+
+    Returns
+    ----------
+    Y: smoothing raw data
+    """
+    smooth_data = gaussian_filter(data, [2,2,2,0])
+    Y = smooth_data[mask].T
+
+    return Y
