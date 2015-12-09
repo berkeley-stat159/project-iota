@@ -8,11 +8,11 @@ Run with::
 # Python 3 compatibility
 from __future__ import print_function, division
 
+from numpy.testing import assert_almost_equal
+
 import numpy as np
 
 from .. import pearson
-
-from numpy.testing import assert_almost_equal
 
 
 def test_pearson_2d():
@@ -23,6 +23,6 @@ def test_pearson_2d():
     expected = np.corrcoef(x, Y.T)[0, 1:]
     actual = pearson.pearson_2d(x, Y)
     # Did you, gentle user, forget to return the value?
-    if actual is None:
-        raise RuntimeError("function returned None")
+    if actual is None:raise RuntimeError("function returned None")
+    
     assert_almost_equal(expected, actual)
