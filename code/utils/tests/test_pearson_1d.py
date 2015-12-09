@@ -47,4 +47,5 @@ def test_pearson_1d():
     # Did you, gentle user, forget to return the value?
     if actual is None:
         raise RuntimeError("function returned None")
+
     assert_almost_equal(expected, actual)
