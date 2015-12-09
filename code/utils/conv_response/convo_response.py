@@ -1,12 +1,16 @@
 from __future__ import division
 import numpy as np
 from scipy.stats import gamma
+import matplotlib.pyplot as plt
 """ conv-response.py
 
-Given that our data condition files contains trials that are not evenly spaced,
+Given that our data c
+
+
+LJ920221
+ondition files contains trials that are not evenly spaced,
 we created a collection of utility functions for high resolution convolution.
 
-See test_* functions in this directory for nose tests.
 """
 
 
@@ -59,11 +63,10 @@ def rescale_cond(cond_data, n_trs, TR, tr_divs):
 
     """ fill in the high_res_neural time course"""
 
-    for hr_onset, hr_duration, amplitude in zip(high_res_onset_indices,
-                                                high_res_duration, ampl):
-		hr_onset = int(round(hr_onset))
-		hr_duration = int(round(hr_duration))
-		high_res_neural[hr_onset:hr_onset + hr_duration] = amplitude
+    for hr_onset, hr_duration, amplitude in zip(high_res_onset_indices, high_res_duration, ampl):
+        hr_onset = int(round(hr_onset))
+        hr_duration = int(round(hr_duration))
+        high_res_neural[hr_onset:hr_onset + hr_duration] = amplitude
 
     return (high_res_neural, high_res_times)
 

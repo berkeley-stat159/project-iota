@@ -55,7 +55,8 @@ mind the assumptions we use.) and see which of the betas are significant.
 
 - Find correlations between average voxels in each ROI (Before we figure out
   ROIs, we can try to find correlation between each voxels as from lecture 12,
-Correlation per voxel, in 2D). Measure mean signal. Make a histogram of the values of correlations (values from 0 to 1), and then
+Correlation per voxel, in 2D). Measure mean signal. Make a histogram of the 
+values of correlations (values from 0 to 1), and then
 determine a cutoff threshold to determine which of the correlations are
 significant.
 
@@ -90,4 +91,54 @@ with other teammates with code writing or reviewing as well as slides making.
 there are questions, ask Zeyu or Yunchuan.  -Yunchuan is responsible for making
 the progress presentation report. 
 
- 
+
+
+
+##### To_Do_chunk_2 (Weeks 11/16 - 11/27): 
+
+1. Substitute raw data with filtered data newly uploaded.
+
+2. Review and revise and comment code for reproducibility and clarity. 
+
+3. Use lectures on to get our high resolution hemodynamic for each of the
+condition files to be used for design matrix in linear modeling. 
+
+4. Improve t-map and p-map and completely finish linear modeling.
+
+5. Do t-test on different task levels.
+
+-Zeyu is responsible for reviewing and revising code, and writing draft paper. 
+
+-Jie does the time series analysis and finish code for p-map. 
+
+-Qingyuan improves the p-map and write tests for code.
+
+-Everyone is responsible for any questions that anyone have posted through
+issues and pull requests. 
+
+
+
+
+##### To_Do_chunk_3 (Weeks 11/30 - 12/14): 
+
+1. Explore get_affine for ROIs and ANOVA and f-test.
+
+2. Explore Lasso and PCA.
+
+3. Finish time series analysis.
+
+4. Prepare for final presentation on 12/3
+
+
+
+##### To_Do_chunk_4 (After talking with Jarrod and JB)
+
+1. Block Design: 
+   a. Beta plot 
+   b. No significant p-value detected, try to choose top 50s or 100s p-value
+      and regenerate the plot.
+
+2. Time series:
+   a. DCF method. Gaussian design.
+   b. Ask Matthew for his notes on Time-series analysis.
+   c. Threshold p-value: look at residuals of edge points.
