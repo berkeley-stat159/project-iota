@@ -5,6 +5,10 @@ import os
 import json
 
 
+d = {'./sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz': '8e47b6000460e3b266e34c871e6fc00e',
+     './sub001/BOLD/task003_run001/filtered_func_data_mni.nii.gz': '207fd1598d4785f7b217a3a3a4769430',
+     './sub001/BOLD/task002_run001/filtered_func_data_mni.nii.gz': '212c142147ea709289c2fee06a8bbe1b'}
+
 def generate_file_md5(filename, blocksize=2**20):
     m = hashlib.md5()
     with open(filename, "rb") as f:
@@ -38,28 +42,11 @@ def check_hashes(d):
             all_good = False
     return all_good
 
-def get_hash(directory):
-    """
-    Parameters
-    -----------
-    directory: the path of the directory you want to make a hash list for.
-    Return:
-    a list of hashes for each path in directory.
-    """
-    file_paths = []
-    for path, subdirs, files in os.walk(directory):
-        for name in files:
-            file_paths.append(os.path.join(path, name))
-    dictionary = {path: generate_file_md5(path) for path in file_paths}
-    with open('sub001_hashes.json', 'w') as out:
-        json.dump(dictionary, out)
-    return dictionary
     
 
 #get hashes for all files in all subdirectories of the decompressed 
 #ds115_sub001 directory.
 if __name__ == "__main__":
-    file_hashes = get_hash('sub001')
-    check_hashes(file_hashes)
+    check_hashes(d)
 
 
