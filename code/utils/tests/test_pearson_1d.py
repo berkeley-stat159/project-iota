@@ -28,7 +28,10 @@ from __future__ import absolute_import, division, print_function
 
 import numpy as np
 
-from .. import pearson
+import sys
+
+sys.path.append("code/utils")
+import pearson
 
 from numpy.testing import assert_almost_equal
 
