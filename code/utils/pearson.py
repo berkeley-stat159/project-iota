@@ -12,15 +12,18 @@ from __future__ import print_function, division
 
 import numpy as np
 
-
 def pearson_1d(x, y):
     """ Pearson product-moment correlation of vectors `x` and `y`
+
+
     Parameters
     ----------
     x : array shape (N,)
         One-dimensional array to correlate with `y`
     y : array shape (N,)
         One dimensional array to correlate with `x`
+
+
     Returns
     -------
     r_xy : scalar
@@ -38,6 +41,7 @@ def pearson_1d(x, y):
     c = mc_y.dot(mc_y)
     # return a / (sqrt(b) * sqrt(c))
     return a / (np.sqrt(b) * np.sqrt(c))
+
 
 
 def pearson_2d(x, Y):
