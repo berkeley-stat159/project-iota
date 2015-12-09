@@ -4,8 +4,9 @@ import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import nibabel as nib
 from scipy.stats import t as t_dist
-import statsmodels.api as sm
-
+from nilearn import image
+from nilearn.plotting import plot_stat_map
+from scipy.ndimage import gaussian_filter
 
 """ Linear_modeling.py
 
@@ -16,8 +17,7 @@ with hrf, along with a few linear drift terms.
 identical normal distributions around zero for each i in e_i (i.i.d).
 """
 
-
-def OLS_beta(y, X):
+def beta_est(y, X):
     """
     parameters
     ----------
@@ -36,7 +36,7 @@ def OLS_beta(y, X):
         n - rank of X.
     """
 
-    # Make sure y, X, c are all arrays
+    # Make sure y, X are all arrays
     y = np.asarray(y)
     X = np.asarray(X)
     # Calculate the parameters - b hat
@@ -59,33 +59,13 @@ def OLS_beta(y, X):
 
     return beta, MRSS, df
 
-def GLS_beta(y, x):
-    """
-    parameters
-    ----------
-    y: 2D array (n_vols x n_trs)
-        BOLD data.
-    X: 2D array (n_trs * number of regressors)
-        design matrix.
-
-    Returns
-    -------
-
-    """
-    beta = np.zeros((X.shape[1], y.shape[0]))
-    for i in range(y.shape[0])
-    mod = sm.GLM(np.vstack([y, 1-y]).T, sm.add_constant(X),
-                 family=sm.families.Binomial()).fit()
-
-    return mod.params
-
-
 def t_stat(X, c, beta, MRSS, df):
     """
     parameters
     ----------
     X: 2D array (n_trs * number of regressors)
         design matrix.
+    c: a contrast vector.
     betas: 2D array (number of regressors x n_vols)
         estimated betas for linear model.
     MRSS: 1D array of length n_volx
@@ -105,10 +85,49 @@ def t_stat(X, c, beta, MRSS, df):
     # calculate bottom half of t statistic
     SE = np.sqrt(MRSS * c.T.dot(npl.pinv(X.T.dot(X)).dot(c)))
     t = c.T.dot(beta) / SE
-    # Get p value for t value using cumulative density function
+    # Get p value for t value using cumulative density dunction
     # (CDF) of t distribution
-    ltp = t_dist.cdf(abs(t), df) # lower tail p
+    ltp = t_dist.cdf(t, df) # lower tail p
     p = 1 - ltp # upper tail p
 
     return t, p
 
+def p_map(data, p_values_3d):
+    """
+    Generate three different views of p-map to show the voxels
+    where is significantly active
+
+    parameters
+    ----------
+    data: string contains task#_run#/filtered_func_data_mni
+    p_value_3d: 3D array of p_value
+    """
+    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + data + '.nii.gz', fwhm = 6)
+    mean_img = image.mean_img(fmri_img)
+
+    log_p_values = -np.log10(p_values_3d)
+    log_p_values[np.isnan(log_p_values)] = 0.
+    log_p_values[log_p_values > 10.] = 10.
+    log_p_values[log_p_values < -np.log10(0.05/133)] = 0
+    plot_stat_map(nib.Nifti1Image(log_p_values, fmri_img.get_affine()),
+                  mean_img, title="p-values", annotate=False, colorbar=True)
+
+def smoothing(data, mask):
+    """
+    Smooth by number of voxel SD in all three spatial dimissions
+    
+    parameters
+    ----------
+    data: 4D array of raw data
+    smoothing_dim: list of which veoxels are going to smooth
+    
+    Returns
+    ----------
+    Y: smoothing raw data
+    """
+    smooth_data = gaussian_filter(data, [2,2,2,0])
+    Y = smooth_data[mask].T
+
+    return Y
+
+    
