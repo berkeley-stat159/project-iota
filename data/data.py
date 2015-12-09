@@ -1,7 +1,7 @@
 from __future__ import print_function, division
 
 import json
-from get_ds115_hashes import check_hashes
+from get_hashes import check_hashes
 
 
 # check ds115_sub001 data.
