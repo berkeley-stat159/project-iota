@@ -46,7 +46,7 @@ designated N-back task. With ANOVA analysis, it is found that individuals with
 schizophrenia and their siblings show consistent reductions in connectivity
 between both the FP and CO networks with the CER network. 
 
-Instead of we narrow our focus and analysis on a single schizophrenic
+We narrow our focus and analysis on a single schizophrenic
 subject. The fMRI data in the study shows the changes in
 blood flow in the brain, and analysing this data can help us understand how
 schizophrenic brains respond during task performance. We detail in the following the steps
@@ -54,7 +54,7 @@ we take to analyse the data. We attempted both spatial and temporal smoothing on
 the voxels in order to reduce noise. We also performed spectral analysis on fMRI data to
 correct noise in the data. After preprocessing the data, we fit
 multiple linear regression model using two different sets of experiment
-conditions. Having obtained coefficient estimates, we performed student t-tests
+conditions. Having obtained coefficient estimates, we performed Student t-tests
 on each voxel to examine whether the particular voxel has show significant
 activity subject to appropriate thresholds. Performing t-tests relying on a set
 of assumptions that we need to validate. We performed the Shaprio-Wilk test to
@@ -70,7 +70,7 @@ across time. We removed the first four outlying data along the time dimension,
 which leaves us 133 images. (Need to add how to come to understand the BOLD
 signal = signal + noise, and the necessity of remove noise)
 
-\section{Linear modeling methods} 
+\section{Linear modelling methods} 
 
 The basic idea of linear models is to find the relationship between a response
 variable and one or more explanatory variables (regressors). For our purposes,
@@ -79,9 +79,9 @@ memory tasks. Mathematically, our model is as follows:
  $$ y = X \beta + \epsilon, X = \{1, x_1, x_2, ..., x_k\}$$ To perform
  hypothesis tests using this model, we assume linearity of the relationship, and
  $E [\epsilon | X ] = 0$, $Var [ \epsilon | X ] = \Omega$. We solve for linear
- regression using generalized least square: $\hat{\beta} = (X^T \Omega^-1 X^-1
- X^T \Omega^-1 Y$. After finding estimates for the $\beta_s$, we perform student
- t-test for each $\beta_i$, where $H_0: \beta_i = 0, i = [1, 2, ..., k]$.
+ regression using generalized least square: $\hat{\beta} = (X^T \Omega^{-1}
+ X)^{-1} X^T \Omega^{-1} Y$. After finding estimates for the $\beta$s, we perform Student
+ t-test for each $\beta_i$, where $H_0: \beta_i = 0, i = \{1, 2, ..., k\}$.
 
 \subsection{Block design}
 \subsubsection{Convolution and design matrix}
