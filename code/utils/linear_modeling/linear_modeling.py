@@ -58,7 +58,7 @@ def beta_est(y, X):
 
     return beta, MRSS, df
 
-def t_stat(X, c = [0,1], beta, MRSS, df):
+def t_stat(X, c, beta, MRSS, df):
     """
     parameters
     ----------
