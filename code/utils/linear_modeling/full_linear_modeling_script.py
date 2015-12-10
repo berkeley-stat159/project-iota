@@ -17,7 +17,7 @@ python full_linear_modeling_script.py task001_run001/filtered_func_data_mni
 
 ############## Load f1, the BOLD image.
 f1 = argv[1] #task001_run001/filtered_func_data_mni
-img = nib.load('../../../data/sub001/BOLD' + f1 + '.nii.gz')
+img = nib.load('../../../data/sub001/BOLD/' + f1 + '.nii.gz')
 data = img.get_data()
 data = data[..., 4:]
 
@@ -67,7 +67,7 @@ y = linear_modeling.smoothing(data, in_brain_mask)
 ############## Lastly, do t test on betas:
 X = design_mat
 
-beta, MRSS, df = linear_modeling.beta_est(y,X)
+beta, errors, MRSS, df = linear_modeling.beta_est(y,X)
 print('The mean MRSS across all voxels using all 6 study conditions is ' + str(np.mean(MRSS)))
 
 # Visualizing betas for the middle slice

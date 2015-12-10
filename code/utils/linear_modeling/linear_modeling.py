@@ -56,7 +56,7 @@ def beta_est(y, X):
     # Mean residual sum of squares
     MRSS = RSS / df
 
-    return beta, MRSS, df
+    return beta, errors, MRSS, df
 
 
 def t_stat(X, c, beta, MRSS, df):
