@@ -1,28 +1,23 @@
 from __future__ import division
-import numpy as np
-import numpy.linalg as npl
-import matplotlib.pyplot as plt
-import nibabel as nib
 from sys import argv
+import matplotlib.pyplot as plt
+import numpy as np
+import nibabel as nib
+import numpy.linalg as npl
 import linear_modeling
 
 """
-set the directory to project-iota and run below command on terminal:
+set the directory to project-iota and run:
 
-python linear_modeling_script sub001/BOLD/task001_run001/filtered_func_data_mni
+python full_linear_modeling_script sub001/BOLD/task001_run001/filtered_func_data_mni
 
 """
-
-############## set gray colormap and nearest neighbor interpolation by default
-#plt.rcParams['image.cmap'] = 'gray'
-#plt.rcParams['image.interpolation'] = 'nearest'
+#ipython test load data:
+#img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
 
 ############## Load f1, the BOLD image.
-#f1 = argv[1] # sub001/BOLD/task001_run001/bold
-# or use the filtered data: sub001/BOLD/task001_run001/filtered_func_data_mni
-
-img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
-#img = nib.load('../../../data/' + f1 + '.nii.gz')
+#f1 = argv[1] #sub001/BOLD/task001_run001/filtered_func_data_mni
+img = nib.load('../../../data/' + f1 + '.nii.gz')
 data = img.get_data()
 data = data[..., 4:]
 
@@ -35,19 +30,20 @@ vol_shape = data.shape[:-1]
 design_mat = np.ones((n_trs, 9))
 files = range(1,7,1)
 for file in files:
-    design_mat[:, (file - 1)] = np.loadtxt('../../../data/convo_prep/task001_run001_cond00'
-                                           + str(file) + '_conv.txt')[4:]
+    design_mat[:, (file - 1)] = np.loadtxt('../../../data/convo/task001_run001_conv00' +
+                                           str(file) + '.txt')[4:]
 ############## adding the linear drifter terms to the design matrix
 linear_drift = np.linspace(-1, 1, n_trs)
 design_mat[:, 6] = linear_drift
 quadratic_drift = linear_drift ** 2
 quadratic_drift -= np.mean(quadratic_drift)
 design_mat[:, 7] = quadratic_drift
+
 # show the design matrix graphically:
 plt.imshow(design_mat, aspect=0.1, cmap='gray')
-#plt.show()
-#plt.savefig('../../../data/design_matrix/design_mat.png')
-#np.savetxt('../../../data/maps/design_mat.txt', design_mat)
+plt.show()
+plt.savefig('../../../data/design_matrix/full_design_mat.png')
+np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
 
 
 ############## we take the mean volume (over time), and do a histogram of the values
@@ -58,20 +54,21 @@ plt.ylabel('Frequency')
 plt.title('Mean Volume Over Time')
 #plt.show()
 #plt.savefig("../../../data/design_matrix/mean_vol.png")
+
 # mask out the outer-brain noise using mean volumes over time.
 in_brain_mask = mean_vol > 8000
 # We can use this 3D mask to index into our 4D dataset.
 # This selects all the voxel time-courses for voxels within the brain
 # (as defined by the mask)
+############## Spatially smoothing the raw data
 in_brain_tcs = data[in_brain_mask, :]
-
 
 
 ############## Lastly, do t test on betas:
 y = in_brain_tcs.T
 X = design_mat
 
-beta, MRSS, df = linear_modeling.glm(y,X)
+beta, MRSS, df = linear_modeling.beta_est(y,X)
 
 # Visualizing betas for the middle slice
 # First reshape
@@ -85,6 +82,8 @@ fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
 plt.show()
+plt.savefig("../../../data/maps/full_beta.png")
+
 
 ############## To test significance of betas:
 # Create contrast matrix for each beta:
@@ -98,8 +97,8 @@ for i in range(0,9,1):
     t_mat[i,:] = t
     p_mat[i,:] = p
 # save the t values and p values in txt files.
-#np.savetxt('../../../data/maps/t_stat.txt', t_mat)
-#np.savetxt('../../../data/maps/p_val.txt', p_mat)
+np.savetxt('../../../data/maps/full_t_stat.txt', t_mat)
+np.savetxt('../../../data/maps/full_p_val.txt', p_mat)
 
 ############## Reshape t values
 t_val = np.zeros(vol_shape + (t_mat.shape[0],))
@@ -116,6 +115,7 @@ fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
 plt.show()
+plt.savefig("../../../data/maps/full_t_map.png")
 
 ############## Visualizing p values for the middle slice in gray
 fig, axes = plt.subplots(nrows=2, ncols=4)
@@ -125,8 +125,7 @@ fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
 plt.show()
-
-
+plt.savefig("../../../data/maps/full_p_map.png")
 
 ############## significant voxels
 # Create contrast matrix for each beta:
@@ -134,23 +133,7 @@ t, p = linear_modeling.t_stat(X, [1,1,1,1,1,1,0,0,0], beta, MRSS, df)
 p_mat = p
 
 ############## plotting of significant voxels
-from nilearn import image
-from nilearn.plotting import plot_stat_map
-# background brain image
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
-mean_img = image.mean_img(fmri_img)
-# reshape p values
-p_val = np.ones(vol_shape + (p_mat.shape[0],))
-p_val[in_brain_mask, :] = p_mat.T
-
-########## Beta 1 + ... + Beta 6
-log_p_values = -np.log10(p_val[..., 0])
-log_p_values[np.isnan(log_p_values)] = 0.
-log_p_values[log_p_values > 10.] = 10.
-# use Bonferroni correction
-log_p_values[log_p_values < -np.log10(0.05/137)] = 0
-plot_stat_map(nib.Nifti1Image(log_p_values, img.get_affine()),
-              mean_img, title='Thresholded p-values', annotate=False,
-              colorbar=True)
+linear_modeling.p_map(1, 1, p_val[..., 0], 0.05/137)
 plt.show()
+plt.savefig("../../../data/maps/full_sig_p_map.png")
 
