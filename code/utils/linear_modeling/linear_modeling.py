@@ -1,8 +1,8 @@
 from __future__ import division
-import numpy as np
-import numpy.linalg as npl
 import matplotlib.pyplot as plt
+import numpy as np
 import nibabel as nib
+import numpy.linalg as npl
 from scipy.stats import t as t_dist
 from nilearn import image
 from nilearn.plotting import plot_stat_map
@@ -17,7 +17,7 @@ with hrf, along with a few linear drift terms.
 identical normal distributions around zero for each i in e_i (i.i.d).
 """
 
-def glm(y, X):
+def beta_est(y, X):
     """
     parameters
     ----------
@@ -91,13 +91,15 @@ def t_stat(X, c, beta, MRSS, df):
 
     return t, p
 
-def p_map(data, p_values_3d, threshold):
+def p_map(task, run, p_values_3d, threshold = 0.05):
     """
     Generate three thresholded p-value maps.
 
     Parameters
     ----------
-    data: string contains task#_run#/filtered_func_data_mni.
+    task: a string indicates task#
+    run: a string indicates run#
+    /filtered_func_data_mni.
     p_value_3d: 3D array of p_value.
     threshold: The cutoff value to determine significant voxels.
 
@@ -105,7 +107,9 @@ def p_map(data, p_values_3d, threshold):
     -------
     threshold p-value images
     """
-    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + data + '.nii.gz', fwhm = 6)
+    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + task + run +
+    '/filtered_func_data_mni.nii.gz', fwhm = 6)
+
     mean_img = image.mean_img(fmri_img)
 
     log_p_values = -np.log10(p_values_3d)
