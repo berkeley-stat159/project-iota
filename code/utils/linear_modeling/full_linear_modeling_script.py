@@ -75,8 +75,8 @@ print('The mean MRSS across all voxels using all 6 study conditions is ' + str(n
 b_vols = np.zeros(vol_shape + (beta.shape[0],))
 b_vols[in_brain_mask, :] = beta.T
 # Then plot them on the same plot with uniform scale
-fig, axes = plt.subplots(nrows=2, ncols=4)
-for i, ax in zip(range(0,8,1), axes.flat):
+fig, axes = plt.subplots(nrows=2, ncols=3)
+for i, ax in zip(range(0,6,1), axes.flat):
     im = ax.imshow(b_vols[:, :, 45, i], cmap = 'gray')
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
@@ -108,8 +108,8 @@ p_val = np.zeros(vol_shape + (p_mat.shape[0],))
 p_val[in_brain_mask, :] = p_mat.T
 
 ############## Visualizing t values for the middle slice
-fig, axes = plt.subplots(nrows=2, ncols=4)
-for i, ax in zip(range(0,8,1), axes.flat):
+fig, axes = plt.subplots(nrows=2, ncols=3)
+for i, ax in zip(range(0,6,1), axes.flat):
     im = ax.imshow(t_val[:, :, 45, i], cmap = 'RdYlBu')
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
@@ -118,8 +118,8 @@ plt.savefig("../../../data/maps/full_t_map.png")
 plt.close()
 
 ############## Visualizing p values for the middle slice in gray
-fig, axes = plt.subplots(nrows=2, ncols=4)
-for i, ax in zip(range(0,8,1), axes.flat):
+fig, axes = plt.subplots(nrows=2, ncols=3)
+for i, ax in zip(range(0,6,1), axes.flat):
     im = ax.imshow(p_val[:, :, 45, i], cmap = 'gray')
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
