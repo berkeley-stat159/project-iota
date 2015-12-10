@@ -91,6 +91,25 @@ def t_stat(X, c, beta, MRSS, df):
 
     return t, p
 
+def smoothing(data, mask):
+    """
+    Smoothing by number of voxel SD in all three spatial dimensions
+
+    Parameters
+    ----------
+    data: 4D array of raw data
+    smoothing_dim: list of which veoxels are going to smooth
+
+    Returns
+    ----------
+    Y: 2D array: n_trs x n_voxels
+        raw data to be smoothed
+    """
+    smooth_data = gaussian_filter(data, [2,2,2,0])
+    Y = smooth_data[mask].T
+
+    return Y
+
 def p_map(task, run, p_values_3d, threshold = 0.05):
     """
     Generate three thresholded p-value maps.
@@ -119,25 +138,6 @@ def p_map(task, run, p_values_3d, threshold = 0.05):
     log_p_values[log_p_values > 10.] = 10.
     log_p_values[log_p_values < -np.log10(threshold)] = 0
     plot_stat_map(nib.Nifti1Image(log_p_values, fmri_img.get_affine()),
-                  mean_img, title="p-values", annotate=False, colorbar=True)
-
-def smoothing(data, mask):
-    """
-    Smoothing by number of voxel SD in all three spatial dimensions
-
-    Parameters
-    ----------
-    data: 4D array of raw data
-    smoothing_dim: list of which veoxels are going to smooth
-
-    Returns
-    ----------
-    Y: 2D array: n_trs x n_voxels
-        raw data to be smoothed
-    """
-    smooth_data = gaussian_filter(data, [2,2,2,0])
-    Y = smooth_data[mask].T
-
-    return Y
+                  mean_img, title="Thresholded p-values", annotate=False, colorbar=True)
 
 

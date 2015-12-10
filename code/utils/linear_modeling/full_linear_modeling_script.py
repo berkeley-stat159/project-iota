@@ -5,18 +5,23 @@ import numpy as np
 import nibabel as nib
 import numpy.linalg as npl
 import linear_modeling
+from nilearn import image
+from nilearn.plotting import plot_stat_map
+from scipy.ndimage import gaussian_filter
 
 """
-set the directory to project-iota and run:
+set the directory to project-iota and run on terminal:
+python full_linear_modeling_script.py sub001/BOLD/task001_run001/filtered_func_data_mni
 
-python full_linear_modeling_script sub001/BOLD/task001_run001/filtered_func_data_mni
+or run on ipython:
+python full_linear_modeling_script.py
 
 """
-#ipython test load data:
+##ipython test load data:
 #img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
 
 ############## Load f1, the BOLD image.
-#f1 = argv[1] #sub001/BOLD/task001_run001/filtered_func_data_mni
+f1 = argv[1] #sub001/BOLD/task001_run001/filtered_func_data_mni
 img = nib.load('../../../data/' + f1 + '.nii.gz')
 data = img.get_data()
 data = data[..., 4:]
@@ -40,9 +45,9 @@ quadratic_drift -= np.mean(quadratic_drift)
 design_mat[:, 7] = quadratic_drift
 
 # show the design matrix graphically:
-plt.imshow(design_mat, aspect=0.1, cmap='gray')
-plt.show()
+plt.imshow(design_mat, aspect=0.1, cmap='gray', interpolation = 'nearest')
 plt.savefig('../../../data/design_matrix/full_design_mat.png')
+plt.close()
 np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
 
 
@@ -61,14 +66,14 @@ in_brain_mask = mean_vol > 8000
 # This selects all the voxel time-courses for voxels within the brain
 # (as defined by the mask)
 ############## Spatially smoothing the raw data
-in_brain_tcs = data[in_brain_mask, :]
+y = linear_modeling.smoothing(data, in_brain_mask)
 
 
 ############## Lastly, do t test on betas:
-y = in_brain_tcs.T
 X = design_mat
 
 beta, MRSS, df = linear_modeling.beta_est(y,X)
+print('The mean MRSS across all voxels using all 6 study conditions is ' + str(np.mean(MRSS)))
 
 # Visualizing betas for the middle slice
 # First reshape
@@ -81,8 +86,8 @@ for i, ax in zip(range(0,8,1), axes.flat):
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
-plt.show()
 plt.savefig("../../../data/maps/full_beta.png")
+plt.close()
 
 
 ############## To test significance of betas:
@@ -114,8 +119,8 @@ for i, ax in zip(range(0,8,1), axes.flat):
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
-plt.show()
 plt.savefig("../../../data/maps/full_t_map.png")
+plt.close()
 
 ############## Visualizing p values for the middle slice in gray
 fig, axes = plt.subplots(nrows=2, ncols=4)
@@ -124,16 +129,22 @@ for i, ax in zip(range(0,8,1), axes.flat):
 fig.subplots_adjust(right=0.85)
 cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
 fig.colorbar(im, cax=cax)
-plt.show()
 plt.savefig("../../../data/maps/full_p_map.png")
+plt.close()
+
 
 ############## significant voxels
 # Create contrast matrix for each beta:
 t, p = linear_modeling.t_stat(X, [1,1,1,1,1,1,0,0,0], beta, MRSS, df)
-p_mat = p
 
+## Use Bonferroni correction for setting threshold
+threshold = 0.05/n_trs
+# the index of the voxels whose p-values are significant
+sig_pos = np.where(p <= threshold)
+print('The activated voxels under threshold of 0.05/133 are ' + str(sig_pos[1]))
 ############## plotting of significant voxels
-linear_modeling.p_map(1, 1, p_val[..., 0], 0.05/137)
-plt.show()
+p_val = np.ones(vol_shape + (p.shape[0],))
+p_val[in_brain_mask, :] = p.T
+linear_modeling.p_map(1,1, p_val[..., 0], threshold)
 plt.savefig("../../../data/maps/full_sig_p_map.png")
-
+plt.close()
