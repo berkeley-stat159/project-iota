@@ -109,7 +109,7 @@ def p_map(task, run, p_values_3d, threshold = 0.05):
     threshold p-value images
     """
     fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + 'task00' + str(task) +
-                                'run00' + str(run) + '/filtered_func_data_mni.nii.gz',
+                                '_run00' + str(run) + '/filtered_func_data_mni.nii.gz',
                                 fwhm = 6)
 
     mean_img = image.mean_img(fmri_img)
@@ -132,7 +132,8 @@ def smoothing(data, mask):
 
     Returns
     ----------
-    Y: raw data to be smoothed
+    Y: 2D array: n_trs x n_voxels
+        raw data to be smoothed
     """
     smooth_data = gaussian_filter(data, [2,2,2,0])
     Y = smooth_data[mask].T
