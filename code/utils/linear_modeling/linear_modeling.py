@@ -7,6 +7,7 @@ from scipy.stats import t as t_dist
 from nilearn import image
 from nilearn.plotting import plot_stat_map
 from scipy.ndimage import gaussian_filter
+import statsmodels.stats.diagnostic
 
 """ Linear_modeling.py
 
@@ -25,7 +26,6 @@ def beta_est(y, X):
         BOLD data.
     X: 2D array (n_trs * number of regressors)
         design matrix.
-
     Returns
     ______
     betas: 2D array (number of regressors x n_vols)
@@ -57,7 +57,7 @@ def beta_est(y, X):
     # Mean residual sum of squares
     MRSS = RSS / df
 
-    return beta, MRSS, df
+    return beta, errors, MRSS, df
 
 def t_stat(X, c, beta, MRSS, df):
     """
@@ -92,7 +92,7 @@ def t_stat(X, c, beta, MRSS, df):
 
     return t, p
 
-def p_map(data, p_values_3d):
+def p_map(f1, p_values_3d):
     """
     Generate three different views of p-map to show the voxels
     where is significantly active
@@ -102,7 +102,7 @@ def p_map(data, p_values_3d):
     data: string contains task#_run#/filtered_func_data_mni
     p_value_3d: 3D array of p_value
     """
-    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + data + '.nii.gz', fwhm = 6)
+    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz', fwhm = 6)
     mean_img = image.mean_img(fmri_img)
 
     log_p_values = -np.log10(p_values_3d)
@@ -111,6 +111,7 @@ def p_map(data, p_values_3d):
     log_p_values[log_p_values < -np.log10(0.05/133)] = 0
     plot_stat_map(nib.Nifti1Image(log_p_values, fmri_img.get_affine()),
                   mean_img, title="p-values", annotate=False, colorbar=True)
+    plt.savefig("../../../data/maps/block_p_map.png")
 
 def smoothing(data, mask):
     """
@@ -130,4 +131,6 @@ def smoothing(data, mask):
 
     return Y
 
-    
+def white_test(residual, exog):
+    _, lm_pvalue, _, _ = statsmodels.stats.diagnostic.het_white(residual, exog, retres=False)
+    return lm_pvalue  
