@@ -97,9 +97,10 @@ def p_map(task, run, p_values_3d, threshold = 0.05):
 
     Parameters
     ----------
-    task: a string indicates task#
-    run: a string indicates run#
-    /filtered_func_data_mni.
+    task: int
+        Task number
+    run: int
+        Run number
     p_value_3d: 3D array of p_value.
     threshold: The cutoff value to determine significant voxels.
 
@@ -107,8 +108,9 @@ def p_map(task, run, p_values_3d, threshold = 0.05):
     -------
     threshold p-value images
     """
-    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + task + run +
-    '/filtered_func_data_mni.nii.gz', fwhm = 6)
+    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + 'task00' + str(task) +
+                                'run00' + str(run) + '/filtered_func_data_mni.nii.gz',
+                                fwhm = 6)
 
     mean_img = image.mean_img(fmri_img)
 
