@@ -43,7 +43,7 @@ design_mat[:, 7] = quadratic_drift
 plt.imshow(design_mat, aspect=0.1, cmap='gray', interpolation = 'nearest')
 plt.savefig('../../../data/design_matrix/full_design_mat.png')
 plt.close()
-np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
+#np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
 
 
 ############## we take the mean volume (over time), and do a histogram of the values
@@ -97,8 +97,8 @@ for i in range(0,9,1):
     t_mat[i,:] = t
     p_mat[i,:] = p
 # save the t values and p values in txt files.
-np.savetxt('../../../data/maps/full_t_stat.txt', t_mat)
-np.savetxt('../../../data/maps/full_p_val.txt', p_mat)
+#np.savetxt('../../../data/maps/full_t_stat.txt', t_mat)
+#np.savetxt('../../../data/maps/full_p_val.txt', p_mat)
 
 ############## Reshape t values
 t_val = np.zeros(vol_shape + (t_mat.shape[0],))
