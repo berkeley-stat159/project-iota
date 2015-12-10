@@ -1,5 +1,4 @@
 from __future__ import division
-import matplotlib.pyplot as plt
 import numpy as np
 import nibabel as nib
 import numpy.linalg as npl
@@ -16,6 +15,7 @@ with hrf, along with a few linear drift terms.
     This is OLS estimation; we assume the errors to have independent and
 identical normal distributions around zero for each i in e_i (i.i.d).
 """
+
 
 def beta_est(y, X):
     """
@@ -58,6 +58,7 @@ def beta_est(y, X):
 
     return beta, MRSS, df
 
+
 def t_stat(X, c, beta, MRSS, df):
     """
     parameters
@@ -86,10 +87,11 @@ def t_stat(X, c, beta, MRSS, df):
     t = c.T.dot(beta) / SE
     # Get p value for t value using cumulative density dunction
     # (CDF) of t distribution
-    ltp = t_dist.cdf(t, df) # lower tail p
-    p = 1 - ltp # upper tail p
+    ltp = t_dist.cdf(t, df)  # lower tail p
+    p = 1 - ltp  # upper tail p
 
     return t, p
+
 
 def smoothing(data, mask):
     """
@@ -105,12 +107,14 @@ def smoothing(data, mask):
     Y: 2D array: n_trs x n_voxels
         raw data to be smoothed
     """
-    smooth_data = gaussian_filter(data, [2,2,2,0])
+    smooth_data = gaussian_filter(data, [2, 2, 2, 0])
+
     Y = smooth_data[mask].T
 
     return Y
 
-def p_map(task, run, p_values_3d, threshold = 0.05):
+
+def p_map(task, run, p_values_3d, threshold=0.05):
     """
     Generate three thresholded p-value maps.
 
@@ -127,9 +131,10 @@ def p_map(task, run, p_values_3d, threshold = 0.05):
     -------
     threshold p-value images
     """
-    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + 'task00' + str(task) +
-                                '_run00' + str(run) + '/filtered_func_data_mni.nii.gz',
-                                fwhm = 6)
+    fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + 'task00' +
+                                str(task) + '_run00' + str(run) +
+                                '/filtered_func_data_mni.nii.gz',
+                                fwhm=6)
 
     mean_img = image.mean_img(fmri_img)
 
@@ -138,6 +143,5 @@ def p_map(task, run, p_values_3d, threshold = 0.05):
     log_p_values[log_p_values > 10.] = 10.
     log_p_values[log_p_values < -np.log10(threshold)] = 0
     plot_stat_map(nib.Nifti1Image(log_p_values, fmri_img.get_affine()),
-                  mean_img, title="Thresholded p-values", annotate=False, colorbar=True)
-
-
+                  mean_img, title="Thresholded p-values",
+                  annotate=False, colorbar=True)

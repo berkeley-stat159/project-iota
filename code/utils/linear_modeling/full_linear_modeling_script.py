@@ -3,26 +3,21 @@ from sys import argv
 import matplotlib.pyplot as plt
 import numpy as np
 import nibabel as nib
-import numpy.linalg as npl
 import linear_modeling
-from nilearn import image
 from nilearn.plotting import plot_stat_map
-from scipy.ndimage import gaussian_filter
 
 """
 set the directory to project-iota and run on terminal:
-python full_linear_modeling_script.py sub001/BOLD/task001_run001/filtered_func_data_mni
-
-or run on ipython:
-python full_linear_modeling_script.py
+python full_linear_modeling_script.py task001_run001/filtered_func_data_mni
 
 """
-##ipython test load data:
+
+## uncomment to run in ipython:
 #img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
 
 ############## Load f1, the BOLD image.
-f1 = argv[1] #sub001/BOLD/task001_run001/filtered_func_data_mni
-img = nib.load('../../../data/' + f1 + '.nii.gz')
+f1 = argv[1] #task001_run001/filtered_func_data_mni
+img = nib.load('../../../data/sub001/BOLD' + f1 + '.nii.gz')
 data = img.get_data()
 data = data[..., 4:]
 
@@ -145,6 +140,6 @@ print('The activated voxels under threshold of 0.05/133 are ' + str(sig_pos[1]))
 ############## plotting of significant voxels
 p_val = np.ones(vol_shape + (p.shape[0],))
 p_val[in_brain_mask, :] = p.T
-linear_modeling.p_map(1,1, p_val[..., 0], threshold)
+linear_modeling.p_map(1,1, p_val[..., 0],threshold)
 plt.savefig("../../../data/maps/full_sig_p_map.png")
 plt.close()
