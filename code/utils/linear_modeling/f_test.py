@@ -34,16 +34,16 @@ def f_test(y, X, betas):
 	# For the full model: M
 	# The fitted values - y hat
 	fitted = X.dot(betas)
-	# Residual error
+	# Residuals
 	errors = y - fitted
 	# Residual sum of squares
 	RSS_M = (errors**2).sum(axis=0)
-	# Degrees of freedom is the number of observations n minus the number
+	# Degrees of freedom is the number of observations minus the number
 	# of independent regressors we have used.  If all the regressor
-	# columns in X are independent then the (matrix rank of X) == p
+	# columns in X are independent then the rank(X) = p
 	# (where p the number of columns in X). If there is one column that
 	# can be expressed as a linear sum of the other columns then
-	# (matrix rank of X) will be p - 1 - and so on.
+	# rank(X)=p - 1, and so on.
 	df = X.shape[0] - npl.matrix_rank(X)
 	# Mean residual sum of squares
 	MRSS = RSS_M / df
