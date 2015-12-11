@@ -14,8 +14,9 @@ data = img.get_data()
 n_trs = data.shape[-1]
 
 # For loop to generate all convo-reponse
-block_num = [1,4,5]
-for i in block_num:
+full_num = range(1,7,1)
+
+for i in full_num:
 	cond_data = np.loadtxt('../../../data/sub001/onsets/' + f1 + '/cond00' + str(i) + '.txt')
 	getname = f1 + '/cond00' + str(i)
 	getname = getname.replace('/', '_').replace('d', 'v')
