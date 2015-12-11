@@ -54,12 +54,16 @@ plt.savefig('../../../data/design_matrix/block_mean_data.png')
 mask = mean_data > 8000
 smooth_data = linear_modeling.smoothing(data, mask)
 
-# Block linear regression
-betas_hat, residual, s2, df = linear_modeling.beta_est(smooth_data, design) #(4, 194287)
+# test on OLS
+
+residual = linear_modeling.OLS(design, smooth_data)
+
+# Block generalized linear regression
+betas_hat, s2, df = linear_modeling.beta_est(smooth_data, design) #(4, 194287)
 np.savetxt('../../../data/beta/' + f1 + '_betas_hat_block.txt', betas_hat.T, newline='\r\n')
 print('The mean MRSS across all voxels using block study conditions is ' + str(np.mean(s2)))
 
-Filling back to raw data shape
+# Filling back to raw data shape
 beta_vols = np.zeros(vol_shape + (betas_hat.shape[0],)) #(91, 109, 91, 4)
 beta_vols[mask] = betas_hat.T
 
@@ -67,7 +71,7 @@ beta_vols[mask] = betas_hat.T
 mean_data[~mask] = np.nan
 beta_vols[~mask] = np.nan
 
-T-test on null hypothesis, assume only input variance of beta3 [0,0,0,1]
+# T-test on null hypothesis, assume only input variance of beta3 [0,0,0,1]
 t_value, p_value = linear_modeling.t_stat(design, [0,1,1,1], betas_hat, s2, df) #(1, 194287) (1, 194287)
 np.savetxt('../../../data/beta/' + f1 + '_p-value_block.txt', p_value, newline='\r\n')
 np.savetxt('../../../data/beta/' + f1 + '_T-value_block.txt', t_value, newline='\r\n')
@@ -84,108 +88,108 @@ print("Total are", len(stat_table), "Voxels, but there are only :", sum(stat_tab
 np.savetxt('../../../data/GLS/' + f1 + '_white_test_block.txt', stat_table, newline='\r\n')
 
 #========================================================================================================
-# Loading color value for cmap
-cmap_values = np.loadtxt('../../../data/color_map.txt')
-nice_cmap = matplotlib.colors.ListedColormap(cmap_values, 'color_map')
+# # Loading color value for cmap
+# cmap_values = np.loadtxt('../../../data/color_map.txt')
+# nice_cmap = matplotlib.colors.ListedColormap(cmap_values, 'color_map')
 
-# Visualizing beta_hat for the middle slice in gray
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-	im = ax.imshow(mean_data[:, i, :,], cmap='gray', alpha=0.5)
-	io = ax.imshow(beta_vols[:, i, :, 3], cmap=nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.suptitle("Middle Level for beta_hat", fontsize=20)
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_beta_middle_map.png")
+# # Visualizing beta_hat for the middle slice in gray
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+# 	im = ax.imshow(mean_data[:, i, :,], cmap='gray', alpha=0.5)
+# 	io = ax.imshow(beta_vols[:, i, :, 3], cmap=nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.suptitle("Middle Level for beta_hat", fontsize=20)
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_beta_middle_map.png")
 
-# Visualizing p values for the middle slice in gray
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-    im = ax.imshow(mean_data[:, i, :,], cmap='gray', alpha=0.5)
-    io = ax.imshow(p_vols[:, i, :, 0], cmap=nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.suptitle("Middle Level for P-value", fontsize=20)
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_p_middle_map.png")
+# # Visualizing p values for the middle slice in gray
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+#     im = ax.imshow(mean_data[:, i, :,], cmap='gray', alpha=0.5)
+#     io = ax.imshow(p_vols[:, i, :, 0], cmap=nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.suptitle("Middle Level for P-value", fontsize=20)
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_p_middle_map.png")
 
-# Visualizing t values for the middle slice
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-	im = ax.imshow(mean_data[:, i, :,], cmap='gray', alpha=0.5)
-	i0 = ax.imshow(t_vols[:, i, :, 0], cmap = nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_t_middle_map.png")
+# # Visualizing t values for the middle slice
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+# 	im = ax.imshow(mean_data[:, i, :,], cmap='gray', alpha=0.5)
+# 	i0 = ax.imshow(t_vols[:, i, :, 0], cmap = nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_t_middle_map.png")
 
-# Visualizing beta_hat for the front slice in gray
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-	im = ax.imshow(mean_data[i, :, :,], cmap='gray', alpha=0.5)
-	io = ax.imshow(beta_vols[i, :, :, 3], cmap=nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.suptitle("Front Level for beta_hat", fontsize=20)
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_beta_front_map.png")
+# # Visualizing beta_hat for the front slice in gray
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+# 	im = ax.imshow(mean_data[i, :, :,], cmap='gray', alpha=0.5)
+# 	io = ax.imshow(beta_vols[i, :, :, 3], cmap=nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.suptitle("Front Level for beta_hat", fontsize=20)
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_beta_front_map.png")
 
-# Visualizing p values for the front slice in gray
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-    im = ax.imshow(mean_data[i, :, :,], cmap='gray', alpha=0.5)
-    io = ax.imshow(p_vols[i, :, :, 0], cmap=nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.suptitle("Front Level for P-value", fontsize=20)
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_p_front_map.png")
+# # Visualizing p values for the front slice in gray
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+#     im = ax.imshow(mean_data[i, :, :,], cmap='gray', alpha=0.5)
+#     io = ax.imshow(p_vols[i, :, :, 0], cmap=nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.suptitle("Front Level for P-value", fontsize=20)
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_p_front_map.png")
 
-# Visualizing t values for the front slice
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-	im = ax.imshow(mean_data[i, :, :,], cmap='gray', alpha=0.5)
-	i0 = ax.imshow(t_vols[i, :, :, 0], cmap = nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_t_front_map.png")
+# # Visualizing t values for the front slice
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+# 	im = ax.imshow(mean_data[i, :, :,], cmap='gray', alpha=0.5)
+# 	i0 = ax.imshow(t_vols[i, :, :, 0], cmap = nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_t_front_map.png")
 
-# Visualizing beta_hat for the back slice in gray
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-	im = ax.imshow(mean_data[:, :, i,], cmap='gray', alpha=0.5)
-	io = ax.imshow(beta_vols[:, :, i, 3], cmap=nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.suptitle("Back Level for beta_hat", fontsize=20)
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_beta_back_map.png")
+# # Visualizing beta_hat for the back slice in gray
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+# 	im = ax.imshow(mean_data[:, :, i,], cmap='gray', alpha=0.5)
+# 	io = ax.imshow(beta_vols[:, :, i, 3], cmap=nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.suptitle("Back Level for beta_hat", fontsize=20)
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_beta_back_map.png")
 
-# Visualizing p values for the back slice in gray
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-    im = ax.imshow(mean_data[:, :, i,], cmap='gray', alpha=0.5)
-    io = ax.imshow(p_vols[:, :, i, 0], cmap=nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.suptitle("Back Level for P-value", fontsize=20)
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_p_back_map.png")
+# # Visualizing p values for the back slice in gray
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+#     im = ax.imshow(mean_data[:, :, i,], cmap='gray', alpha=0.5)
+#     io = ax.imshow(p_vols[:, :, i, 0], cmap=nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.suptitle("Back Level for P-value", fontsize=20)
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_p_back_map.png")
 
-# Visualizing t values for the back slice
-fig, axes = plt.subplots(nrows=4, ncols=4)
-for i, ax in zip(range(25,58,2), axes.flat):
-	im = ax.imshow(mean_data[:, :, i,], cmap='gray', alpha=0.5)
-	i0 = ax.imshow(t_vols[:, :, i, 0], cmap = nice_cmap, alpha=0.5)
-fig.subplots_adjust(right=0.85)
-cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-fig.colorbar(io, cax=cax)
-plt.savefig("../../../data/maps/block_t_back_map.png")
+# # Visualizing t values for the back slice
+# fig, axes = plt.subplots(nrows=4, ncols=4)
+# for i, ax in zip(range(25,58,2), axes.flat):
+# 	im = ax.imshow(mean_data[:, :, i,], cmap='gray', alpha=0.5)
+# 	i0 = ax.imshow(t_vols[:, :, i, 0], cmap = nice_cmap, alpha=0.5)
+# fig.subplots_adjust(right=0.85)
+# cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
+# fig.colorbar(io, cax=cax)
+# plt.savefig("../../../data/maps/block_t_back_map.png")
 
-# generate p-map
-linear_modeling.p_map(f1, p_vols)
+# # generate p-map
+# linear_modeling.p_map(f1, p_vols)
 
 # P-value of auxilliary regression
 plt.figure()
@@ -196,4 +200,4 @@ line = plt.axhline(0.01, ls='--', color = 'red')
 plt.title('Hypothesis test on Heteroscedasticity')
 plt.savefig("../../../data/GLS/block_p_auxi.png")
 
-plt.show()
+# plt.show()

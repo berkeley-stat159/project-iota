@@ -8,6 +8,7 @@ from scipy.stats import t as t_dist
 from nilearn import image
 from nilearn.plotting import plot_stat_map
 from scipy.ndimage import gaussian_filter
+import statsmodels.api as sm
 import statsmodels.stats.diagnostic
 
 """ Linear_modeling.py
@@ -19,11 +20,41 @@ with hrf, along with a few linear drift terms.
 identical normal distributions around zero for each i in e_i (i.i.d).
 """
 
+def OLS(design, y):
+    """
+    parameters
+    ----------
+    y: 2D array (n_trs x n_vols)
+        BOLD data.
+    X: 2D array (n_trs * number of regressors)
+        design matrix.
+    Returns
+    ______
+    betas: 2D array (number of regressors x n_vols)
+        estimated betas for linear model.
+    MRSS: 1D array of length n_volx
+        Mean residual sum of squares.
+    df: int
+        n - rank of X.
+    """
+    # Make sure y, X are all arrays
+    y = np.asarray(y)
+    x = np.asarray(design)
+    residuals = np.zeros(y.shape)
+
+    # Fit in OLS
+    for i in range(y.shape[1]):
+        model = sm.OLS(y[:,i],x)
+        result = model.fit()
+        residuals[:,i] = result.resid
+
+    return residuals
+
 def beta_est(y, X):
     """
     parameters
     ----------
-    y: 2D array (n_vols x n_trs)
+    y: 2D array (n_trs x n_vols)
         BOLD data.
     X: 2D array (n_trs * number of regressors)
         design matrix.
@@ -58,7 +89,7 @@ def beta_est(y, X):
     # Mean residual sum of squares
     MRSS = RSS / df
 
-    return beta, errors, MRSS, df
+    return beta, MRSS, df
 
 def t_stat(X, c, beta, MRSS, df):
     """
