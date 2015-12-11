@@ -1,5 +1,6 @@
 from __future__ import division
 import numpy as np
+import pandas as pd
 import numpy.linalg as npl
 import matplotlib.pyplot as plt
 import nibabel as nib
@@ -131,6 +132,18 @@ def smoothing(data, mask):
 
     return Y
 
-def white_test(residual, exog):
-    _, lm_pvalue, _, _ = statsmodels.stats.diagnostic.het_white(residual, exog, retres=False)
-    return lm_pvalue  
+def white_test(residual, design):
+    residual_square = np.square(residual) #(133, 194287)
+    exog = design # (133, 4)
+    stat_table = np.zeros((residual_square.shape[1], ))
+    for i in range(1, design.shape[1], 1):
+        tmp = design[:, 1:].T * design[:, i]
+        exog = np.concatenate((exog, tmp.T),1) # (133, 13)
+
+    exog = pd.DataFrame(exog.T).drop_duplicates().values
+    exog = exog.T # (133, 10)
+
+    for i in range(residual_square.shape[1]):
+        _, stat_table[i], _, _ = statsmodels.stats.diagnostic.het_white(residual_square[:, i], exog, False)
+
+    return stat_table
