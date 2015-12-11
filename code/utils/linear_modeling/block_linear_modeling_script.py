@@ -55,8 +55,7 @@ mask = mean_data > 8000
 smooth_data = linear_modeling.smoothing(data, mask)
 
 # test on OLS
-
-residual = linear_modeling.OLS(design, smooth_data)
+# residual = linear_modeling.OLS(design, smooth_data)
 
 # Block generalized linear regression
 betas_hat, s2, df = linear_modeling.beta_est(smooth_data, design) #(4, 194287)
@@ -82,10 +81,10 @@ t_vols[mask, :] = t_value.T
 p_vols = np.ones(vol_shape + (p_value.shape[0],))
 p_vols[mask, :] = p_value.T
 
-# Hypothesis test on heteroskedasticity
-stat_table = linear_modeling.white_test(residual, design) # 3868
-print("Total are", len(stat_table), "Voxels, but there are only :", sum(stat_table < (0.05/133)), "voxels whose variance of errors keep constant")
-np.savetxt('../../../data/GLS/' + f1 + '_white_test_block.txt', stat_table, newline='\r\n')
+# # Hypothesis test on heteroskedasticity
+# stat_table = linear_modeling.white_test(residual, design) # 3868
+# print("Total are", len(stat_table), "Voxels, but there are only :", sum(stat_table < (0.05/133)), "voxels whose variance of errors keep constant")
+# np.savetxt('../../../data/GLS/' + f1 + '_white_test_block.txt', stat_table, newline='\r\n')
 
 #========================================================================================================
 # # Loading color value for cmap
@@ -188,16 +187,16 @@ np.savetxt('../../../data/GLS/' + f1 + '_white_test_block.txt', stat_table, newl
 # fig.colorbar(io, cax=cax)
 # plt.savefig("../../../data/maps/block_t_back_map.png")
 
-# # generate p-map
-# linear_modeling.p_map(f1, p_vols)
+# generate p-map
+linear_modeling.p_map(1, 1, p_vols)
 
-# P-value of auxilliary regression
-plt.figure()
-plt.plot(range(stat_table.shape[0]), stat_table)
-plt.xlabel('Voxel')
-plt.ylabel('P-value of auxilliary regression')
-line = plt.axhline(0.01, ls='--', color = 'red')
-plt.title('Hypothesis test on Heteroscedasticity')
-plt.savefig("../../../data/GLS/block_p_auxi.png")
+# # P-value of auxilliary regression
+# plt.figure()
+# plt.plot(range(stat_table.shape[0]), stat_table)
+# plt.xlabel('Voxel')
+# plt.ylabel('P-value of auxilliary regression')
+# line = plt.axhline(0.01, ls='--', color = 'red')
+# plt.title('Hypothesis test on Heteroscedasticity')
+# plt.savefig("../../../data/GLS/block_p_auxi.png")
 
-# plt.show()
+plt.show()
