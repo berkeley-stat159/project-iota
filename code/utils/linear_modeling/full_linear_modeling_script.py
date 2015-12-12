@@ -67,7 +67,7 @@ y = linear_modeling.smoothing(data, in_brain_mask)
 ############## Lastly, do t test on betas:
 X = design_mat
 
-beta, error, MRSS, df = linear_modeling.beta_est(y,X)
+beta, errors, MRSS, df = linear_modeling.beta_est(y,X)
 print('The mean MRSS across all voxels using all 6 study conditions is ' + str(np.mean(MRSS)))
 np.savetxt('../../../data/beta/' + f1 + '_betas_hat_full.txt', beta, newline='\r\n')
 

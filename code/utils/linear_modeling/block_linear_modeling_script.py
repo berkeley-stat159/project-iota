@@ -58,7 +58,7 @@ smooth_data = linear_modeling.smoothing(data, mask)
 residual = linear_modeling.OLS(design, smooth_data)
 
 # Block generalized linear regression
-betas_hat, error, s2, df = linear_modeling.beta_est(smooth_data, design) #(4, 194287)
+betas_hat, errors, s2, df = linear_modeling.beta_est(smooth_data, design) #(4, 194287)
 np.savetxt('../../../data/beta/' + f1 + '_betas_hat_block.txt', betas_hat.T, newline='\r\n')
 print('The mean MRSS across all voxels using block study conditions is ' + str(np.mean(s2)))
 
