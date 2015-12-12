@@ -16,8 +16,8 @@ python full_linear_modeling_script.py task001_run001/filtered_func_data_mni
 #img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
 
 ############## Load f1, the BOLD image.
-f1 = argv[1] #task001_run001/filtered_func_data_mni
-img = nib.load('../../../data/sub001/BOLD/' + f1 + '.nii.gz')
+f1 = argv[1] #task001_run001
+img = nib.load('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz')
 data = img.get_data()
 data = data[..., 4:]
 
@@ -43,7 +43,7 @@ design_mat[:, 7] = quadratic_drift
 plt.imshow(design_mat, aspect=0.1, cmap='gray', interpolation = 'nearest')
 plt.savefig('../../../data/design_matrix/full_design_mat.png')
 plt.close()
-#np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
+np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
 
 
 ############## we take the mean volume (over time), and do a histogram of the values
@@ -52,8 +52,8 @@ plt.hist(np.ravel(mean_vol), bins=100)
 plt.xlabel('Voxels')
 plt.ylabel('Frequency')
 plt.title('Mean Volume Over Time')
-#plt.show()
-#plt.savefig("../../../data/design_matrix/mean_vol.png")
+plt.show()
+plt.savefig("../../../data/design_matrix/mean_vol.png")
 
 # mask out the outer-brain noise using mean volumes over time.
 in_brain_mask = mean_vol > 8000
@@ -69,6 +69,7 @@ X = design_mat
 
 beta, errors, MRSS, df = linear_modeling.beta_est(y,X)
 print('The mean MRSS across all voxels using all 6 study conditions is ' + str(np.mean(MRSS)))
+np.savetxt('../../../data/beta/' + f1 + '_betas_hat_full.txt', beta, newline='\r\n')
 
 # Visualizing betas for the middle slice
 # First reshape
@@ -97,8 +98,8 @@ for i in range(0,9,1):
     t_mat[i,:] = t
     p_mat[i,:] = p
 # save the t values and p values in txt files.
-#np.savetxt('../../../data/maps/full_t_stat.txt', t_mat)
-#np.savetxt('../../../data/maps/full_p_val.txt', p_mat)
+np.savetxt('../../../data/maps/full_t_stat.txt', t_mat)
+np.savetxt('../../../data/maps/full_p_val.txt', p_mat)
 
 ############## Reshape t values
 t_val = np.zeros(vol_shape + (t_mat.shape[0],))
