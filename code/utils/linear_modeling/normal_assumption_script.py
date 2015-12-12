@@ -30,7 +30,7 @@ quadratic_drift -= np.mean(quadratic_drift)
 design_mat[:, 7] = quadratic_drift
 
 ######### we take the mean volume (over time), and do a histogram of the values
-mean_vol1 = np.mean(data, axis=-1)
+mean_vol = np.mean(data, axis=-1)
 
 # mask out the outer-brain noise using mean volumes over time.
 in_brain_mask = mean_vol > 5000
