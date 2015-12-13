@@ -42,8 +42,8 @@ for i in full_num:
 	high_res_hemo, high_res_times = convo_response.constructing_convo(high_res_neural,
 	                                                  high_res_times)
 	# Write the result to a text file.
-	plt.figure()
 	np.savetxt('../../../data/convo/' + getname + '.txt', high_res_hemo)
 	plt.plot(high_res_times, high_res_hemo)
 	plt.xlabel('Time (Seconds)')
 	plt.savefig('../../../data/convo/High_resolution_' + getname + '.png')
+	plt.close()
