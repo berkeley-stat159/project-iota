@@ -16,5 +16,5 @@ Before running analysis, you should first download dataset used for our analysis
 
 - Jie Li ([`Jay4869`](https://github.com/Jay4869))
 - Zeyu Li ([`lizeyuyuz`](https://github.com/lizeyuyuz))
-- Qingyuan Zhang (['amandazhang'](https://github.com/amandazhang))
-- Yun Chuan (['ay2456'](https://github.com/ay2456))
+- Qingyuan Zhang ([`amandazhang`](https://github.com/amandazhang))
+- Yun Chuan ([`ay2456`](https://github.com/ay2456))
