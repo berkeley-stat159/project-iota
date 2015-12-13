@@ -17,6 +17,7 @@ block_list = []
 for i in block_num:
     block_list.append(f1 + '/cond00' + str(i) + '.txt')
 
+
 """
 full_list = ['task001_run001/cond001.txt', 'task001_run001/cond002.txt', 'task001_run001/cond003.txt', 'task001_run001/cond004.txt', 
 'task001_run001/cond005.txt', 'task001_run001/cond006.txt']
@@ -27,6 +28,7 @@ for i in full_num:
 
 for i in block_list:
 	block_convo = np.append(block_convo, np.loadtxt('../../../data/sub001/onsets/' + i))
+print(block_convo)
 
 for i in full_list:
 	full_convo = np.append(full_convo, np.loadtxt('../../../data/sub001/onsets/' + i))
@@ -50,3 +52,5 @@ plt.xlabel('Experiment Time')
 plt.ylabel('Study condition amplitude')
 plt.title('Full Model Condition')
 plt.savefig('../../../data/convo/' + f1 + '_full_points.png')
+
+plt.show()

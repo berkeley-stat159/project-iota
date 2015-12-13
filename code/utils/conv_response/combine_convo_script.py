@@ -37,4 +37,4 @@ plt.figure(1)
 plt.plot(full_convo)
 plt.title("Combination of all convo response")
 plt.savefig('../../../data/convo/combine_all_convo.png')
-
+plt.show()

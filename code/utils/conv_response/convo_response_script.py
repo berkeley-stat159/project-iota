@@ -31,7 +31,6 @@ for i in full_num:
 	high_res_neural, high_res_times = convo_response.rescale_cond(cond_data, n_trs,
 	                                                              TR, tr_div)
 	# Plot the high resolution convolved values
-	plt.figure()
 	plt.plot(high_res_times, high_res_neural)
 	plt.xlabel('Time (seconds)')
 	plt.ylabel('High resolution neural prediction')
@@ -46,4 +45,3 @@ for i in full_num:
 	plt.plot(high_res_times, high_res_hemo)
 	plt.xlabel('Time (Seconds)')
 	plt.savefig('../../../data/convo/High_resolution_' + getname + '.png')
-	plt.close()
