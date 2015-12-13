@@ -1,0 +1,12 @@
+\subseciton{Mean voxels mask}
+We plot sample images of the brain from three different perspectives, which 
+show how our dataset looks like. Since the paper talks about the noise 
+in the data, we average our data by time and plot a histogram to check noise 
+variance. The dataset contains a lot of signal noise at the outskirt of the 
+brain. Based on the histogram, we decide to set the threshold to 8000 which 
+includes the majority of unuseful information, so we extract the data that are 
+larger than 8000 such that all signal noise is removed.
+\begin{figure}
+\includegraphics{}
+\includegraphics{}
+\end{figure}
