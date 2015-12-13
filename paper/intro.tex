@@ -1,0 +1,41 @@
+\section{Introduction}
+
+\par The paper of which our research is based is titled ``Working memory related
+brain network connectivity in individuals with schizophrenia and their
+siblings'' \cite{repovs_barch1, repovs_barch2}. Schizophrenia is a chronic,
+severe, and disabling brain disorder. Previous studies have shown that changes
+in the function of a single brain region, or even a brain system, cannot explain
+the functional impairments seen in this illness \cite{repovs_barch1}.
+However, Repovs and Barch attempts to show that individuals with schizophrenia
+have reduced connectivity within and between neural networks, which could be a
+forward step to understanding schizophrenia. 
+
+Repov and Barch systematically examine changes in functional connectivity across
+rest and different task states in order to make an inference on characteristics
+of schizophrenia. They asseess connectivity using blood oxygen level dependent
+(BOLD) time series acquired using fMRI. They find four types of participates, individuals with
+schizophrenia, the siblings of individuals with schizophrenia, healthy controls
+and the siblings of healthy controls. They designed three working memory loads
+of an N-back task and designated four regions of interest (ROIs). The four brain
+networks are: (1) Dorsal fronto-parietal network (FP), (2) Cingulo-opercular
+network (CO), (3) Cerebellar network (CER) and (4) "Default mode" network (DMN).
+The objective of the study is to examine the altered functional connectivity
+within and between these four brain networks when the participant perform a
+designated N-back task. With ANOVA analysis, it is found that individuals with
+schizophrenia and their siblings show consistent reductions in connectivity
+between both the FP and CO networks with the CER network. 
+
+We narrow our focus and analysis on a single schizophrenic
+subject. The fMRI data in the study shows the changes in
+blood flow in the brain, and analysing this data can help us understand how
+schizophrenic brains respond during task performance. We detail in the following the steps
+we take to analyse the data. We attempted both spatial and temporal smoothing on
+the voxels in order to reduce noise. We also performed spectral analysis on fMRI data to
+correct noise in the data. After preprocessing the data, we fit
+multiple linear regression model using two different sets of experiment
+conditions. Having obtained coefficient estimates, we performed Student t-tests
+on each voxel to examine whether the particular voxel has show significant
+activity subject to appropriate thresholds. Performing t-tests relying on a set
+of assumptions that we need to validate. We performed the Shaprio-Wilk test to
+check the normality assumption.
+
