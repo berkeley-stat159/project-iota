@@ -9,12 +9,12 @@ Fall 2015 UC Berkeley
 [![Coverage Status](https://coveralls.io/repos/berkeley-stat159/project-iota/badge.svg?branch=master)](https://coveralls.io/r/berkeley-stat159/project-iota?branch=master)
 
 This repository tries to work on [Working Memory in Healthy and Schizophrenic Individuals] (https://openfmri.org/dataset/ds000115)
-Before running analysis, you should first download dataset used for our analysis. Do this by calling 'make data'.
+Before running analysis, you should first download dataset used for our analysis. Do this by calling `make data`.
 
 
 ## Contributors
 
-- Jie Li (['Jay4869'](https://github.com/Jay4869))
-- Zeyu Li (['lizeyuyuz'](https://github.com/lizeyuyuz))
+- Jie Li ([`Jay4869`](https://github.com/Jay4869))
+- Zeyu Li ([`lizeyuyuz`](https://github.com/lizeyuyuz))
 - Qingyuan Zhang (['amandazhang'](https://github.com/amandazhang))
 - Yun Chuan (['ay2456'](https://github.com/ay2456))
