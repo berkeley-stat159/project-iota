@@ -5,7 +5,6 @@ import nibabel as nib
 import matplotlib.pyplot as plt
 import linear_modeling
 import filtering
-
 """
 set the directory to project-iota and run below command on terminal:
 
@@ -21,7 +20,6 @@ f1 = argv[1] #task001_run001/filtered_func_data_mni
 img = nib.load('../../../data/sub001/BOLD/' + f1 + '.nii.gz')
 data = img.get_data()
 data = data[...,4:]
-
 
 ######### Get n_trs and voxel shape
 n_trs = data.shape[-1]
@@ -158,3 +156,14 @@ print('The activated voxels under threshold of 0.05/110 are ' + str(sig_pos[1]))
 linear_modeling.p_map(1 ,1 , p_val[..., 0], threshold)
 plt.savefig("../../../data/maps/dct_sig2_p_map.png")
 plt.close()
+
+############## CV select the model
+result = np.array([])
+
+cv = linear_modeling.split_data(y)
+for traincv, testcv in cv:
+    beta, _, _, _ = linear_modeling.beta_est(y[traincv], X[traincv])
+    errors = np.subtract(y[testcv], X[testcv].dot(beta))
+    result = np.append(result, errors.mean())
+
+print("Mean of squared errors: ", str(result.mean()))
