@@ -11,6 +11,7 @@ from nilearn.plotting import plot_stat_map
 from scipy.ndimage import gaussian_filter
 import statsmodels.api as sm
 import statsmodels.stats.diagnostic
+from sklearn import cross_validation
 
 """ Linear_modeling.py
 
@@ -195,3 +196,7 @@ def p_map(task, run, p_values_3d, threshold=0.05):
                   mean_img, title="Thresholded p-values",
                   annotate=False, colorbar=True)
 
+def split_data(smooth_data):
+    cv = cross_validation.KFold(smooth_data.shape[0], n_folds=5)
+    
+    return cv
