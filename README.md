@@ -11,7 +11,9 @@ Fall 2015 UC Berkeley
 This repository works on [Working Memory in Healthy and Schizophrenic Individuals] (https://openfmri.org/dataset/ds000115).
 Before running analysis, you should first download dataset used for our analysis. Do this by getting into `data/` directory then calling `make data`.
 
-Thanks to Jarrod Millman, Matthew Brett, Ross Barnowski and J-B Poline for their instructions throughout the semester.
+Thanks to [Jarrod Millman](https://github.com/jarrodmillman), [Matthew Brett](https://github.com/matthew-brett), [J-B Poline] (https://github.com/jbpoline) and [Ross Barnowski] (https://github.com/rossbar) for their instructions throughout the semester.
+
+
 ## Contributors
 
 - Jie Li ([`Jay4869`](https://github.com/Jay4869))
