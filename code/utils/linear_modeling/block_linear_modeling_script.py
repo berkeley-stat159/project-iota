@@ -36,7 +36,8 @@ design[:, 2] = end
 design[:, 3] = convo
 
 # Show the design matrix graphically
-plt.imshow(design, aspect=0.1, cmap='gray', interpolation = 'nearest')
+plt.figure(figsize=(8,6))
+plt.imshow(design, aspect=0.05, cmap='gray', interpolation = 'nearest')
 plt.savefig('../../../data/design_matrix/block_design_mat.png')
 
 # reshape data to 2D
@@ -188,7 +189,10 @@ fig.colorbar(io, cax=cax)
 plt.savefig("../../../data/maps/block_t_back_map.png")
 
 # generate p-map
+linear_modeling.p_map(1, 1, p_vols, 0.05)
+plt.savefig("../../../data/maps/block_p_map_0_05.png")
 linear_modeling.p_map(1, 1, p_vols, 0.05/133)
+plt.savefig("../../../data/maps/block_p_map.png")
 
 # P-value of auxilliary regression
 plt.figure()
@@ -198,5 +202,3 @@ plt.ylabel('P-value of auxilliary regression')
 line = plt.axhline(0.01, ls='--', color = 'red')
 plt.title('Hypothesis test on Heteroscedasticity')
 plt.savefig("../../../data/GLS/block_p_auxi.png")
-
-plt.show()
