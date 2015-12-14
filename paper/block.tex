@@ -6,13 +6,13 @@ define the basic relationship between neural signal and blood pressure. Here,
 we assume the error from data is followed independent and identically normal
 distribution and constant variance.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.5]{block_design_mat}
 \caption{Design Matrix for Block Design}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.5]{task001_run001_T_value_block}
 \caption{T-value of $\hat{\beta_{3}}$ in Block Design OLS}
@@ -24,7 +24,7 @@ are significantly active, we would like to reshape to 3 demission as the brain
 shape. Then, we plot the $\hat{\beta_{3}}$ and P-value of front, middle and 
 back perspectives respectively.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{subfigure}{.45\textwidth}
   \includegraphics[scale=0.4]{block_beta_front_map}
@@ -36,7 +36,7 @@ back perspectives respectively.
 \caption{Front Perspective of Brain in Block Design\label{fig:fpBrain}}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{subfigure}{.45\textwidth}
   \includegraphics[scale=0.4]{block_beta_middle_map}
@@ -48,7 +48,7 @@ back perspectives respectively.
 \caption{Middle Perspective of Brain in Block Design\label{fig:mpBrain}}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{subfigure}{.45\textwidth}
   \includegraphics[scale=0.4]{block_beta_back_map}
@@ -76,7 +76,7 @@ find many regions are highly significantly, however, if the voxels are on the
 edge of brain, most of them did not provide any information in the blood 
 pressure, which makes sense to us.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{subfigure}{.46\textwidth}
   \includegraphics[scale=0.41]{block_p_map_0_05}
@@ -104,22 +104,22 @@ least squares. If the variance of the Y is not constant, then the error variance
 will not be constant because it assumes there is linear relationship between 
 true Y and X. The most common form of such heteroscedasticity in Y is that the 
 variance of Y may increase as the mean of Y increases, for data with positive X
-and Y.
-
-We would like to apply heteroscedasticity test, called white test in order to 
+and Y. We would like to apply heteroscedasticity test, called white test in order to 
 statistical test on variance.
-1. Set the null hypothesis: no heteroscedasticity; Ha: there is heteroscedasticity
-2. Estimate by OLS, save squared residuals in $e^2$
-3. Regress $e^2$ on all variables, their squares and all possible non-redundant cross-products
-4. Form the auxiliar regression: $n R^2 ~ X^2(p)$
-5. Reject if $n R^2$ is too large
 
+\begin{enumerate}
+\item Set the null hypothesis: no heteroscedasticity; Ha: there is heteroscedasticity
+\item Estimate by OLS, save squared residuals in $e^2$
+\item Regress $e^2$ on all variables, their squares and all possible non-redundant cross-products
+\item Form the auxiliar regression: $n R^2 ~ X^2(p)$
+\item Reject if $n R^2$ is too large
+\end{enumerate}
 Intuition: The auxiliar model can be seen as trying to model the variance of 
 the error term. If the $R^2$ of this auxiliar regression were high, then we could
 explain the behavior of the squared residuals, providing evidence that they are
 not constant.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.5]{block_p_auxi}
 \caption{P value for Heteroscedasticity Test in Block Design}
