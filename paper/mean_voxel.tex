@@ -3,10 +3,17 @@ We plot sample images of the brain from three different perspectives, which
 show how our dataset looks like. Since the paper talks about the noise 
 in the data, we average our data by time and plot a histogram to check noise 
 variance. The dataset contains a lot of signal noise at the outskirt of the 
-brain. Based on the histogram, we decide to set the threshold to 8000 which 
-includes the majority of unuseful information, so we extract the data that are 
-larger than 8000 such that all signal noise is removed.
+brain. The signal in the images extends across several voxels, because nearby 
+brain locations usually have similar response to the task. However, the noise 
+in the data is mostly independent from one voxel to the next. Smoothing in 
+space therefore reduces the noise by averaging across the independent noise in 
+the voxels. Based on the histogram, we decide to set the threshold to 8000 which
+includes the majority of unuseful information, so we extract the data 
+that are larger than 8000 such that all signal noise is removed and apply the 
+gaussian filtering to smooth by 2 standard deviation in all three spatial 
+dimession.
 \begin{figure}
-\includegraphics{}
-\includegraphics{}
+\includegraphics{sample_image, block_mean_data}
+\sublabel1{sample images of brain in three perspective}
+\sublabel2{histogram of mean of data}
 \end{figure}
