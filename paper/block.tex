@@ -5,6 +5,9 @@ define the basic relationship between neural signal and blood pressure. Here,
 we assume the error from data is followed independent and identicallynormal
 distribution and constant variance.
 
+\includegrahpics{block_design_mat}
+\label{Design matrix for block desgin}
+
 \includegraphics{task001_run001_T_value_block}
 \label{T-value of $\hat{\beta_{3}}$ in block design OLS}
 
@@ -68,6 +71,12 @@ Intuition: The auxiliar model can be seen as trying to ‘model’ the variance 
 the error term. If the R^2 of this auxiliar regression were high, then we could
 explain the behavior of the squared residuals, providing evidence that they are
 not constant.
+
+\includegraphics{block_p_auxi}
+\label{P value for heteroscedasticity test in block design}
+
+In the figure, we can see only few points under the red line, which voxels are
+been rejected the null hypothesis test. 
 
 The result I got is that there are total 194287 voxels, but only 3868 voxels 
 have the significant P value which means reject our null hypothesis. Because 
