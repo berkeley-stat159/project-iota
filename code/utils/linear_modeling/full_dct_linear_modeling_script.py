@@ -8,16 +8,15 @@ import filtering
 """
 set the directory to project-iota and run below command on terminal:
 
-python full_dct_linear_modeling_script.py task001_run001/filtered_func_data_mni
-
+python full_dct_linear_modeling_script.py task001_run001
 """
 # uncomment next line to run in iPython
 #img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
 
 ######### Load f1, the BOLD image.
-f1 = argv[1] #task001_run001/filtered_func_data_mni
+f1 = argv[1] #task001_run001
 
-img = nib.load('../../../data/sub001/BOLD/' + f1 + '.nii.gz')
+img = nib.load('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz')
 data = img.get_data()
 data = data[...,4:]
 
