@@ -1,8 +1,16 @@
 \documentclass[11pt]{article} 
 \usepackage{graphicx} 
+\usepackage{float}
 \usepackage{subcaption}
 \graphicspath{{./images/}}
 \usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\setlength{\parskip}{1em}
+
+
 
 \title{Reproducing fMRI Data Analysis on Brain Connectivity} \author{ Li, Jie\\
   \texttt{Jay4869} \and Li, Zeyu\\ \texttt{lizeyuyuz} \and Yun, Chuan\\
@@ -22,17 +30,17 @@
 
 \input{data}
 
-%\input{mean_voxel}
+\input{mean_voxel}
 
 \input{convolution}
 
-%\input{block}
+\input{block}
 
 %\input{full}
 
 %\input{full_dct}
 
-%\input{normality_test}
+\input{normality_test}
 
 \bibliography{main}
 %change report to main!!!!!!!!!!

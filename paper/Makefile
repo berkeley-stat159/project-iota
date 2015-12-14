@@ -1,4 +1,4 @@
-TITLE=“main”
+TITLE="main"
 
 all:
 	pdflatex $(TITLE).tex
