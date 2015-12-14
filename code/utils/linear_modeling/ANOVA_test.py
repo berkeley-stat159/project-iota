@@ -66,9 +66,9 @@ _, _, MRSS2, df2 = linear_modeling.beta_est(y,X_2)
 RSS2 = MRSS2 * df2	
 
 ############## Compare RSS
-print("The RSS of full model is", RSS)
-print("The RSS of the model without block design is", RSS1)
-print("The RSS of the model without event related design is", RSS2)
+print("The RSS of full model is", np.mean(RSS))
+print("The RSS of the model without block design is", np.mean(RSS1))
+print("The RSS of the model without event related design is", np.mean(RSS2))
 
 
 
