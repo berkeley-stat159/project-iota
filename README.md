@@ -9,7 +9,7 @@ Fall 2015 UC Berkeley
 [![Coverage Status](https://coveralls.io/repos/berkeley-stat159/project-iota/badge.svg?branch=master)](https://coveralls.io/r/berkeley-stat159/project-iota?branch=master)
 
 This repository works on [Working Memory in Healthy and Schizophrenic Individuals] (https://openfmri.org/dataset/ds000115).
-Before running analysis, you should first download dataset used for our analysis. Do this by getting into `data/` directory then calling `make`.
+Before running analysis, you should first download dataset used for our analysis. Do this by getting into `data/` directory then calling `make data`.
 
 
 ## Contributors
