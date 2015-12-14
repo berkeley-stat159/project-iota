@@ -1,4 +1,4 @@
-\subsection{Mean voxels mask}
+\subsection{Mean Voxels Mask}
 
 We plot sample images of the brain from three different perspectives, which 
 show how our dataset looks like. Since the paper talks about the noise 
@@ -11,10 +11,10 @@ reduce the noise by smoothing in space using averaging across the independent
 noise in the voxels. Based on the histogram, we decide to set the threshold to 
 8000 which includes the majority of useless information. Then we extract the data 
 points that are larger than 8000 such that all signal noise is removed. Moreover, 
-we apply the gaussian filtering to smooth by 2 standard deviation in all three spatial 
-dimensions.
+we apply the gaussian filtering to smooth by 2 standard deviation in all three 
+spatial dimensions.
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 \centering
 \begin{subfigure}{.45\textwidth}
   \includegraphics[scale=0.4]{sample_image}
