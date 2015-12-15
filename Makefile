@@ -15,9 +15,8 @@ verbose:
 	nosetests -v code/utils data
 
 dataset:
-	cd data
-	make
-	
+	cd data && make
+
 convo:
 	python code/utils/conv_response/convo_response_script.py task001_run001
 	python code/utils/conv_response/convo_response_script.py task003_run001
@@ -31,8 +30,7 @@ modeling:
 	
 testing:
 	python code/utils/linear_modeling/ANOVA_test.py task001_run001
-	python code/utils/linear_modeling/normal_assumption_script.py
-
-paper:
-	cd paper
-	make
+	python code/utils/linear_modeling/normal_assumption_script.py task001_run001
+	python code/utils/linear_modeling/comparing_two_back.py 
+report:
+	cd paper && make
