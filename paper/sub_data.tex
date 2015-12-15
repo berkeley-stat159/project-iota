@@ -1,8 +1,8 @@
 \subsection{Bonferroni Correction}
 
-The Bonferroni correction is a multiple-comparison correction used when several
-dependent or independent statistical tests are being performed simultaneously.
-In order to avoid a lot of spurious positives, the alpha value needs to be 
+The Bonferroni correction is a multiple comparison correction method used when
+several dependent or independent statistical tests are being performed simultaneously.
+In order to avoid spurious detections, the alpha value would have to be 
 lowered to account for the number of comparisons being performed.
 
 Suppose that the model is true so that $t_{1}, \ldots, t_{n}$ have the $t(n-p-2)$
@@ -12,7 +12,7 @@ than $\alpha/2$ critical value of the $t(n-p-2)$. Therefore, we would be tagging
 $n \alpha$ of the subjects as outliers even when there are no outliers in the 
 data.
 
-To counter this, one takes a value of $\alpha$ much smaller than 0.05 while 
+To deal with this problem, one takes a value of $\alpha$ much smaller than 0.05 while 
 testing whether the $i$th observation is an outlier or not. A particularly conservative 
 value is $\alpha = 0.05/n$. In this case, one can show that the probability that at 
-least one subject is tagged as an outlier when in fact there are non is almost 0.05. 
+least one subject is tagged as an outlier when in fact there are none is almost 0.05. 

@@ -10,32 +10,34 @@ However, Repovs and Barch attempts to show that individuals with schizophrenia
 have reduced connectivity within and between neural networks, which could be a
 forward step to understanding schizophrenia. 
 
-Repov and Barch systematically examine changes in functional connectivity across
-rest and different task states in order to make an inference on characteristics
-of schizophrenia. They asses connectivity using blood oxygen level dependent
-(BOLD) time series acquired using fMRI. They find four types of participates, individuals with
-schizophrenia, the siblings of individuals with schizophrenia, healthy controls
-and the siblings of healthy controls. They designed three working memory loads
-of an N-back task and designated four regions of interest (ROIs). The four brain
+Repov and Barch systematically examined changes in functional connectivity across
+rest and different task states in order to make inferences on characteristics
+of schizophrenia. They assessed connectivity using blood oxygen level dependent
+(BOLD) time series acquired using fMRI. They found four types of participates, 
+individuals with schizophrenia, the siblings of individuals with schizophrenia, healthy 
+controls and the siblings of healthy controls. They designed three working memory 
+loads of an N-back task and designated four regions of interest (ROIs). The four brain
 networks are: (1) Dorsal fronto-parietal network (FP), (2) Cingulo-opercular
 network (CO), (3) Cerebellar network (CER) and (4) "Default mode" network (DMN).
 The objective of the study is to examine the altered functional connectivity
 within and between these four brain networks when the participant perform a
-designated N-back task. With ANOVA analysis, it is found that individuals with
-schizophrenia and their siblings show consistent reductions in connectivity
+designated N-back task. With ANOVA analysis, it was found that individuals with
+schizophrenia and their siblings showed consistent reductions in connectivity
 between both the FP and CO networks with the CER network. 
 
-We narrow our focus and analysis on a single schizophrenic
+We narrowed our focus of analysis on a single schizophrenic
 subject. The fMRI data in the study shows the changes in
-blood flow in the brain, and analyzing this data can help us understand how
-schizophrenic brains respond during task performance. We detail in the following the steps
-we take to analyze the data. We attempted both spatial and temporal smoothing on
-the voxels in order to reduce noise. We also performed spectral analysis on fMRI data to
-correct noise in the data. After preprocessing the data, we fit
-multiple linear regression model using two different sets of experiment
-conditions. Having obtained coefficient estimates, we performed Student t-tests
-on each voxel to examine whether the particular voxel has show significant
-activity subject to appropriate thresholds. Performing t-tests relying on a set
-of assumptions that we need to validate. We performed the Shaprio-Wilk test to
-check the normality assumption.
+blood flows in the brain. Analyzing this data can help us understand how
+schizophrenic brains respond during task performances. We detailed in the following the 
+steps we took to analyze the data set. We attempted both spatial and temporal 
+smoothing on the voxels in order to reduce noise variance. Having preprocessed the 
+data, we fit a multiple linear regression model using two different sets of experiment
+conditions. Having obtained coefficient estimates, we performed a Student t-test on each 
+voxel to examine whether the particular voxel has show significant activity subject to 
+appropriate thresholds. Performing t-tests relying on a set of assumptions that we need 
+to validate. We performed the Shaprio-Wilk test to check the normality assumption. In 
+addition, we performed a heteroskedasticity test (White test) that checked  the constant 
+variance and linear model assumption. We also performed ANOVA tests that compared
+different sub models. We performed cross validation (CV) to select the optimal model for 
+our data. And lastly, we compared 0-back and 2-back tests through t-test. 
 

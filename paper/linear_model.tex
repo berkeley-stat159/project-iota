@@ -1,0 +1,17 @@
+\section{Linear modeling} 
+
+The basic idea of linear models is to find the relationship between a response 
+variable and one or more explanatory variables (regressors). For our purpose, 
+we attempt to define a relationship between the BOLD signals and the working 
+memory tasks. Mathematically, our model is as follows: 
+
+$$y = X \beta + \epsilon, X = \{1, x_1, x_2, \ldots, x_k\}.$$
+
+To perform hypothesis tests using this model, we assume linearity of the 
+relationship, and $E [\epsilon | X ] = 0, Var [ \epsilon | X ] = \Omega$. We 
+solve for linear regression using generalized least square: 
+
+$$\hat{\beta} = (X^T \Omega^{-1}X)^{-1} X^T \Omega^{-1} Y.$$ 
+
+After finding estimates for the $\beta$s, we perform Student t-test for each 
+$\beta_i$, where $H_0: \beta_i = 0, i = \{1, 2, \ldots, k\}$.
