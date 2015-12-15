@@ -1,4 +1,4 @@
-\section{Convolution and design matrix}
+\section{Convolution and Design Matrix}
 
 We need a good design matrix, containing data on the explanatory variables, to
 be used in our linear models to explain as much variation in the observed fMRI
@@ -14,17 +14,12 @@ We examined the seven study conditions closely. The conditions are unusual from
 what we are familiar with in that they are consisted of fractions of durations
 and negative amplitudes. The first condition consists of
 the start-cues, the second condition consists of the task targets (amplitudes
-are all one), the third condition consists of the task non-target (the positive amplitude indicates
-correct identification of the target and the negative amplitude indicates the
+are all one), the third condition consists of the task non-target (the positive amplitude 
+indicates correct identification of the target and the negative amplitude indicates the
 non-response to the non-target), the fourth condition consists of end-cues, and
 the fifth condition consists of durations of the two task blocks. There is no
 information on what the sixth file mean, and the seventh condition consists of
 the erroneous responses.
-\includegraphics{Hight_resolution_task001_run001_conv001, High_resolution_task001_run001_conv002,
-High_resolution_task001_run001_conv003}
-\includegraphics{High_resolution_task001_run001_conv004, High_resolution_task001_run001_conv005,
-High_resolution_task001_run001_conv006}
-\label{Convolution Response from 6 Condition} 
 
 Since we were only familiar with convolution for block design, we initially used
 only the condition one, four and five, which give us the start time, the
@@ -36,8 +31,20 @@ get idealized response as an explanatory variable (a regressor included in
 design matrix). We bear in mind the limitations of this
 design matrix due to its omission of trials within each of two task blocks. 
 
-\includegrahics{combine_block_convo, combine_all_convo}
-\label{combination of block design and mixed design}
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{.33\textwidth}
+  \includegraphics[scale=0.29]{task001_run001_full_points}
+\end{subfigure}%
+\begin{subfigure}{.33\textwidth}
+  \includegraphics[scale=0.29]{combine_block_convo}
+\end{subfigure}%
+\begin{subfigure}{.33\textwidth}
+  \includegraphics[scale=0.29]{combine_all_convo}
+  \centering
+\end{subfigure}
+\caption{Combination of Block Design and Mixed Design\label{fig:Comb}}
+\end{figure}
 
 We are going to focus on the block design and mixed design in order to research
 on how the voxels work and what is the relationship between neural signal and 

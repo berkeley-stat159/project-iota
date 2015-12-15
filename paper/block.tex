@@ -1,42 +1,29 @@
-\subsection{block design}
+\subsection{Block Design}
 
 We are interested in the simple block experiment in this research, so we are 
-first to the fit block design to ordinary least sqaure regression in order to
+first to the fit block design to ordinary least square regression in order to
 define the basic relationship between neural signal and blood pressure. Here, 
 we assume the error from data is followed independent and identically normal
 distribution and constant variance.
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 \centering
 \includegraphics[scale=0.5]{block_design_mat}
 \caption{Design Matrix for Block Design}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 \centering
 \includegraphics[scale=0.5]{task001_run001_T_value_block}
 \caption{T-value of $\hat{\beta_{3}}$ in Block Design OLS}
 \end{figure}
-
 
 Since the $\hat{\beta_{3}}$ in 2 demission is not easy to recognize which voxels
 are significantly active, we would like to reshape to 3 demission as the brain 
 shape. Then, we plot the $\hat{\beta_{3}}$ and P-value of front, middle and 
 back perspectives respectively.
 
-\begin{figure}[ht]
-\centering
-\begin{subfigure}{.45\textwidth}
-  \includegraphics[scale=0.4]{block_beta_front_map}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \includegraphics[scale=0.4]{block_p_front_map}
-  \centering
-\end{subfigure}
-\caption{Front Perspective of Brain in Block Design\label{fig:fpBrain}}
-\end{figure}
-
-\begin{figure}[ht]
+\begin{figure}[!h]
 \centering
 \begin{subfigure}{.45\textwidth}
   \includegraphics[scale=0.4]{block_beta_middle_map}
@@ -48,25 +35,13 @@ back perspectives respectively.
 \caption{Middle Perspective of Brain in Block Design\label{fig:mpBrain}}
 \end{figure}
 
-\begin{figure}[ht]
-\centering
-\begin{subfigure}{.45\textwidth}
-  \includegraphics[scale=0.4]{block_beta_back_map}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \includegraphics[scale=0.4]{block_p_back_map}
-  \centering
-\end{subfigure}
-\caption{Back Perspective of Brain in Block Design\label{fig:bpBrain}}
-\end{figure}
-
 In the $\hat{\beta}$ map, the warmer color is showing $\hat{\beta}$ is 
-bigger, which means there is higher positive relationship between nerual signal and
+bigger, which means there is higher positive relationship between neural signal and
 blood pressure. However, if the color is more likely yellow, it means 
 $\hat{\beta}$ is close to 0, so there is less or no relation at all. 
 Therefore, We think the voxels are highly active during the experiment test 
 located at the center of front and back brain. On the other hand, in the middle
-brain, majority of voxel are showing the negative relationship between nerual
+brain, majority of voxel are showing the negative relationship between neural
 signal and blood pressure.
 
 In the p-value map, the dark region is showing higher confidence on the 
@@ -76,7 +51,7 @@ find many regions are highly significantly, however, if the voxels are on the
 edge of brain, most of them did not provide any information in the blood 
 pressure, which makes sense to us.
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 \centering
 \begin{subfigure}{.46\textwidth}
   \includegraphics[scale=0.41]{block_p_map_0_05}
@@ -91,7 +66,7 @@ pressure, which makes sense to us.
 
 In the left image, we set the threshold to 0.05, so find the red region contains
 highly significant active voxels. In the right image, as Bonferroni correction
-theroy, we decide to set the threshold to 0.05/133, then we get a few very 
+theory, we decide to set the threshold to 0.05/133, then we get a few very 
 significant regions. However, most of them are located at the edge of brain, 
 which does not make sense in the common knowledge. Therefore, we did not firmly
 believe this results, so in the next section, we are going to check heteroscedasticity
@@ -119,7 +94,7 @@ the error term. If the $R^2$ of this auxiliar regression were high, then we coul
 explain the behavior of the squared residuals, providing evidence that they are
 not constant.
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 \centering
 \includegraphics[scale=0.5]{block_p_auxi}
 \caption{P value for Heteroscedasticity Test in Block Design}
