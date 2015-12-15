@@ -8,14 +8,17 @@ distribution and constant variance.
 
 \begin{figure}[!h]
 \centering
-\includegraphics[scale=0.5]{block_design_mat}
-\caption{Design Matrix for Block Design}
-\end{figure}
-
-\begin{figure}[!h]
+\begin{subfigure}{.42\textwidth}
+\includegraphics[scale=0.45]{block_design_mat}
 \centering
-\includegraphics[scale=0.5]{task001_run001_T_value_block}
-\caption{T-value of $\hat{\beta_{3}}$ in Block Design OLS}
+\caption{Design Matrix for Block Design\label{fig:blockDM}}
+\end{subfigure}%
+\begin{subfigure}{.48\textwidth}
+\includegraphics[scale=0.45]{task001_run001_T_value_block}
+\centering
+\caption{T-value of $\hat{\beta_{3}}$ in Block Design OLS\label{fig:tvalOLS}}
+\end{subfigure}
+\caption{Block Design Model\label{fig:blockDM}}
 \end{figure}
 
 Since the $\hat{\beta_{3}}$ in 2 demission is not easy to recognize which voxels
