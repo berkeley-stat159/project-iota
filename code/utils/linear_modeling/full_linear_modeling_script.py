@@ -43,17 +43,9 @@ design_mat[:, 7] = quadratic_drift
 plt.imshow(design_mat, aspect=0.1, cmap='gray', interpolation = 'nearest')
 plt.savefig('../../../data/design_matrix/full_design_mat.png')
 plt.close()
-np.savetxt('../../../data/design_matrix/full_design_mat.txt', design_mat)
-
 
 ############## we take the mean volume (over time), and do a histogram of the values
 mean_vol = np.mean(data, axis=-1)
-plt.hist(np.ravel(mean_vol), bins=100)
-plt.xlabel('Voxels')
-plt.ylabel('Frequency')
-plt.title('Mean Volume Over Time')
-plt.show()
-plt.savefig("../../../data/design_matrix/mean_vol.png")
 
 # mask out the outer-brain noise using mean volumes over time.
 in_brain_mask = mean_vol > 8000
@@ -63,12 +55,12 @@ in_brain_mask = mean_vol > 8000
 ############## Spatially smoothing the raw data
 y = linear_modeling.smoothing(data, in_brain_mask)
 
-
 ############## Lastly, do t test on betas:
 X = design_mat
+np.savetxt('../../../data/design_matrix/full_design_mat.txt', X)
 
 beta, errors, MRSS, df = linear_modeling.beta_est(y,X)
-print('The mean MRSS across all voxels using all 6 study conditions is ' + str(np.mean(MRSS)))
+print('The mean MRSS across all voxels in mixed design is ' + str(np.mean(MRSS)))
 np.savetxt('../../../data/beta/' + f1 + '_betas_hat_full.txt', beta, newline='\r\n')
 
 # Visualizing betas for the middle slice
@@ -149,8 +141,9 @@ result = np.array([])
 
 cv = linear_modeling.split_data(y)
 for traincv, testcv in cv:
-	beta, _, _, _ = linear_modeling.beta_est(y[traincv], X[traincv])
-	errors = np.subtract(y[testcv], X[testcv].dot(beta))
-	result = np.append(result, errors.mean())
+    beta, _, _, _ = linear_modeling.beta_est(y[traincv], X[traincv])
+    errors = np.subtract(y[testcv], X[testcv].dot(beta))
+    RSS = (errors**2).sum(0)
+    result = np.append(result, RSS.mean())
 
-print("Mean of squared errors: ", str(result.mean()))
+print("Mean of squared errors (mixed design no dct): ", str(result.mean()))
