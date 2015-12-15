@@ -68,7 +68,7 @@ RSS2 = MRSS2 * df2
 ############## Compare RSS
 print("The RSS of full model is", np.mean(RSS))
 print("The RSS of the model without block design is", np.mean(RSS1))
-print("The RSS of the model without event related design is", np.mean(RSS2))
+print("The RSS of the model without mixed design is", np.mean(RSS2))
 
 
 
