@@ -18,6 +18,9 @@ dataset:
 	cd data
 	make
 
+sample:
+	python code/utils/simple_plot.py task001_run001
+
 convo:
 	python code/utils/conv_response/convo_response_script.py task001_run001
 	python code/utils/conv_response/convo_response_script.py task003_run001
@@ -31,6 +34,8 @@ modeling:
 	python code/utils/linear_modeling/full_linear_modeling_script.py task003_run001
 	python code/utils/linear_modeling/full_dct_linear_modeling_script.py task001_run001
 	
-testing:
+diagnostic:
 	python code/utils/linear_modeling/ANOVA_test.py
 	python code/utils/linear_modeling/normal_assumption_script.py
+	python code/utils/linear_modeling/comparing_two_back.py
+
