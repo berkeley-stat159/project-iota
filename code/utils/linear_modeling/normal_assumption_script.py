@@ -8,8 +8,11 @@ import nibable as nib
 import linear_modeling
 import normal_assumption
 import filtering
+from sys import argv
 
-img = nib.load("../../../data/sub001/BOLD/task003_run001/filtered_func_data_mni.nii.gz")
+f1 = argv[1]
+
+img = nib.load('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz')
 data = img.get_data()[...,4:]
 
 ######### Get n_trs and voxel shape
@@ -47,7 +50,7 @@ beta, errors, RSS, df = linear_modeling.beta_est(data, X)
 pval = normal_assumption.sw(errors)
 
 # smoothing
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
+fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz', fwhm=6)
 mean_img = image.mean_img(fmri_img)
 # Thresholding
 p_val = np.ones(vol_shape + (pval.shape[1],))
@@ -77,7 +80,7 @@ beta, errors, RSS, df = linear_modeling.beta_est(y, X)
 pval = normal_assumption.sw(errors)
 
 # smoothing
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
+fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz', fwhm=6)
 mean_img = image.mean_img(fmri_img)
 # Thresholding
 p_val = np.ones(vol_shape + (pval.shape[1],))
@@ -113,18 +116,16 @@ quadratic_drift -= np.mean(quadratic_drift)
 design_mat[:, 7] = quadratic_drift
 X = design_mat
 
-<<<<<<< HEAD
 beta, errors, MRSS, df = linear_modeling.beta_est(data,X)
-=======
+
 ######### we take the mean volume (over time), and do a histogram of the values
 mean_vol = np.mean(data, axis=-1)
->>>>>>> 032453df9dd9760082d8f325cd918bbdc25d4a50
 
 pval = normal_assumption.sw(errors)
 
 
 # smoothing
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
+fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz', fwhm=6)
 mean_img = image.mean_img(fmri_img)
 # Thresholding
 p_val = np.ones(vol_shape + (pval.shape[1],))
@@ -162,7 +163,7 @@ pval = normal_assumption.sw(errors)
 
 
 # smoothing
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
+fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz', fwhm=6)
 mean_img = image.mean_img(fmri_img)
 # Thresholding
 p_val = np.ones(vol_shape + (pval.shape[1],))
@@ -214,7 +215,7 @@ pval = normal_assumption.sw(errors)
 
 
 # smoothing
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
+fmri_img = image.smooth_img('../../../data/sub001/BOLD/'+ f1 + '/filtered_func_data_mni.nii.gz', fwhm=6)
 mean_img = image.mean_img(fmri_img)
 # Thresholding
 p_val = np.ones(vol_shape + (pval.shape[1],))
@@ -263,7 +264,7 @@ pval = normal_assumption.sw(errors)
 
 
 # smoothing
-fmri_img = image.smooth_img('../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz', fwhm=6)
+fmri_img = image.smooth_img('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz', fwhm=6)
 mean_img = image.mean_img(fmri_img)
 # Thresholding
 p_val = np.ones(vol_shape + (pval.shape[1],))
