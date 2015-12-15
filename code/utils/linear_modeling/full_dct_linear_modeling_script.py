@@ -8,16 +8,15 @@ import filtering
 """
 set the directory to project-iota and run below command on terminal:
 
-python full_dct_linear_modeling_script.py task001_run001/filtered_func_data_mni
-
+python full_dct_linear_modeling_script.py task001_run001
 """
 # uncomment next line to run in iPython
 #img = nib.load("../../../data/sub001/BOLD/task001_run001/filtered_func_data_mni.nii.gz")
 
 ######### Load f1, the BOLD image.
-f1 = argv[1] #task001_run001/filtered_func_data_mni
+f1 = argv[1] #task001_run001
 
-img = nib.load('../../../data/sub001/BOLD/' + f1 + '.nii.gz')
+img = nib.load('../../../data/sub001/BOLD/' + f1 + '/filtered_func_data_mni.nii.gz')
 data = img.get_data()
 data = data[...,4:]
 
@@ -72,9 +71,11 @@ y = linear_modeling.smoothing(data, in_brain_mask)
 
 ######### Lastly, do t test on betas:
 X = dct_design_mat
+np.savetxt('../../../data/design_matrix/full_dct_design_mat.txt', X)
 
 beta, errors, MRSS, df = linear_modeling.beta_est(y,X)
-print('The mean MRSS across all voxels using all 6 study conditions is ' + str(np.mean(MRSS)))
+print('The mean MRSS across all voxels in mixed design is ' + str(np.mean(MRSS)))
+np.savetxt('../../../data/beta/' + f1 + '_betas_hat_full_dct.txt', beta, newline='\r\n')
 
 # Visualizing betas for the middle slice
 # First reshape
@@ -164,6 +165,7 @@ cv = linear_modeling.split_data(y)
 for traincv, testcv in cv:
     beta, _, _, _ = linear_modeling.beta_est(y[traincv], X[traincv])
     errors = np.subtract(y[testcv], X[testcv].dot(beta))
-    result = np.append(result, errors.mean())
+    RSS = (errors**2).sum(0)
+    result = np.append(result, RSS.mean())
 
-print("Mean of squared errors: ", str(result.mean()))
+print("Mean of squared errors (mixed design with dct): ", str(result.mean()))

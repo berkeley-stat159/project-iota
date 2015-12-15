@@ -23,37 +23,6 @@ def read_image(fname):
 
 	return data
 
-# def faster_correlation(fname, data):
-# 	n_trs = data.shape[-1]
-
-# 	# Get on-off timecourse
-# 	time_course = stimuli.events2neural('../../data/sub001/onsets/' + f1 + '/cond002.txt', 2.5, n_trs)
-
-# 	# Calculate the number of voxels (number of elements in one volume)
-# 	n_voxels = np.prod(data.shape[:-1])
-
-# 	# Reshape 4D array to 2D array n_voxels by n_volumes
-# 	data_2d = np.reshape(data, (n_voxels, data.shape[-1]))
-	
-# 	# Transpose 2D array to n_trs x n_vols
-# 	data_2d_T = data_2d.T
-
-# 	# Calculate 1D vector length n_voxels of correlation coefficients
-# 	correlation_1d = pearson.pearson_2d(time_course, data_2d_T)
-
-# 	# Reshape the correlations array back to 3D
-# 	correlation_3d = correlation_1d.reshape(data.shape[:-1])
-	
-# 	# Plot middle level correlation
-# 	fig, axes = plt.subplots(nrows=4, ncols=4)
-# 	for i, ax in zip(range(25,109,3), axes.flat):
-# 		im = ax.imshow(correlation_3d[:, i, ], cmap='gray', alpha=0.5)
-# 	fig.subplots_adjust(right=0.85)
-# 	cax = fig.add_axes([0.9, 0.15, 0.03, 0.7])
-# 	fig.suptitle("Middle Level of correlations for brain", fontsize=20)
-# 	fig.colorbar(im, cax=cax)
-# 	plt.savefig("../../data/middle_correlation.png")	
-
 if __name__ == '__main__':
 	from sys import argv
 
