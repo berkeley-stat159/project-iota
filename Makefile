@@ -9,28 +9,36 @@ coverage:
 	nosetests code/utils/tests data/tests --with-coverage --cover-package=data  --cover-package=utils
 
 test:
-	nosetests code/utils/tests/data/tests
+	nosetests code/utils/tests data/tests
 
 verbose:
 	nosetests -v code/utils data
 
 dataset:
-	cd data
-	make
+	cd data && make
+	cd ../
 
 convo:
-	python code/utils/conv_response/convo_response_script.py task001_run001
-	python code/utils/conv_response/convo_response_script.py task003_run001
-	python code/utils/conv_response/combine_convo_point_script.py task001_run001
-	python code/utils/conv_response/combine_convo_point_script.py task003_run001
+	cd code/utils/conv_response/
+	python convo_response_script.py task001_run001
+	python convo_response_script.py task003_run001
+	python combine_convo_point_script.py task001_run001
+	cd ../../../
 
 modeling:
-	python code/utils/linear_modeling/block_linear_modeling_script.py task001_run001
-	python code/utils/linear_modeling/block_linear_modeling_script.py task003_run001
-	python code/utils/linear_modeling/full_linear_modeling_script.py task001_run001
-	python code/utils/linear_modeling/full_linear_modeling_script.py task003_run001
-	python code/utils/linear_modeling/full_dct_linear_modeling_script.py task001_run001
-	
+	cd code/utils/linear_modeling/
+	python block_linear_modeling_script.py task001_run001
+	python full_linear_modeling_script.py task001_run001
+	python full_linear_modeling_script.py task003_run001
+	python full_dct_linear_modeling_script.py task001_run001
+	cd ../../../
 testing:
-	python code/utils/linear_modeling/ANOVA_test.py
-	python code/utils/linear_modeling/normal_assumption_script.py
+	cd code/utils/linear_modeling/
+	python ANOVA_test.py task001_run001
+	python normal_assumption_script.py task001_run001 
+	python comparing_two_back.py	
+	cd ../../../
+
+report:
+	cd paper && make
+	cd ../
