@@ -1,0 +1,34 @@
+\subsection{ANOVA Test}
+
+First of all, ideally, since the block design is highly correlated to trial 
+design, we might get the collinearity issue in our model, we would like to check
+that and keep only either one design that would be good enough for our generalized 
+linear regression model. To address this question, we apply ANOVA test to figure which
+design will be the best candidate. In the null hypothesis, we would like to test 
+$\widehat{\beta_{block}}$ = 0 or $\widehat{\beta_{trial}}$ = 0, and we would prefer the 
+model that has the lowest residual sum of square (RSS). The RSSs we obtained from 
+the ANOVA test are 253183.7, 263744.3, 260204.09 for mixed design, model without 
+block design, and model without trial design, respectively. Since he mixed design model 
+has the lowest RSS, we decide to choose the mixed model to do further analysis.
+
+\subsection{Cross Validation}
+
+Since we have already tested the mixed design model with ANOVA, we would like to 
+apply a 5-folds cross validation (CV) to select a model from the mixed models with 
+and without discrete cosine transformation (DCT), and we are going to select a model
+base on cross validation score, calculated as the mean of squared errors (MSE). 
+Mean of squared errors (mixed design no dct): 71461.0961108, 
+Mean of squared errors (mixed design with dct): 191332664.585. 
+Therefore, the final model we select is the mixed design model without DCT 
+because its MSE is the lower one. 
+
+\subsection{Comparing 2-back and 0-back}
+
+Finally, in the experiment design, we know the 2-back test asks for two letters back, 
+while 0-back asks for a specified letter. We are interested in find the voxels that responded 
+differently when performing these two tasks. We fitted our final design models to 
+both 0-back and 2-back task, and obtained $\hat{\beta}$ from each model. We set the null 
+hypothesis test for t-test to be $\widehat{\beta_{0-back}}$ - $\widehat{\beta_{2-back}}$ = 0. 
+We reject the null hypothesis test if the p value is lower than 0.05/133 from Bonferroni 
+correction. We found only 108 voxels that rejected the null hypothesis, meaning that these 
+voxels in the brain responded differently when performing 0-back and 2-back tasks. 

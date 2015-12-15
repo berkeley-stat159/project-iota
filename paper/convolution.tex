@@ -2,11 +2,12 @@
 
 We need a good design matrix, containing data on the explanatory variables, to
 be used in our linear models to explain as much variation in the observed fMRI
-data as possible. We studied the design of the experiment closely. fMRI scans were
-acquired while participants perform specified memory tasks. They are to respond
-for each letter shown whether it was the same as a pre-specified letter
-(0-back), the same as the immediately preceding letter (1-back), or the same as
-the letter shown two trials previously (2-back). For our subject, there were
+data as possible. We studied the design of the N-back experiment closely. fMRI 
+scans were acquired while participants perform specified memory tasks. They 
+are to respond to each letter shown as to whether it was the same as a 
+pre-specified letter (0-back), the same as the immediately preceding letter 
+(1-back), or the same as the letter shown two trials previously (2-back). 
+For our subject, there were
 three BOLD runs, each consisting of two blocks of 0-back, 1-back, or 2-back
 working memory task. 
 
@@ -19,7 +20,7 @@ indicates correct identification of the target and the negative amplitude indica
 non-response to the non-target), the fourth condition consists of end-cues, and
 the fifth condition consists of durations of the two task blocks. There is no
 information on what the sixth file mean, and the seventh condition consists of
-the erroneous responses.
+the erroneous responses. All figures about convolution response are in the Appendix.
 
 Since we were only familiar with convolution for block design, we initially used
 only the condition one, four and five, which give us the start time, the
@@ -47,5 +48,5 @@ design matrix due to its omission of trials within each of two task blocks.
 \end{figure}
 
 We are going to focus on the block design and mixed design in order to research
-on how the voxels work and what is the relationship between neural signal and 
-blood pressure.
+on the behaviors of individual voxels and the relationship between blood flows and 
+task stimulus. 
