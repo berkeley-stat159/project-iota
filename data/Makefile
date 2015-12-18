@@ -17,5 +17,3 @@ data:
 	mv nipy.bic.berkeley.edu/rcsds/ds115/sub001/model/model001/task003_run001.feat/filtered_func_data_mni.nii.gz sub001/BOLD/task003_run001/
 	rm -rf nipy.bic.berkeley.edu
 
-validate:
-	python data.py

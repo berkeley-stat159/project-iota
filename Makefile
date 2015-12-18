@@ -12,7 +12,7 @@ clean:
 	find . -name "*.so" -o -name "*.pyc" -o -name "*.pyx.md5" | xargs rm -f
 
 dataset:
-	cd data && make
+	cd data && make && python data.py
 
 convo:
 	cd code/utils/conv_response/ && python convo_response_script.py task001_run001 && python convo_response_script.py task003_run001 && python combine_convo_point_script.py task001_run001
