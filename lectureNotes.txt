@@ -1,0 +1,123 @@
+Lecture 9
+------------
+1.Loading data from NifTi images.
+2.Exercise on anatomical(to find right shape), working w/ a 3D brain image.
+
+
+
+Lecture 10 Working w/ BOLD images
+----------------------------------
+1.Intro on working w/ 4 dimension images, followed by an exercise on into 4D. 
+2.Exercise on finding brain activation.
+  # Deserve to have a look at. 
+  a)Explain the meaning of datas in a '_cond.nii.' file.
+  b)Compute the task time-course & Compare task to rest
+********************************
+Issue:
+I don't quite understand 'Inot four dimensions' exercise. What's the conclusion
+for the last part.
+********************************
+
+
+
+Lecture 11 Voxel Time Courses
+------------------------------
+1.Slice over given coordinates for a 4-D data array and plot it. # Meaning of
+'Voxel time course'.
+2.Correlate this time course w/ a measure of whether the subject was doing the
+task(1) or not(0)--call this a 'neural' time course.
+Use pre-packaged function for openFMRI data 
+#from stimuli import events2neural
+Can make plot on neural prediction against the data
+Also can get the correlation between the on-off prediction and the voxel time
+course.
+3.homework
+Correlation r value for each voxel in the brain # Solution on github course page.
+
+
+
+
+Lecture 12   Correlation and Convolution ***
+--------------------------------------------
+1.Revision on Pearson product-moment correlation.
+2.Testing w/ nose
+  Intro on how to write a test for nose.
+3.IMPORTANT: Tutorial on convolution.
+4.Exercise: Pearson.py
+  compute Pearson product-moment correlation of vectors 'x' and 'y'
+  ....... of vectors 'x' and array 'Y'.
+
+
+
+
+
+Lecture 13  Using Convolution ****
+----------------------------------
+1.Using pearson.py to do correlation per voxel (Lecture 11) in a faster way.
+2.A better regressor using convolution: Convolving w/ the hemodyamic response 
+function. 
+  a)# Use of scify # implements of the gamma distribution
+  b) Construct a hemodynamic response function (HRF) *****
+     *************Implement*****************
+     Input of the function: an array like time we want to calculate the HRF for
+     Output of the function: values of the HRF for those times.
+
+     Sample from the function to get the estimates at the times of our TRs.
+     Plotting time(x-axis) against HRF model of signal(y-axis).
+     Use this to convolve our neural(on-off) prediction.
+     Under linear-time-invariant assumptions of the convolution, this will give
+     us a hemodynamic prediction.
+
+     When convolve, Length of output is N+M-1 with N be number of values in the
+     vecor we concolved and M be the length of the convolution kernel(output
+     of HRF function, hrf_at_trs in the example). See explanation lecture notes
+     for more information.
+
+3.Use of np.savetxt
+  np.savetxt('filename', value)
+*******************
+Issue:
+What's the answer to the last question here?
+Also what's the fobj.close() doing?
+*******************
+
+4. Material on Introduction to the general linear model.
+
+
+
+
+Lecture 14  Linear Modeling ***
+-------------------------------
+1. Modeling a single voxel (working on voxel time course, lecture 11)
+   #some codes:
+   convolved = np.loadtxt('ds114_sub009_t2r1_conv.txt')[4:]
+   X = np.ones((len(convolved), 2))
+   X[:,0] = convolved   # Compute the design matrix 
+   # import numpy.linalg as npl
+   Xp = npl.pinv(X)   # The pseudoinverse for the design matrix 
+   beta_hat = Xp.dot(voxel_time_course)
+   y_hat = X.dot(beta_hat)           # The fitted values
+   e_vec = voxel_time_course - y_hat
+   plt.plot(voxel_time_course)
+   plt.plot(y_hat)
+
+2. Exercise on running regression on all voxels in a 4D FMRI image.
+   #some codes:
+     # Reshape the 4D data to voxel by time 2D
+     # Transpose to give time by voxel 2D
+     # Calculate the pseudoinverse of the design
+     # Apply to time by voxel array to get betas
+   data_2d = np.reshape(data, (-1, data.shape[-1]))
+   betas = npl.pinv(design).dot(data_2d.T)
+   
+
+     # Tranpose betas to give voxels by 2 array
+     # Reshape into 4D array, with same 3D shape as original data,
+     # last dimension length 2
+   betas_4d = np.reshape(betas.T, img.shape[:-1] + (-1,)) #append -1 at the end
+      to let np calculate the shape
+
+     
+
+
+
